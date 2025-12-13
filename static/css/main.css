@@ -28,3 +28,11 @@ hr {
   margin-bottom: 48px;
   border-top: 1px solid #eee;
 }
+
+a {
+  color: rgb(24, 102, 238) !important;
+}
+
+.text-authy-red {
+  color: rgb(177, 15, 35) !important;
+}
