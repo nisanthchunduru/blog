@@ -6,11 +6,12 @@
   "scripts": {
     "tw:build": "npx tailwindcss -i ./static/css/tailwind.css -o ./static/css/tailwind.compiled.css",
     "tw:watch": "npx tailwindcss -i ./static/css/tailwind.css -o ./static/css/tailwind.compiled.css -w",
-    "docker:push": "docker build -t nisanth074/blog:latest . --push",
-    "docker:push:x86": "docker buildx build --platform linux/amd64 -t nisanth074/blog:latest . --push",
     "hugo-notion": "docker compose up --pull always hugo-notion",
     "start": "docker compose up --build --pull always",
-    "sinatra:start": "docker compose up --build --pull always sinatra"
+    "sinatra:start": "docker compose up --build --pull always sinatra",
+    "docker:push": "docker build -t nisanth074/blog:latest . --push",
+    "docker:push:x86": "docker buildx build --platform linux/amd64 -t nisanth074/blog:latest . --push",
+    "deploy": "./deploy.sh"
   },
   "keywords": [],
   "author": "",
