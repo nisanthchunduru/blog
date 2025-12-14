@@ -10,4 +10,7 @@ gem 'dotenv'
 gem 'notion-ruby-client'
 gem 'notion_to_html'
 
-gem 'pry'
+group :development do
+  gem 'pry'
+  gem 'solargraph'
+end
