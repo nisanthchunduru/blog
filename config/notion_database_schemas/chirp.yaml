@@ -1,0 +1,25 @@
+database_name: chirp
+path_prefix: /chirps
+properties:
+  date:
+    names:
+      - date
+      - Date
+    type: date
+    extract: start
+    required: true
+  content:
+    required: true
+  draft:
+    names:
+      - draft
+      - Draft
+    type: checkbox
+    default: false
+  tags:
+    names:
+      - tags
+      - Tags
+    type: multi_select
+    extract: names_sorted
+    default: []

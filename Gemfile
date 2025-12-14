@@ -8,7 +8,6 @@ gem 'liquid'
 gem 'redcarpet'
 gem 'dotenv'
 gem 'notion-ruby-client'
-gem 'notion_to_html'
 
 group :development do
   gem 'pry'

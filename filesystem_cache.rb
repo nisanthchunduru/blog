@@ -43,6 +43,17 @@ class FilesystemCache
     File.write(cache_file, JSON.generate(cache_data))
   end
 
+  def fetch(key, &block)
+    cached_value = read(key)
+    return cached_value unless cached_value.nil?
+
+    return nil unless block_given?
+
+    value = block.call
+    write(key, value)
+    value
+  end
+
   def cache_dir
     @cache_dir
   end
