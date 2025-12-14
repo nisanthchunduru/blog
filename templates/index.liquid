@@ -2,16 +2,12 @@
   {% render 'head' %}
 
   <body class="flex flex-col" style="min-height: 100vh;">
-    {% render 'header', show_profile: show_profile %}
+    {% render 'header' %}
 
     <div class="container mx-auto px-4 max-w-none" style="flex: 1">
-      <div>
-        <p class="mt-6 md:mt-6 text-center" style="line-height: 1.75; font-size: 1.125rem;">
-          Engineering Lead with strong expertise in Full-stack development and DevOps and a keen interest in Deep Learning and Generative AI. Enjoys collaborating with high-performing engineering teams.
-        </p>
-      </div>
+      <h1 class="text-center text-5xl font-bold mt-16 mb-16">Posts</h1>
 
-      <div class="border-t mt-12">
+      <div class="mt-12">
         <div class="text-center">
           {% assign sorted_posts = posts | sort_by: "date" %}
           {% for post in sorted_posts %}

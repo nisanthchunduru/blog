@@ -624,8 +624,18 @@ Liquid::Template.register_filter(LiquidFilters)
 
 get '/' do
   begin
+    page = fetch_notion_page_by_name('about')
+    liquid :about, locals: page
+  rescue => e
+    status 500
+    "Error fetching about: #{e.message}"
+  end
+end
+
+get '/posts' do
+  begin
     posts = fetch_posts_from_notion
-    liquid :index, locals: { posts: posts, show_profile: true }
+    liquid :index, locals: { posts: posts }
   rescue => e
     status 500
     "Error fetching posts: #{e.message}"
@@ -658,14 +668,9 @@ get '/shelf' do
   end
 end
 
+# Redirect old /about URL to home
 get '/about' do
-  begin
-    page = fetch_notion_page_by_name('about')
-    liquid :about, locals: page
-  rescue => e
-    status 500
-    "Error fetching about: #{e.message}"
-  end
+  redirect '/'
 end
 
 get '/chirps' do
