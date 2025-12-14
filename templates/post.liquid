@@ -4,12 +4,24 @@
   <body class="flex flex-col" style="min-height: 100vh;">
     {% render 'header' %}
 
-    <div class="container mx-auto mt-8 px-4 prose sm:prose-lg max-w-none" style="flex: 1">
+    <div class="container mx-auto mt-8 px-4 max-w-none" style="flex: 1">
       <div class="article mt-6">
-        <h1 class="text-center text-2xl" style="margin-bottom: 0.5rem;">{{ title }}</h1>
-        <p class="text-authy-red font-semibold text-center" style="margin-top: 0.5rem">{{ date | format_time }}</p>
+        <h1 class="text-center text-4xl font-bold mb-3">{{ title }}</h1>
+        <div class="flex flex-wrap items-center justify-center gap-2 mb-12">
+          <p class="text-gray-500">{{ date | format_time }}</p>
+          {% if tags and tags.size > 0 %}
+          <span class="text-gray-400">•</span>
+          <div class="flex flex-wrap gap-2">
+            {% for tag in tags %}
+            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-violet-100 text-violet-800">
+              {{ tag }}
+            </span>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
 
-        <div style="text-align: justify; overflow-wrap: break-word;">{{ html }}</div>
+        <div class="prose prose-lg" style="text-align: justify; overflow-wrap: break-word;">{{ html }}</div>
       </div>
     </div>
 

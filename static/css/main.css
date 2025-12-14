@@ -12,6 +12,7 @@ body {
   -webkit-font-smoothing: subpixel-antialiased;
   /* font-family: "source-sans-pro", sans-serif; */
   font-family: 'whitney', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: white;
 }
 
 pre {
@@ -30,9 +31,9 @@ hr {
 }
 
 a {
-  color: rgb(24, 102, 238) !important;
+  color: rgb(124, 58, 237) !important;
 }
 
 .text-authy-red {
-  color: rgb(177, 15, 35) !important;
+  color: rgba(177, 15, 35, 1) !important;
 }

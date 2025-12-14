@@ -2,12 +2,12 @@
   {% render 'head' %}
 
   <body class="flex flex-col" style="min-height: 100vh;">
-    {% render 'header' %}
+    {% render 'header', show_profile: show_profile %}
 
     <div class="container mx-auto px-4 max-w-none" style="flex: 1">
       <div>
-        <p class="mt-4 md:mt-4 text-center" style="line-height: 1.75; font-size: 1.125rem;">
-          Engineering Lead with strong expertise in Full-stack development and DevOps, and a keen interest in Deep Learning and Generative AI. Enjoys collaborating with high-performing engineering teams. Previously led Backend Engineering & DevOps at supportbee.com
+        <p class="mt-6 md:mt-6 text-center" style="line-height: 1.75; font-size: 1.125rem;">
+          Engineering Lead with strong expertise in Full-stack development and DevOps and a keen interest in Deep Learning and Generative AI. Enjoys collaborating with high-performing engineering teams.
         </p>
       </div>
 
@@ -17,11 +17,22 @@
           {% for post in sorted_posts %}
             {% unless post.draft %}
               <div class="mt-12">
-                <h2 class="text-2xl sm:text-3xl font-bold" style="margin-bottom: 0px;">
+                <h2 class="text-2xl sm:text-3xl font-bold mb-3">
                   <a style="color: #000000 !important;" href="{{ post.path }}">{{ post.title }}</a>
                 </h2>
-                {% comment %} {% render 'partials/posts/date' with post %} {% endcomment %}
-                {% render 'partials/posts/date', date: post.date %}
+                <div class="flex flex-wrap items-center justify-center gap-2 mb-2">
+                  <p class="text-gray-500">{{ post.date | format_time }}</p>
+                  {% if post.tags and post.tags.size > 0 %}
+                  <span class="text-gray-400">•</span>
+                  <div class="flex flex-wrap gap-2">
+                    {% for tag in post.tags %}
+                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-violet-100 text-violet-800">
+                      {{ tag }}
+                    </span>
+                    {% endfor %}
+                  </div>
+                  {% endif %}
+                </div>
               </div>
             {% endunless %}
           {% endfor %}

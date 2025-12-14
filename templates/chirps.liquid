@@ -1,0 +1,42 @@
+<html>
+  {% render 'head' %}
+
+  <body class="flex flex-col" style="min-height: 100vh;">
+    {% render 'header' %}
+
+    {% comment %} <div class="container mx-auto px-4 mt-16 pb-16 prose sm:prose-lg max-w-none prose-h1:text-center">
+    </div> {% endcomment %}
+
+    <div class="container mx-auto px-4" style="flex: 1; max-width: 600px;">
+      <h1 class="text-center text-5xl font-bold mt-16 mb-16">Chirps</h1>
+
+      <div>
+        {% assign sorted_chirps = chirps | sort_by: "date" | reverse %}
+        {% for chirp in sorted_chirps %}
+          {% unless chirp.draft %}
+            <article class="border-b border-gray-200 py-4 px-2 hover:bg-gray-50 transition-colors">
+              <div class="flex flex-col">
+                <time class="text-gray-500 text-sm mb-2">{{ chirp.date | format_time }}</time>
+                <div class="text-gray-900 leading-relaxed" style="word-wrap: break-word; line-height: 1.6;">
+                  {{ chirp.html }}
+                </div>
+                {% if chirp.tags and chirp.tags.size > 0 %}
+                <div class="flex flex-wrap gap-2 mt-3">
+                  {% for tag in chirp.tags %}
+                  <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-violet-100 text-violet-800">
+                    {{ tag }}
+                  </span>
+                  {% endfor %}
+                </div>
+                {% endif %}
+              </div>
+            </article>
+          {% endunless %}
+        {% endfor %}
+      </div>
+    </div>
+
+    {% include 'footer' %}
+  </body>
+</html>
+

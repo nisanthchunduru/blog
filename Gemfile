@@ -6,5 +6,8 @@ gem 'rackup'
 gem 'puma'
 gem 'liquid'
 gem 'redcarpet'
+gem 'dotenv'
+gem 'notion-ruby-client'
+gem 'notion_to_html'
 
 gem 'pry'

@@ -16,9 +16,3 @@ services:
     volumes:
       - .:/opt/blog/
     tty: true
-  hugo-notion:
-    image: nisanth074/hugo-notion
-    volumes:
-      - ./content:/opt/blog/content
-    env_file: .env
-    working_dir: /opt/blog
