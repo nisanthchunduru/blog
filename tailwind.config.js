@@ -2,6 +2,7 @@
 module.exports = {
   // content: [],
   content: ["content/**/*.md", "templates/**/*.html", "templates/**/*.liquid"],
+  darkMode: 'class',
   theme: {
     extend: {
       typography: {
@@ -9,6 +10,13 @@ module.exports = {
           css: {
             "p": {
               color: "#000000"
+            },
+          },
+        },
+        invert: {
+          css: {
+            "p": {
+              color: "#ffffff"
             },
           },
         },

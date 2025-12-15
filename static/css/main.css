@@ -15,9 +15,18 @@ body {
   background-color: white;
 }
 
+.dark body {
+  background-color: #111827;
+}
+
 pre {
   background-color: #FCFCFC !important;
   color: rgb(55, 65, 81) !important;
+}
+
+.dark pre {
+  background-color: #1f2937 !important;
+  color: #e5e7eb !important;
 }
 
 code span {
@@ -30,8 +39,16 @@ hr {
   border-top: 1px solid #eee;
 }
 
+.dark hr {
+  border-top: 1px solid #374151;
+}
+
 a {
   color: rgb(124, 58, 237) !important;
+}
+
+.dark a {
+  color: rgb(196, 181, 253) !important;
 }
 
 .text-authy-red {

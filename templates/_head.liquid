@@ -2,6 +2,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-site-verification" content="CIGnBZCqH2WX_UMtk5WQP3UJg6UIk_2HNNlBAnLFatA" />
 
+  <script>
+    // Prevent flash of unstyled content
+    (function() {
+      const stored = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = stored || (prefersDark ? 'dark' : 'light');
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+
   <title>Nisanth Chunduru</title>
 
   <link rel="shortcut icon" href="/images/square-profile-photo.jpg">
@@ -11,7 +23,9 @@
 
   <!-- <link rel="stylesheet" href="https://use.typekit.net/npb7rzs.css"> -->
   <link rel="stylesheet" href="https://cdn.statically.io/gh/nisanthchunduru/fonts/master/fonts.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+  <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+  <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" media="none">
+  <script src="{{ 'js/dark-mode.js' | asset_url }}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
   <script>hljs.highlightAll();</script>
 </head>

@@ -1,11 +1,11 @@
 <html>
   {% render 'head' %}
 
-  <body class="flex flex-col" style="min-height: 100vh;">
+  <body class="flex flex-col bg-white dark:bg-gray-900" style="min-height: 100vh;">
     {% render 'header' %}
 
     <div class="container mx-auto px-4 max-w-none" style="flex: 1">
-      <h1 class="text-center text-5xl font-bold mt-16 mb-16">Posts</h1>
+      <h1 class="text-center text-5xl font-bold mt-16 mb-16 text-gray-900 dark:text-gray-100">Posts</h1>
 
       <div class="mt-12">
         <div class="text-center">
@@ -14,15 +14,15 @@
             {% unless post.draft %}
               <div class="mt-12">
                 <h2 class="text-2xl sm:text-3xl font-bold mb-3">
-                  <a style="color: #000000 !important;" href="{{ post.path }}">{{ post.title }}</a>
+                  <a class="text-gray-900 dark:text-gray-100 hover:text-violet-600 dark:hover:text-violet-400 transition-colors" href="{{ post.path }}">{{ post.title }}</a>
                 </h2>
                 <div class="flex flex-wrap items-center justify-center gap-2 mb-2">
-                  <p class="text-gray-500">{{ post.date | format_time }}</p>
+                  <p class="text-gray-500 dark:text-gray-400">{{ post.date | format_time }}</p>
                   {% if post.tags and post.tags.size > 0 %}
-                  <span class="text-gray-400">•</span>
+                  <span class="text-gray-400 dark:text-gray-500">•</span>
                   <div class="flex flex-wrap gap-2">
                     {% for tag in post.tags %}
-                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-violet-100 text-violet-800">
+                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-violet-100 dark:bg-violet-900 text-violet-800 dark:text-violet-200">
                       {{ tag }}
                     </span>
                     {% endfor %}
