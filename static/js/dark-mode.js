@@ -34,26 +34,30 @@
     updateToggleButton(theme);
   }
 
-  // Function to update toggle button icon
+  // Function to update toggle button state
   function updateToggleButton(theme) {
     const toggleButton = document.getElementById('dark-mode-toggle');
     if (!toggleButton) return;
     
-    const sunIcon = toggleButton.querySelector('.sun-icon');
-    const moonIcon = toggleButton.querySelector('.moon-icon');
+    // Update aria-checked for accessibility
+    toggleButton.setAttribute('aria-checked', theme === 'dark' ? 'true' : 'false');
     
-    if (theme === 'dark') {
-      sunIcon?.classList.remove('hidden');
-      moonIcon?.classList.add('hidden');
-    } else {
-      sunIcon?.classList.add('hidden');
-      moonIcon?.classList.remove('hidden');
-    }
+    // The toggle switch state is controlled by the dark class on html element
+    // The CSS classes handle the visual state automatically
   }
 
   // Initialize theme on page load
-  const currentTheme = getTheme();
-  setTheme(currentTheme);
+  function initTheme() {
+    const currentTheme = getTheme();
+    setTheme(currentTheme);
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTheme);
+  } else {
+    initTheme();
+  }
 
   // Listen for system theme changes
   if (window.matchMedia) {
