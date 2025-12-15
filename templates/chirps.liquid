@@ -14,7 +14,7 @@
         {% assign sorted_chirps = chirps | sort_by: "date" | reverse %}
         {% for chirp in sorted_chirps %}
           {% unless chirp.draft %}
-            <article class="border-b border-gray-200 py-4 px-2 hover:bg-gray-50 transition-colors">
+            <article class="border-b border-gray-200 last:border-b-0 py-4 px-2 hover:bg-gray-50 transition-colors">
               <div class="flex flex-col">
                 <time class="text-gray-500 text-sm mb-2">{{ chirp.date | format_time }}</time>
                 <div class="text-gray-900 leading-relaxed" style="word-wrap: break-word; line-height: 1.6;">
