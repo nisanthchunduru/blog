@@ -1,5 +1,5 @@
 import { Cache, NullCache } from './cache';
-import { Entity, Post, Chirp, Content } from './entity';
+import { Entity, Post, Chirp, Content, Book } from './entity';
 import { NotionPage, EntitySchema, PropertySchema, loadEntityNotionDatabaseSchema, fetchNotionDatabasePages, fetchEntityProps, fetchCachedPageBlocks, getNotionClient } from './notion_utils';
 import { formatNotionBlocks } from './notion_page_html_utils';
 import slugify from 'slugify';
@@ -121,4 +121,68 @@ export async function transformNotionPageToChirp(
 ): Promise<Chirp | null> {
   const entitySchema = loadEntityNotionDatabaseSchema('chirp');
   return transformNotionPageToEntity<Chirp>(page, entitySchema, 'chirp', options);
+}
+
+export async function transformNotionPageToBook(
+  page: NotionPage,
+  options: { cache?: Cache } = {}
+): Promise<Book | null> {
+  const cache = options.cache || new NullCache();
+  const properties = page.properties || {};
+  const pageId = page.id;
+  const lastEditedTime = page.last_edited_time || '';
+  const entitySchema = loadEntityNotionDatabaseSchema('library');
+  const propertiesSchema = entitySchema.itemProperties || {};
+
+  const cacheKey = `book_${pageId}_${lastEditedTime}`;
+
+  return cache.fetch(cacheKey, async () => {
+    let title: string | null = null;
+    for (const propName in properties) {
+      const notionProperty = properties[propName] as { type?: string; title?: Array<{ plain_text?: string }> };
+      if (notionProperty.type === 'title') {
+        if (notionProperty.title && notionProperty.title.length > 0) {
+          title = notionProperty.title[0].plain_text || null;
+          break;
+        }
+      }
+    }
+    if (!title || title.trim() === '') {
+      return null;
+    }
+
+    const authorsSchema = propertiesSchema.authors;
+    let authors: string | undefined;
+    if (authorsSchema) {
+      const extractedAuthors = fetchEntityProps(properties, authorsSchema);
+      if (extractedAuthors && typeof extractedAuthors === 'string' && extractedAuthors.trim() !== '') {
+        authors = extractedAuthors;
+      }
+    }
+
+    return {
+      title: title,
+      authors: authors
+    };
+  });
+}
+
+export async function fetchBooks(
+  options: { cache?: Cache } = {}
+): Promise<Book[]> {
+  const cache = options.cache || new NullCache();
+  const entitySchema = loadEntityNotionDatabaseSchema('library');
+  const databaseName = entitySchema.name;
+
+  const pages = await fetchNotionDatabasePages(databaseName, { cache, sortProperty: null });
+
+  const books: Book[] = [];
+  for (const page of pages) {
+    const book = await transformNotionPageToBook(page, { cache });
+    if (book) {
+      books.push(book);
+    }
+  }
+
+  return books;
 }

@@ -131,6 +131,10 @@ export function createLiquidFilters() {
         return `/${content.slug}`;
       }
       return `/${content.name}s/${content.slug}`;
+    },
+    url_encode: (str: string) => {
+      if (!str) return '';
+      return encodeURIComponent(str);
     }
   };
 }

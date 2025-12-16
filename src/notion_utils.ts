@@ -175,7 +175,7 @@ export async function fetchNotionPageByName(
 
 export async function fetchNotionDatabasePages(
   databaseName: string,
-  options: { cache?: Cache } = {}
+  options: { cache?: Cache; sortProperty?: string | null } = {}
 ): Promise<NotionPage[]> {
   const cache = options.cache || new NullCache();
   const contentNotionUrl = process.env.CONTENT_NOTION_URL;
@@ -193,7 +193,8 @@ export async function fetchNotionDatabasePages(
     return findDatabaseId(contentPageId, databaseName);
   });
 
-  return fetchAllDatabasePages(client, databaseId);
+  const sortProperty = options.sortProperty === null ? undefined : (options.sortProperty || 'date');
+  return fetchAllDatabasePages(client, databaseId, sortProperty);
 }
 
 export function loadEntityNotionDatabaseSchema(entityName: string): EntitySchema {
@@ -228,6 +229,12 @@ export function fetchEntityProps(pageProps: Record<string, unknown>, propSchema:
           return multiSelectValue.map((tagOption) => tagOption.name).sort();
         }
         break;
+      case 'rich_text':
+        const richTextValue = notionProperty.rich_text as Array<{ plain_text?: string }> | undefined;
+        if (richTextValue && extractMethod === 'plain_text') {
+          return richTextValue.map((item) => item.plain_text || '').join('');
+        }
+        break;
     }
   }
 
@@ -254,26 +261,26 @@ export async function fetchAllBlocks(client: Client, blockId: string): Promise<N
   return blocks;
 }
 
-export async function fetchAllDatabasePages(client: Client, databaseId: string): Promise<NotionPage[]> {
+export async function fetchAllDatabasePages(client: Client, databaseId: string, sortProperty?: string): Promise<NotionPage[]> {
   const pages: NotionPage[] = [];
-  let response = await client.databases.query({
+  const queryOptions: { database_id: string; page_size: number; sorts?: Array<{ property: string; direction: string }>; start_cursor?: string } = {
     database_id: databaseId,
-    sorts: [{ property: 'date', direction: 'descending' }],
     page_size: 100
-  });
+  };
+  if (sortProperty) {
+    queryOptions.sorts = [{ property: sortProperty, direction: 'descending' }];
+  }
+  
+  let response = await client.databases.query(queryOptions);
   pages.push(...(response.results as NotionPage[]));
 
   while (response.has_more && response.next_cursor) {
-    response = await client.databases.query({
-      database_id: databaseId,
-      sorts: [{ property: 'date', direction: 'descending' }],
-      page_size: 100,
-      start_cursor: response.next_cursor
-    });
+    const nextQueryOptions = { ...queryOptions, start_cursor: response.next_cursor };
+    response = await client.databases.query(nextQueryOptions);
     pages.push(...(response.results as NotionPage[]));
   }
 
   return pages;
 }
 
-export { fetchPosts, fetchChirps, transformNotionPageToPost, transformNotionPageToChirp, transformNotionPageToEntity, fetchEntities } from './entity-utils';
+export { fetchPosts, fetchChirps, fetchBooks, transformNotionPageToPost, transformNotionPageToChirp, transformNotionPageToBook, transformNotionPageToEntity, fetchEntities } from './entity-utils';

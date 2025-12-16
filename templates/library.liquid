@@ -1,0 +1,161 @@
+<html>
+  {% render 'head' %}
+
+  <style>
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      column-gap: 2rem;
+      row-gap: 2rem;
+    }
+    .book-container {
+      display: flex;
+      flex-direction: column;
+    }
+    .book {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 2/3;
+      transition: transform 0.3s ease;
+    }
+    .book-container:hover .book {
+      transform: translateY(-8px);
+    }
+    .book-cover {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 2px 6px 6px 2px;
+      overflow: hidden;
+      border-left: 2px solid rgba(0, 0, 0, 0.2);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      cursor: pointer;
+    }
+    .book-cover-link {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    .book-spine {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(to right, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+      border-radius: 2px 0 0 2px;
+    }
+    .book-info {
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+    .book-title {
+      font-weight: normal;
+      font-size: 1.125rem;
+      line-height: 1.3;
+      margin-bottom: 0.25rem;
+      word-break: break-word;
+      color: rgb(17, 24, 39);
+    }
+    .dark .book-title {
+      color: rgb(243, 244, 246);
+    }
+    .book-title a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .book-title a:hover {
+      text-decoration: underline;
+      opacity: 0.8;
+    }
+    .book-author {
+      font-size: 0.875rem;
+      color: rgb(107, 114, 128);
+      opacity: 0.8;
+    }
+    .dark .book-author {
+      color: rgb(156, 163, 175);
+    }
+  </style>
+
+  <body class="flex flex-col bg-white dark:bg-gray-900" style="min-height: 100vh;">
+    {% render 'header' %}
+
+    <h1 class="text-center text-5xl font-bold mt-16 mb-16 text-gray-900 dark:text-gray-100">Library</h1>
+    <div class="container mx-auto px-4 max-w-7xl" style="flex: 1">
+      <div class="books-grid mb-16 pt-8">
+        {% for book in books %}
+        <div class="book-container">
+          <div class="book">
+            <div class="book-cover" data-title="{{ book.title }}" data-authors="{% if book.authors %}{{ book.authors }}{% endif %}">
+              {% if book.authors %}
+                {% assign searchQuery = book.title | append: " by " | append: book.authors %}
+              {% else %}
+                {% assign searchQuery = book.title %}
+              {% endif %}
+              <a href="https://www.google.com/search?q={{ searchQuery | url_encode }}" target="_blank" rel="noopener noreferrer" class="book-cover-link"></a>
+              <div class="book-spine"></div>
+            </div>
+          </div>
+          <div class="book-info">
+            <h3 class="book-title">{{ book.title }}</h3>
+            {% if book.authors %}
+            <p class="book-author">{{ book.authors }}</p>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% render 'footer' %}
+
+    <script>
+      async function fetchBookCover(title, author, element) {
+        try {
+          const searchQuery = encodeURIComponent(`${title} ${author}`.trim());
+          
+          const googleBooksUrl = `https://www.googleapis.com/books/v1/volumes?q=${searchQuery}&maxResults=1`;
+          const response = await fetch(googleBooksUrl);
+          const data = await response.json();
+          
+          if (data.items && data.items[0] && data.items[0].volumeInfo && data.items[0].volumeInfo.imageLinks) {
+            const coverUrl = data.items[0].volumeInfo.imageLinks.thumbnail || 
+                           data.items[0].volumeInfo.imageLinks.smallThumbnail;
+            if (coverUrl) {
+              element.style.backgroundImage = `url(${coverUrl.replace('http://', 'https://')})`;
+              return;
+            }
+          }
+          
+          const openLibraryUrl = `https://openlibrary.org/search.json?title=${encodeURIComponent(title)}&author=${encodeURIComponent(author || '')}&limit=1`;
+          const olResponse = await fetch(openLibraryUrl);
+          const olData = await olResponse.json();
+          
+          if (olData.docs && olData.docs.length > 0 && olData.docs[0].cover_i) {
+            const coverId = olData.docs[0].cover_i;
+            const coverUrl = `https://covers.openlibrary.org/b/id/${coverId}-M.jpg`;
+            element.style.backgroundImage = `url(${coverUrl})`;
+            return;
+          }
+        } catch (error) {
+          console.log(`Could not fetch cover for ${title}:`, error);
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        const bookCovers = document.querySelectorAll('.book-cover[data-title]');
+        bookCovers.forEach(cover => {
+          const title = cover.getAttribute('data-title');
+          const authors = cover.getAttribute('data-authors') || '';
+          fetchBookCover(title, authors, cover);
+        });
+      });
+    </script>
+  </body>
+</html>

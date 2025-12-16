@@ -37,3 +37,8 @@ export interface Post extends Entity, Titleable, Contentable, Publishable, Sluga
 export interface Chirp extends Entity, Titleable, Contentable, Publishable, Slugable, Draftable, Taggable {
   name: 'chirp';
 }
+
+export interface Book {
+  title: string;
+  authors?: string;
+}

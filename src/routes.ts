@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { Cache } from './cache';
-import { fetchNotionPageByName, fetchPosts, fetchChirps } from './notion_utils';
+import { fetchNotionPageByName, fetchPosts, fetchChirps, fetchBooks } from './notion_utils';
 
 function extractShortIdFromSlug(slug: string): string {
   return slug.split('-')[0];
@@ -47,9 +47,9 @@ export function setupRoutes(app: express.Application, cache: Cache) {
     }
   }));
 
-  app.get('/shelf', asyncHandler(async (req: Request, res: Response) => {
-    const page = await fetchNotionPageByName('shelf', { cache });
-    res.render('shelf', page);
+  app.get('/library', asyncHandler(async (req: Request, res: Response) => {
+    const books = await fetchBooks({ cache });
+    res.render('library', { books });
   }));
 
   app.get('/about', (req: Request, res: Response) => {
