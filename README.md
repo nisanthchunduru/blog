@@ -2,7 +2,7 @@
 
 Source code of my blog [nisanthchunduru.com](https://nisanthchunduru.com)
 
-The blog is built upon [Notion](https://notion.so) and [Sinatra](https://sinatrarb.com).
+The blog is built upon [Notion](https://notion.so) and [Express.js](https://expressjs.com) with TypeScript.
 
 Blog posts are authored in Notion https://inquisitive-bumper-4db.notion.site/blog_content-0f1b55769779411a95df1ee9b4b070c9?pvs=4 which serves as a CMS (Content Management System).
 
@@ -18,16 +18,16 @@ cd ~/Projects/
 git clone --recurse-submodules git@github.com:nisanthchunduru/blog.git
 ```
 
-Install hugo
+Install dependencies
 ```
-brew install hugo
+npm install
 ```
 
 To view the blog in your browser, run
 ```
-hugo server --buildDrafts --watch
+npm run dev
 ```
-and visit http://localhost:1313
+and visit http://localhost:4567
 
 ## Deployment
 

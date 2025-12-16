@@ -9,15 +9,15 @@
 
       <div class="mt-12">
         <div class="text-center">
-          {% assign sorted_posts = posts | sort_by: "date" %}
+          {% assign sorted_posts = posts | sort_by: "publishedDate" %}
           {% for post in sorted_posts %}
             {% unless post.draft %}
               <div class="mt-12">
                 <h2 class="text-2xl sm:text-3xl font-bold mb-3">
-                  <a class="text-gray-900 dark:text-gray-100 hover:text-violet-600 dark:hover:text-violet-300 transition-colors" href="{{ post.path }}">{{ post.title }}</a>
+                  <a class="text-gray-900 dark:text-gray-100 hover:text-violet-600 dark:hover:text-violet-300 transition-colors" href="{{ post | content_path }}">{{ post.title }}</a>
                 </h2>
                 <div class="flex flex-wrap items-center justify-center gap-2 mb-2">
-                  <p class="text-gray-500 dark:text-gray-400">{{ post.date | format_time }}</p>
+                  <p class="text-gray-500 dark:text-gray-400">{{ post.publishedDate | format_time }}</p>
                   {% if post.tags and post.tags.size > 0 %}
                   <span class="text-gray-400 dark:text-gray-500">•</span>
                   <div class="flex flex-wrap gap-2">

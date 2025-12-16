@@ -8,8 +8,6 @@ tailwind.compiled.css
 
 .hugo_build.lock
 
-vendor/bundle
-
 .env
 .envrc
 
@@ -17,4 +15,8 @@ tmp/
 
 # Sublime text
 blog.sublime-workspace
+
+# TypeScript
+dist/
+*.tsbuildinfo
 

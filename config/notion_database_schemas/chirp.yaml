@@ -1,6 +1,5 @@
-database_name: chirp
-path_prefix: /chirps
-properties:
+name: chirp
+itemProperties:
   date:
     names:
       - date

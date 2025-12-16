@@ -1,6 +1,5 @@
-database_name: post
-path_prefix: /posts
-properties:
+name: post
+itemProperties:
   date:
     names:
       - date

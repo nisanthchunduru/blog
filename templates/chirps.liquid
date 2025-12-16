@@ -11,12 +11,12 @@
       <h1 class="text-center text-5xl font-bold mt-16 mb-16 text-gray-900 dark:text-gray-100">Chirps</h1>
 
       <div>
-        {% assign sorted_chirps = chirps | sort_by: "date" | reverse %}
+        {% assign sorted_chirps = chirps | sort_by: "publishedDate" | reverse %}
         {% for chirp in sorted_chirps %}
           {% unless chirp.draft %}
             <article class="border-b border-gray-200 dark:border-gray-700 last:border-b-0 py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
               <div class="flex flex-col">
-                <time class="text-gray-500 dark:text-gray-400 text-sm mb-2">{{ chirp.date | format_time }}</time>
+                <time class="text-gray-500 dark:text-gray-400 text-sm mb-2">{{ chirp.publishedDate | format_time }}</time>
                 <div class="text-gray-900 dark:text-gray-100 leading-relaxed prose dark:prose-invert" style="word-wrap: break-word; line-height: 1.6;">
                   {{ chirp.html }}
                 </div>

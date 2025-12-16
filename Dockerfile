@@ -10,21 +10,25 @@ COPY . .
 
 RUN npm run tw:build
 
-FROM ruby:3.2-alpine
+FROM node:20-alpine
 
-RUN apk update && apk add --no-cache build-base curl
+RUN apk add --no-cache curl
 
 WORKDIR /opt/blog
 
-COPY Gemfile Gemfile.lock* ./
+COPY package.json package-lock.json ./
 
-RUN bundle install
+RUN npm ci
 
-COPY . .
+COPY tsconfig.json ./
+COPY src ./src
+COPY templates ./templates
+COPY static ./static
+COPY config ./config
 
 COPY --from=css /opt/blog/static/css/tailwind.compiled.css /opt/blog/static/css/tailwind.compiled.css
 
 EXPOSE 4567
 
-CMD ["bundle", "exec", "ruby", "server.rb", "-o", "0.0.0.0"]
+CMD ["npm", "start"]
 

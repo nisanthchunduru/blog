@@ -1,12 +1,13 @@
 version: '3.8'
 
 services:
-  sinatra:
+  app:
     build:
       context: .
       dockerfile: Dockerfile.development
     volumes:
       - .:/opt/blog/
+      - /opt/blog/node_modules
     ports:
       - "4567:4567"
   tailwind:
