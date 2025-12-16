@@ -1,7 +1,5 @@
 content/
 
-public/
-
 node_modules/
 
 tailwind.compiled.css
@@ -19,4 +17,12 @@ blog.sublime-workspace
 # TypeScript
 dist/
 *.tsbuildinfo
+
+# Next.js
+.next/
+out/
+.next/cache/
+
+# Vercel
+.vercel
 

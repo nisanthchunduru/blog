@@ -4,7 +4,7 @@ services:
     env_file:
       - .env
     volumes:
-      - /opt/blog-cache:/opt/blog/tmp/cache
+      - /opt/blog-cache:/app/tmp/cache
     ports:
-      - "80:4567"
+      - "80:3000"
     restart: unless-stopped

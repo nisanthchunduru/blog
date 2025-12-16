@@ -6,14 +6,12 @@ services:
       context: .
       dockerfile: Dockerfile.development
     volumes:
-      - .:/opt/blog/
-      - /opt/blog/node_modules
+      - .:/app
+      - /app/node_modules
+      - /app/.next
     ports:
-      - "4567:4567"
-  tailwind:
-    build:
-      context: .
-      dockerfile: Dockerfile-tailwind.development
-    volumes:
-      - .:/opt/blog/
-    tty: true
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - .env

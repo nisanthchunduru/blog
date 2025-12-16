@@ -1,0 +1,15 @@
+.fade-in-up {
+    -webkit-animation: fade-in-up 500ms ease-in-out; /* Chrome, Safari, Opera */
+    animation: fade-in-up 500ms ease-in-out;
+}
+ 
+@keyframes fade-in-up {
+  0% {
+      opacity: 0;
+      transform: translateY(40px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}

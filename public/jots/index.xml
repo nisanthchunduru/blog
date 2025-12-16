@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jots on Nisanth&#39;s Blog</title>
+    <link>http://localhost:1313/jots/</link>
+    <description>Recent content in Jots on Nisanth&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 18 Apr 2019 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/jots/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Find a Ruby gem’s source directory</title>
+      <link>http://localhost:1313/jots/find-a-ruby-gems-source-directory/</link>
+      <pubDate>Thu, 18 Apr 2019 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/jots/find-a-ruby-gems-source-directory/</guid>
+      <description>&lt;p&gt;I often find myself opening a Ruby gem’s source directory in my code editor. I do this to read a gem’s README, to insert breakpoints for debugging or to understand the gem’s implementation. However, locating a gem’s source directory can be tricky / time consuming (especially so if you many Ruby versions installed on your machine).&lt;/p&gt;&#xA;&lt;p&gt;Fortunately, there are handy utilites/commands that help swiftly locate a gem’s source.&lt;/p&gt;&#xA;&lt;p&gt;If you’ve installed a gem using bundler, just run the &lt;code&gt;bundle open&lt;/code&gt; command to open the gem’s source in your preferred code editor&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Run multiple Redis instances in Ubuntu</title>
+      <link>http://localhost:1313/jots/run-multiple-redis-instances-in-ubuntu/</link>
+      <pubDate>Fri, 08 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/jots/run-multiple-redis-instances-in-ubuntu/</guid>
+      <description>&lt;p&gt;If you run a Redis instance on your Ubuntu server and would like run an another Redis instance on the server, here’s how you can do so.&#xA;Download the source code of the version of Redis you wish to install&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;export REDIS_VERSION=&amp;#34;2.8.4&amp;#34;&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;mkdir -p ~/builds&#xA;cd ~/builds&#xA;wget http://download.redis.io/releases/redis-${REDIS_VERSION}.tar.gz&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Compile it&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;tar xvzf redis-${REDIS_VERSION}.tar.gz&#xA;cd redis-${REDIS_VERSION}&#xA;make&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Ensure the compiled redis binary works correctly&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo apt-get update &amp;amp;&amp;amp; apt-get install -y tcl8.5&#xA;make test&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Install redis&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Install any version of Redis in Ubuntu</title>
+      <link>http://localhost:1313/jots/install-any-version-of-redis-in-ubuntu/</link>
+      <pubDate>Thu, 07 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/jots/install-any-version-of-redis-in-ubuntu/</guid>
+      <description>&lt;p&gt;Sometimes, you may want to install the latest version of Redis in Ubuntu or your may want to install a version of Redis that is not available in the Ubuntu’s repositories. Here’s how you can install any version of Redis in Ubuntu.&#xA;Download the source code of the Redis version you wish to install and compile it&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;export REDIS_VERSION=&amp;#34;2.4.2&amp;#34;&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;mkdir -p ~/builds&#xA;cd ~/builds&#xA;wget https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/redis/redis-${REDIS_VERSION}.tar.gz&#xA;tar xvzf redis-${REDIS_VERSION}.tar.gz&#xA;cd redis-${REDIS_VERSION}&#xA;make&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Ensure the compiled redis binary works correctly&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Prevent Chrome from displaying API Response JSON when a user presses the Back button</title>
+      <link>http://localhost:1313/jots/prevent-chrome-from-displaying-api-response-json-when-a-user-presses-the-back-button/</link>
+      <pubDate>Sun, 25 Feb 2018 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/jots/prevent-chrome-from-displaying-api-response-json-when-a-user-presses-the-back-button/</guid>
+      <description>&lt;p&gt;Sometime ago, we ran into a bug where Google Chrome displayed an API response JSON instead of HTML when a user pressed the Chrome’s Back button to navigate back to the previous page. Since this caused our customers to consider our app to be unpolished/dysfunctional, we decided to resolve the bug immediately.&#xA;Examining the Network panel, we found that when a user pressed the back button, Chrome rendered the previous page from its cache&#xA;In our app, HTML pages and API requests have the same URLs. When a customer visits the &lt;code&gt;/emails&lt;/code&gt; URL in their browser, the server responds with HTML. The page’s JavaScript then hits the &lt;code&gt;/emails&lt;/code&gt; API endpoint to retrieve the user’s emails.&#xA;When a customer clicked on any link on the page and then navigated back by pressing the Back button, Chrome displayed the API response JSON of the &lt;code&gt;/emails&lt;/code&gt; API endpoint. We found this was because the &lt;code&gt;/emails&lt;/code&gt; URL responded with JSON the last time Chrome sent a request to that URL.&#xA;After googling a bit, we learnt that Chrome’s caches a page using just the URL and the request method (GET, POST etc.) but not the &lt;code&gt;Accept: application/json&lt;/code&gt; header (which is sent for an API request but not a HTML request).&#xA;A straightforward way to resolve this problem was to simply change our API request URLs slightly and we did just that. We modified the page’s JavaScript to add a &lt;code&gt;is_api_request=true&lt;/code&gt; query param to all API endpoints changing the URL of all our API endpoints.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Serialize an attribute as JSON in Rails 3</title>
+      <link>http://localhost:1313/jots/serialize-an-attribute-as-json-in-rails-3/</link>
+      <pubDate>Sun, 25 Feb 2018 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/jots/serialize-an-attribute-as-json-in-rails-3/</guid>
+      <description>&lt;p&gt;The &lt;a href=&#34;https://apidock.com/rails/v3.2.13/ActiveRecord/AttributeMethods/Serialization/ClassMethods/serialize&#34;&gt;serialize&lt;/a&gt; method in Rails is a useful method that serializes a complex attribute (like a Hash) before storing it in the database. Here’s an example of one such scenario where the serialize method is useful.&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# In models/user.rb&#xA;class User &amp;lt; ActiveRecord::Base&#xA; serialize :preferences # ActiveRecord will serialize the preferences hash as YAML by default&#xA;end&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Rails 3 serializes an attribute to YAML by default. However, JSON is a more suitable choice these days (Postgres, for example, can now query data in JSON). If you wish to serialize an attribute as JSON in Rails, here’s how you can do it. Create a file lib/active_record_json_coder.rb and copy paste the code below&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Add a Postgres array column in Rails 3</title>
+      <link>http://localhost:1313/jots/add-a-postgres-array-column-in-rails-3/</link>
+      <pubDate>Sat, 03 Feb 2018 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/jots/add-a-postgres-array-column-in-rails-3/</guid>
+      <description>&lt;p&gt;While migrations in Rails 3 don’t have built-in support for Postgres array columns, its still possible to add an array column in a migration using SQL. Here’s how.&#xA;First, generate a migration&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;bundle exec rails g migration AddEnabledFeaturesToAccounts&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Modify the migration to something like&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;class AddEnabledFeaturesToAccounts &amp;lt; ActiveRecord::Migration&#xA;  def up&#xA;    execute &amp;lt;&amp;lt;-SQL&#xA;ALTER TABLE accounts ADD COLUMN enabled_features character varying(255)[] DEFAULT &amp;#39;{}&amp;#39;;&#xA;SQL&#xA;  end&#xA;end&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The migration above adds a string array column. If you’d like to add an integer array column, change the SQL in the migration to add an integer array column&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Determine your app’s Elasticsearch version</title>
+      <link>http://localhost:1313/jots/determine-your-apps-elasticsearch-version/</link>
+      <pubDate>Fri, 02 Feb 2018 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/jots/determine-your-apps-elasticsearch-version/</guid>
+      <description>&lt;p&gt;I often find myself searching for our Rails app’s Elasticsearch version. The exact Elasticsearch version is important as Elasticsearch’s API differs slightly from version to version.&lt;/p&gt;&#xA;&lt;p&gt;If you’d like to quickly determine the version of your Elasticsearch instance, here’s how you can do it.&lt;/p&gt;&#xA;&lt;p&gt;Open a rails console&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;bundle exec rails production console&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If your Rails app uses the elasticsearch-model gem, run&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;version = Elasticsearch::Model.client.info[&amp;#34;version&amp;#34;][&amp;#34;number&amp;#34;]&#xA;puts version&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If your Rails app uses the tire gem, run&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

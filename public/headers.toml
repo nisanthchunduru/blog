@@ -1,0 +1,2 @@
+["*"]
+    cross-origin-resource-policy = "cross-origin"
