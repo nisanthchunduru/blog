@@ -1,8 +1,17 @@
-<div class="container mx-auto mt-8 md:mt-12 px-2 sm:px-4">
-  <nav class="flex justify-center items-center flex-wrap gap-1 sm:gap-0 bg-violet-100/30 dark:bg-violet-900/20 backdrop-blur-md rounded-full px-4 py-2 border border-violet-200/50 dark:border-violet-800/30">
+<div class="fixed top-0 left-0 right-0 z-50 pt-6 md:pt-8 pb-4">
+  <div class="container mx-auto px-2 sm:px-4 max-w-[768px] flex items-center">
+    <div id="back-button-container" class="hidden md:flex flex-none justify-start">
+      <a id="back-button" href="/" class="items-center justify-center w-10 h-10 bg-violet-100/30 dark:bg-violet-900/20 backdrop-blur-md rounded-full border border-violet-200/50 dark:border-violet-800/30 text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900 transition-colors mr-2.5" aria-label="Go back">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      </a>
+    </div>
+    <div class="flex-1 md:flex-1 flex justify-center w-full md:w-auto">
+      <nav class="flex w-full sm:inline-flex sm:w-auto justify-center items-center gap-1 sm:gap-0 bg-violet-100/30 dark:bg-violet-900/20 backdrop-blur-md rounded-3xl sm:rounded-full px-4 py-2 border border-violet-200/50 dark:border-violet-800/30">
     <!-- <div class="hidden sm:flex"> -->
     <div class="sm:flex">
-      <ul class="flex items-center flex-wrap justify-center">
+      <ul class="flex items-center flex-wrap sm:flex-nowrap justify-center">
         <li class="mr-1 md:mr-4">
           <a class="inline-block text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900 rounded-l-full rounded-r-full px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-lg transition-colors" href="/">Home</a>
         </li>
@@ -37,5 +46,31 @@
         <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
       </svg>
     </button>
-  </nav>
+      </nav>
+    </div>
+    <div id="right-spacer" class="hidden md:block flex-none"></div>
+  </div>
 </div>
+<script>
+  (function() {
+    const backButton = document.getElementById('back-button');
+    const backButtonContainer = document.getElementById('back-button-container');
+    const rightSpacer = document.getElementById('right-spacer');
+    if (backButton && backButtonContainer && rightSpacer) {
+      const pathname = window.location.pathname;
+      if (pathname !== '/' && pathname !== '/about') {
+        backButton.classList.add('back-button-visible');
+        backButtonContainer.classList.remove('flex-none');
+        backButtonContainer.classList.add('flex-1');
+        rightSpacer.classList.remove('flex-none');
+        rightSpacer.classList.add('flex-1');
+      } else {
+        backButton.classList.remove('back-button-visible');
+        backButtonContainer.classList.remove('flex-1');
+        backButtonContainer.classList.add('flex-none');
+        rightSpacer.classList.remove('flex-1');
+        rightSpacer.classList.add('flex-none');
+      }
+    }
+  })();
+</script>
