@@ -1,6 +1,8 @@
 services:
-  sinatra:
+  server:
     image: nisanth074/blog:latest
+    env_file:
+      - .env
     volumes:
       - /opt/blog-cache:/opt/blog/tmp/cache
     ports:
