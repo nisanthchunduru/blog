@@ -55,3 +55,13 @@ a {
 .text-authy-red {
   color: rgba(177, 15, 35, 1) !important;
 }
+
+img.w-32 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.prose p {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
