@@ -3,6 +3,7 @@ import './globals.css'
 import Script from 'next/script'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import TopLoadingBar from './components/TopLoadingBar'
 
 export const metadata: Metadata = {
   title: 'Nisanth Chunduru',
@@ -30,6 +31,7 @@ export default function RootLayout({
         <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" media="none" />
       </head>
       <body className="flex flex-col bg-white dark:bg-gray-900" style={{ minHeight: '100vh' }}>
+        <TopLoadingBar />
         <Header />
         {children}
         <Footer />
