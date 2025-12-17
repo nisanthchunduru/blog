@@ -45,13 +45,8 @@ Don't add unnecessary blank lines
 ## Technology Stack
 
 - JavaScript/TypeScript
-- Node
-- Express
+- Next JS
 
 ### Styling
 
 - Tailwind
-
-### Templating
-
-- Liquid
