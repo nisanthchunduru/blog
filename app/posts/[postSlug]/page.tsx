@@ -1,9 +1,11 @@
-import { fetchPosts } from '@/lib/entity-utils'
-import { FilesystemCache } from '@/lib/filesystem_cache'
+import { fetchPosts } from '@/backend/entity-utils'
+import { FilesystemCache } from '@/backend/filesystem_cache'
 import { notFound } from 'next/navigation'
-import { formatTime } from '@/lib/utils'
+import { formatTime } from '@/backend/utils'
 
 const cache = new FilesystemCache()
+
+export const dynamic = 'force-dynamic'
 
 function extractShortIdFromSlug(slug: string): string {
   return slug.split('-')[0]

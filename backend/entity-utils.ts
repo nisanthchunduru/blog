@@ -1,8 +1,8 @@
-import { Cache, NullCache } from './cache';
-import { Entity, Post, Chirp, Content, Book } from './entity';
-import { NotionPage, EntitySchema, PropertySchema, loadEntityNotionDatabaseSchema, fetchNotionDatabasePages, fetchEntityProps, fetchCachedPageBlocks, getNotionClient } from './notion_utils';
-import { formatNotionBlocks } from './notion_page_html_utils';
 import slugify from 'slugify';
+import { Cache, NullCache } from './cache';
+import { Book, Chirp, Entity, Post } from './entity';
+import { formatNotionBlocks } from './notion_page_html_utils';
+import { EntitySchema, NotionPage, fetchCachedPageBlocks, fetchEntityProps, fetchNotionDatabasePages, getNotionClient, loadEntityNotionDatabaseSchema } from './notion_utils';
 
 export async function transformNotionPageToEntity<T extends Entity>(
   page: NotionPage,
@@ -30,7 +30,7 @@ export async function transformNotionPageToEntity<T extends Entity>(
         if (!blocks || blocks.length === 0) {
           return null;
         }
-        const content = await formatNotionBlocks(getNotionClient(), blocks);
+        const content = await formatNotionBlocks(getNotionClient(), blocks as any[]);
         entityProperties.content = content;
       } else {
         const extractedPropertyValue = fetchEntityProps(properties, propSchema);
@@ -70,23 +70,27 @@ export async function transformNotionPageToEntity<T extends Entity>(
       slug: slug,
       draft: entityProperties.draft as boolean | undefined,
       tags: entityProperties.tags as string[] | undefined
-    } as T;
+    } as unknown as T;
   });
 }
 
 export async function fetchEntities<T extends Entity>(
   entityName: string,
-  options: { cache?: Cache } = {}
+  options: { cache?: Cache; sortProperty?: string | null } = {}
 ): Promise<T[]> {
   const cache = options.cache || new NullCache();
   const entitySchema = loadEntityNotionDatabaseSchema(entityName);
   const databaseName = entitySchema.name;
-
-  const pages = await fetchNotionDatabasePages(databaseName, { cache });
+  const pages = await fetchNotionDatabasePages(databaseName, { cache, sortProperty: options.sortProperty });
 
   const entities: T[] = [];
   for (const page of pages) {
-    const entity = await transformNotionPageToEntity<T>(page, entitySchema, entityName, { cache });
+    let entity: T | null;
+    if (entityName === 'library') {
+      entity = await transformNotionPageToBook(page, { cache }) as T | null;
+    } else {
+      entity = await transformNotionPageToEntity<T>(page, entitySchema, entityName, { cache });
+    }
     if (entity) {
       entities.push(entity);
     }
@@ -161,6 +165,8 @@ export async function transformNotionPageToBook(
     }
 
     return {
+      id: pageId,
+      name: 'library',
       title: title,
       authors: authors
     };
@@ -170,19 +176,5 @@ export async function transformNotionPageToBook(
 export async function fetchBooks(
   options: { cache?: Cache } = {}
 ): Promise<Book[]> {
-  const cache = options.cache || new NullCache();
-  const entitySchema = loadEntityNotionDatabaseSchema('library');
-  const databaseName = entitySchema.name;
-
-  const pages = await fetchNotionDatabasePages(databaseName, { cache, sortProperty: null });
-
-  const books: Book[] = [];
-  for (const page of pages) {
-    const book = await transformNotionPageToBook(page, { cache });
-    if (book) {
-      books.push(book);
-    }
-  }
-
-  return books;
+  return fetchEntities<Book>('library', { cache: options.cache, sortProperty: null });
 }

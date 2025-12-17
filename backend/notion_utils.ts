@@ -1,10 +1,10 @@
 import { Client } from '@notionhq/client';
 import * as fs from 'fs';
-import * as path from 'path';
 import * as yaml from 'js-yaml';
+import * as path from 'path';
 import { Cache, NullCache } from './cache';
-import { fetchNotionPageBlocks, formatNotionBlocks } from './notion_page_html_utils';
 import { Content } from './entity';
+import { fetchNotionPageBlocks, formatNotionBlocks } from './notion_page_html_utils';
 
 export interface EntitySchema {
   name: string;
@@ -200,12 +200,16 @@ export async function fetchNotionDatabasePages(
     return findDatabaseId(contentPageId, databaseName);
   });
 
-  const sortProperty = options.sortProperty === null ? undefined : (options.sortProperty || 'date');
+  if (!databaseId) {
+    throw new Error(`Database ${databaseName} not found`);
+  }
+
+  const sortProperty = options.sortProperty === undefined ? 'date' : (options.sortProperty || undefined);
   return fetchAllDatabasePages(client, databaseId, sortProperty);
 }
 
 export function loadEntityNotionDatabaseSchema(entityName: string): EntitySchema {
-  const schemaPath = path.join(process.cwd(), 'lib', 'config', 'notion_database_schemas', `${entityName}.yaml`);
+  const schemaPath = path.join(process.cwd(), 'config', 'notion_database_schemas', `${entityName}.yaml`);
   const fileContents = fs.readFileSync(schemaPath, 'utf8');
   return yaml.load(fileContents) as EntitySchema;
 }
@@ -217,13 +221,19 @@ export function fetchEntityProps(pageProps: Record<string, unknown>, propSchema:
   const defaultValue = propSchema.default;
 
   for (const name of propNames) {
-    const notionProperty = pageProps[name];
+    const notionProperty = pageProps[name] as {
+      type?: string;
+      date?: { start?: string };
+      checkbox?: boolean;
+      multi_select?: Array<{ name: string }>;
+      rich_text?: Array<{ plain_text?: string }>;
+    } | undefined;
     if (!notionProperty) continue;
     if (notionProperty.type !== propType) continue;
 
     switch (propType) {
       case 'date':
-        const datePropertyValue = notionProperty.date as { start?: string } | undefined;
+        const datePropertyValue = notionProperty.date;
         if (datePropertyValue && extractMethod === 'start') {
           return datePropertyValue.start;
         }
@@ -231,13 +241,13 @@ export function fetchEntityProps(pageProps: Record<string, unknown>, propSchema:
       case 'checkbox':
         return notionProperty.checkbox;
       case 'multi_select':
-        const multiSelectValue = notionProperty.multi_select as Array<{ name: string }>;
+        const multiSelectValue = notionProperty.multi_select;
         if (multiSelectValue && extractMethod === 'names_sorted') {
           return multiSelectValue.map((tagOption) => tagOption.name).sort();
         }
         break;
       case 'rich_text':
-        const richTextValue = notionProperty.rich_text as Array<{ plain_text?: string }> | undefined;
+        const richTextValue = notionProperty.rich_text;
         if (richTextValue && extractMethod === 'plain_text') {
           return richTextValue.map((item) => item.plain_text || '').join('');
         }
@@ -270,7 +280,7 @@ export async function fetchAllBlocks(client: Client, blockId: string): Promise<N
 
 export async function fetchAllDatabasePages(client: Client, databaseId: string, sortProperty?: string): Promise<NotionPage[]> {
   const pages: NotionPage[] = [];
-  const queryOptions: { database_id: string; page_size: number; sorts?: Array<{ property: string; direction: string }>; start_cursor?: string } = {
+  const queryOptions: { database_id: string; page_size: number; sorts?: Array<{ property: string; direction: 'descending' | 'ascending' }>; start_cursor?: string } = {
     database_id: databaseId,
     page_size: 100
   };
@@ -290,4 +300,5 @@ export async function fetchAllDatabasePages(client: Client, databaseId: string, 
   return pages;
 }
 
-export { fetchPosts, fetchChirps, fetchBooks, transformNotionPageToPost, transformNotionPageToChirp, transformNotionPageToBook, transformNotionPageToEntity, fetchEntities } from './entity-utils';
+export { fetchBooks, fetchChirps, fetchEntities, fetchPosts, transformNotionPageToBook, transformNotionPageToChirp, transformNotionPageToEntity, transformNotionPageToPost } from './entity-utils';
+

@@ -4,7 +4,21 @@ services:
     env_file:
       - .env
     volumes:
-      - /opt/blog-cache:/app/tmp/cache
+      - cache:/app/tmp/cache
     ports:
       - "80:3000"
     restart: unless-stopped
+    depends_on:
+      - sync
+
+  sync:
+    image: nisanth074/blog:latest
+    env_file:
+      - .env
+    volumes:
+      - cache:/app/tmp/cache
+    command: npm run sync
+    restart: unless-stopped
+
+volumes:
+  cache:

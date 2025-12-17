@@ -1,9 +1,11 @@
-import { fetchNotionPageByName } from '@/lib/notion_utils'
-import { FilesystemCache } from '@/lib/filesystem_cache'
+import { fetchNotionPageByName } from '@/backend/notion_utils'
+import { FilesystemCache } from '@/backend/filesystem_cache'
 import Image from 'next/image'
 import Link from 'next/link'
 
 const cache = new FilesystemCache()
+
+export const dynamic = 'force-dynamic'
 
 export default async function Home() {
   const page = await fetchNotionPageByName('about', { cache })

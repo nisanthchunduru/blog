@@ -1,25 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { Cache } from './cache';
-import { fetchNotionPageByName, fetchPosts, fetchChirps, fetchBooks } from './notion_utils';
-
-function extractShortIdFromSlug(slug: string): string {
-  return slug.split('-')[0];
-}
-
-function findEntityBySlug<T extends { id: string }>(entities: T[], slug: string): T | undefined {
-  const shortId = extractShortIdFromSlug(slug);
-  return entities.find(entity => entity.id.replace(/-/g, '').substring(0, 8) === shortId);
-}
-
-async function fetchChirpBySlug(cache: Cache, slug: string) {
-  const chirps = await fetchChirps({ cache });
-  return findEntityBySlug(chirps, slug);
-}
-
-async function fetchPostBySlug(cache: Cache, slug: string) {
-  const posts = await fetchPosts({ cache });
-  return findEntityBySlug(posts, slug);
-}
+import { fetchCachedEntities, fetchCachedEntityBySlug } from './cached-entity-utils';
+import { fetchCachedPageByName } from './cached-notion-entity-utils';
+import { Post, Chirp, Book } from './entity';
 
 function asyncHandler(handler: (req: Request, res: Response, next: NextFunction) => Promise<void>) {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -29,17 +12,17 @@ function asyncHandler(handler: (req: Request, res: Response, next: NextFunction)
 
 export function setupRoutes(app: express.Application, cache: Cache) {
   app.get('/', asyncHandler(async (req: Request, res: Response) => {
-    const page = await fetchNotionPageByName('about', { cache });
+    const page = await fetchCachedPageByName(cache, 'about');
     res.render('about', page);
   }));
 
   app.get('/posts', asyncHandler(async (req: Request, res: Response) => {
-    const posts = await fetchPosts({ cache });
+    const posts = await fetchCachedEntities<Post>(cache, 'post');
     res.render('index', { posts });
   }));
 
   app.get('/posts/:postSlug', asyncHandler(async (req: Request, res: Response) => {
-    const post = await fetchPostBySlug(cache, req.params.postSlug);
+    const post = await fetchCachedEntityBySlug<Post>(cache, 'post', req.params.postSlug);
     if (!post) {
       res.status(404).send('Post not found');
     } else {
@@ -48,7 +31,7 @@ export function setupRoutes(app: express.Application, cache: Cache) {
   }));
 
   app.get('/library', asyncHandler(async (req: Request, res: Response) => {
-    const books = await fetchBooks({ cache });
+    const books = await fetchCachedEntities<Book>(cache, 'library');
     res.render('library', { books });
   }));
 
@@ -57,12 +40,12 @@ export function setupRoutes(app: express.Application, cache: Cache) {
   });
 
   app.get('/chirps', asyncHandler(async (req: Request, res: Response) => {
-    const chirps = await fetchChirps({ cache });
+    const chirps = await fetchCachedEntities<Chirp>(cache, 'chirp');
     res.render('chirps', { chirps });
   }));
 
   app.get('/chirps/:chirpSlug', asyncHandler(async (req: Request, res: Response) => {
-    const chirp = await fetchChirpBySlug(cache, req.params.chirpSlug);
+    const chirp = await fetchCachedEntityBySlug<Chirp>(cache, 'chirp', req.params.chirpSlug);
     if (!chirp) {
       res.status(404).send('Chirp not found');
     } else {

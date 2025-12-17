@@ -6,11 +6,14 @@ import { FilesystemCache } from './filesystem_cache';
 import { Cache } from './cache';
 import { setupRoutes } from './routes';
 import { createCustomFileSystem, createLiquidFilters } from './template_helpers';
+import { startSync } from './daemons/sync';
 
 dotenv.config();
 
 const app = express();
 const cache = new FilesystemCache();
+const syncInterval = parseInt(process.env.SYNC_INTERVAL || '30', 10);
+startSync(cache, syncInterval);
 
 const templatesRoot = path.join(__dirname, '..', 'templates');
 const customFs = createCustomFileSystem();

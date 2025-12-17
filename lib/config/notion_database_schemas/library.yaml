@@ -1,9 +1,0 @@
-name: library
-itemProperties:
-  authors:
-    names:
-      - authors
-      - Authors
-    type: rich_text
-    extract: plain_text
-    required: false

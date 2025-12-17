@@ -1,10 +1,11 @@
-import { fetchBooks } from '@/lib/notion_utils'
-import { FilesystemCache } from '@/lib/filesystem_cache'
-import { urlEncode } from '@/lib/utils'
+import { fetchBooks } from '@/backend/notion_utils'
+import { FilesystemCache } from '@/backend/filesystem_cache'
 import BookCover from './components/BookCover'
 import './library.css'
 
 const cache = new FilesystemCache()
+
+export const dynamic = 'force-dynamic'
 
 export default async function LibraryPage() {
   const books = await fetchBooks({ cache })
@@ -20,14 +21,14 @@ export default async function LibraryPage() {
                 <div className="book-cover" data-title={book.title} data-authors={book.authors || ''}>
                   {book.authors ? (
                     <a
-                      href={`https://www.google.com/search?q=${urlEncode(`${book.title} by ${book.authors}`)}`}
+                      href={`https://www.google.com/search?q=${encodeURIComponent(`${book.title} by ${book.authors}`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="book-cover-link"
                     />
                   ) : (
                     <a
-                      href={`https://www.google.com/search?q=${urlEncode(book.title)}`}
+                      href={`https://www.google.com/search?q=${encodeURIComponent(book.title)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="book-cover-link"

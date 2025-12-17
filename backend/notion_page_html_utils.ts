@@ -55,9 +55,10 @@ class ParagraphBlockConverter {
 }
 
 class HeadingBlockConverter {
-  static convert(blockContent: BlockContent, _nestedContent: string, level: number): string {
+  static convert(blockContent: BlockContent, _nestedContent: string, level?: number): string {
+    const headingLevel = level || 1;
     const textContent = RichTextConverter.convert(blockContent.rich_text || []);
-    return `<h${level}>${textContent}</h${level}>`;
+    return `<h${headingLevel}>${textContent}</h${headingLevel}>`;
   }
 }
 

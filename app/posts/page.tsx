@@ -1,9 +1,11 @@
-import { fetchPosts } from '@/lib/entity-utils'
-import { FilesystemCache } from '@/lib/filesystem_cache'
+import { fetchPosts } from '@/backend/entity-utils'
+import { FilesystemCache } from '@/backend/filesystem_cache'
 import Link from 'next/link'
-import { sortBy, formatTime, contentPath } from '@/lib/utils'
+import { sortBy, formatTime, contentPath } from '@/backend/utils'
 
 const cache = new FilesystemCache()
+
+export const dynamic = 'force-dynamic'
 
 export default async function PostsPage() {
   const posts = await fetchPosts({ cache })

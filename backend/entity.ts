@@ -38,7 +38,7 @@ export interface Chirp extends Entity, Titleable, Contentable, Publishable, Slug
   name: 'chirp';
 }
 
-export interface Book {
-  title: string;
+export interface Book extends Entity, Titleable {
+  name: 'library';
   authors?: string;
 }

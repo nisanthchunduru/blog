@@ -1,8 +1,10 @@
-import { fetchChirps } from '@/lib/entity-utils'
-import { FilesystemCache } from '@/lib/filesystem_cache'
-import { sortBy, formatTime } from '@/lib/utils'
+import { fetchChirps } from '@/backend/entity-utils'
+import { FilesystemCache } from '@/backend/filesystem_cache'
+import { sortBy, formatTime } from '@/backend/utils'
 
 const cache = new FilesystemCache()
+
+export const dynamic = 'force-dynamic'
 
 export default async function ChirpsPage() {
   const chirps = await fetchChirps({ cache })
