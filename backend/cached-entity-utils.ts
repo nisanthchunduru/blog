@@ -1,11 +1,12 @@
-import { Cache } from './cache';
 import pluralize from 'pluralize';
+import { Cache } from './cache';
 
 export async function fetchCachedEntities<T>(cache: Cache, entityName: string): Promise<T[]> {
-  const cacheKey = pluralize(entityName);
+  const pluralizedEntityName = pluralize(entityName);
+  const cacheKey = pluralizedEntityName;
   const result = await cache.read(cacheKey);
   if (!result || !Array.isArray(result)) {
-    throw new Error(`${entityName} not found in cache`);
+    throw new Error(`"${entityName}" entities not found in cache`);
   }
   return result as T[];
 }

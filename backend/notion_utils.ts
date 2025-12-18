@@ -147,7 +147,7 @@ export async function fetchNotionPageByName(
     }
     title = title || pageName.charAt(0).toUpperCase() + pageName.slice(1);
 
-    const publishedDateProperty = (properties.date || properties.Date || properties.created_time || properties['Created Time']) as 
+    const publishedDateProperty = (properties.date || properties.Date || properties.created_time || properties['Created Time']) as
       { type?: string; date?: { start?: string }; created_time?: string } | undefined;
     let publishedDate: string;
     if (publishedDateProperty) {
@@ -178,6 +178,17 @@ export async function fetchNotionPageByName(
     throw new Error(`Failed to fetch page: ${pageName}`);
   }
   return result;
+}
+
+export async function fetchNotionPageFromByNameFromCache(
+  pageName: string,
+  cache: Cache
+): Promise<Content> {
+  const cachedPage = await cache.read(`page_${pageName}`) as Content;
+  if (!cachedPage) {
+    throw new Error(`Page ${pageName} not found in cache`);
+  }
+  return cachedPage;
 }
 
 export async function fetchNotionDatabasePages(
@@ -287,7 +298,7 @@ export async function fetchAllDatabasePages(client: Client, databaseId: string, 
   if (sortProperty) {
     queryOptions.sorts = [{ property: sortProperty, direction: 'descending' }];
   }
-  
+
   let response = await client.databases.query(queryOptions);
   pages.push(...(response.results as NotionPage[]));
 

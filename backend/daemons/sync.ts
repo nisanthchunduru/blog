@@ -27,7 +27,7 @@ async function cachePageByName(cache: Cache, pageName: string): Promise<void> {
   try {
     const page = await fetchNotionPageByName(pageName, { cache });
     await cache.write(`page_${pageName}`, page);
-    console.log(`Cached page '${pageName}'`);
+    console.log(`Cached "${pageName}" page`);
   } catch (error) {
     console.error(`Error caching page ${pageName}:`, error);
   }

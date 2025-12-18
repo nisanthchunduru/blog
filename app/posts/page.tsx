@@ -1,4 +1,4 @@
-import { fetchPosts } from '@/backend/entity-utils'
+import { fetchPostsFromCache } from '@/backend/entity-utils'
 import { FilesystemCache } from '@/backend/filesystem_cache'
 import Link from 'next/link'
 import { sortBy, formatTime, contentPath } from '@/backend/utils'
@@ -8,7 +8,7 @@ const cache = new FilesystemCache()
 export const dynamic = 'force-dynamic'
 
 export default async function PostsPage() {
-  const posts = await fetchPosts({ cache })
+  const posts = await fetchPostsFromCache(cache)
   const sortedPosts = sortBy(posts.filter(post => !post.draft), 'publishedDate', 'desc')
 
   return (

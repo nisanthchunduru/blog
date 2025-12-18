@@ -1,4 +1,4 @@
-import { fetchNotionPageByName } from '@/backend/notion_utils'
+import { fetchNotionPageFromByNameFromCache } from '@/backend/notion_utils'
 import { FilesystemCache } from '@/backend/filesystem_cache'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -8,8 +8,8 @@ const cache = new FilesystemCache()
 export const dynamic = 'force-dynamic'
 
 export default async function Home() {
-  const page = await fetchNotionPageByName('about', { cache })
-  
+  const page = await fetchNotionPageFromByNameFromCache('about', cache)
+
   return (
     <div className="container mx-auto px-4 max-w-none prose-h1:text-center sm:mt-12" style={{ flex: 1 }}>
       <div className="[&_h1:first-child]:mb-16 prose sm:prose-lg dark:prose-invert relative" style={{ textAlign: 'left', overflowWrap: 'break-word' }}>

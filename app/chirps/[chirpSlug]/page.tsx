@@ -1,4 +1,4 @@
-import { fetchChirps } from '@/backend/entity-utils'
+import { fetchChirpsFromCache } from '@/backend/entity-utils'
 import { FilesystemCache } from '@/backend/filesystem_cache'
 import { notFound } from 'next/navigation'
 import { formatTime } from '@/backend/utils'
@@ -17,7 +17,7 @@ function findEntityBySlug<T extends { id: string }>(entities: T[], slug: string)
 }
 
 export default async function ChirpPage({ params }: { params: { chirpSlug: string } }) {
-  const chirps = await fetchChirps({ cache })
+  const chirps = await fetchChirpsFromCache(cache)
   const chirp = findEntityBySlug(chirps, params.chirpSlug)
 
   if (!chirp) {

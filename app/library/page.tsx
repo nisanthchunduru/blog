@@ -1,4 +1,4 @@
-import { fetchBooks } from '@/backend/notion_utils'
+import { fetchBooksFromCache } from '@/backend/entity-utils'
 import { FilesystemCache } from '@/backend/filesystem_cache'
 import BookCover from './components/BookCover'
 import './library.css'
@@ -8,7 +8,7 @@ const cache = new FilesystemCache()
 export const dynamic = 'force-dynamic'
 
 export default async function LibraryPage() {
-  const books = await fetchBooks({ cache })
+  const books = await fetchBooksFromCache(cache)
 
   return (
     <>

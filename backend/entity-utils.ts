@@ -1,3 +1,4 @@
+import pluralize from 'pluralize';
 import slugify from 'slugify';
 import { Cache, NullCache } from './cache';
 import { Book, Chirp, Entity, Post } from './entity';
@@ -60,7 +61,7 @@ export async function transformNotionPageToEntity<T extends Entity>(
     const slug = `${shortId}-${titleSlug}`.replace(/-+$/, '');
 
     const publishedDate = entityProperties.date as string;
-    
+
     return {
       id: pageId,
       name: entityName,
@@ -177,4 +178,28 @@ export async function fetchBooks(
   options: { cache?: Cache } = {}
 ): Promise<Book[]> {
   return fetchEntities<Book>('library', { cache: options.cache, sortProperty: null });
+}
+
+export async function fetchEntitiesFromCache<T extends Entity>(
+  entityName: string,
+  cache: Cache
+): Promise<T[]> {
+  const pluralizedEntityName = pluralize(entityName);
+  const cachedEntities = await cache.read(pluralizedEntityName) as T[];
+  if (!cachedEntities) {
+    throw new Error(`${pluralizedEntityName} entities not found in cache`);
+  }
+  return cachedEntities;
+}
+
+export async function fetchPostsFromCache(cache: Cache): Promise<Post[]> {
+  return fetchEntitiesFromCache<Post>('post', cache);
+}
+
+export async function fetchChirpsFromCache(cache: Cache): Promise<Chirp[]> {
+  return fetchEntitiesFromCache<Chirp>('chirp', cache);
+}
+
+export async function fetchBooksFromCache(cache: Cache): Promise<Book[]> {
+  return fetchEntitiesFromCache<Book>('library', cache);
 }

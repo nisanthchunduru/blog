@@ -1,12 +1,12 @@
-import * as path from 'path';
-import * as fs from 'fs';
 import Cache from 'file-system-cache';
+import * as fs from 'fs';
+import * as path from 'path';
 import { Cache as CacheInterface } from './cache';
 
 const DEFAULT_CACHE_DURATION = 30 * 24 * 60 * 60;
 
 function getCacheDir(): string {
-  return path.join(__dirname, '..', 'tmp', 'cache');
+  return path.join(process.cwd(), 'tmp', 'cache');
 }
 
 export class FilesystemCache implements CacheInterface {

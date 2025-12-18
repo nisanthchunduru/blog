@@ -1,4 +1,4 @@
-import { fetchPosts } from '@/backend/entity-utils'
+import { fetchPostsFromCache } from '@/backend/entity-utils'
 import { FilesystemCache } from '@/backend/filesystem_cache'
 import { notFound } from 'next/navigation'
 import { formatTime } from '@/backend/utils'
@@ -17,7 +17,7 @@ function findEntityBySlug<T extends { id: string }>(entities: T[], slug: string)
 }
 
 export default async function PostPage({ params }: { params: { postSlug: string } }) {
-  const posts = await fetchPosts({ cache })
+  const posts = await fetchPostsFromCache(cache)
   const post = findEntityBySlug(posts, params.postSlug)
 
   if (!post) {
