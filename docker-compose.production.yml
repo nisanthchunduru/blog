@@ -1,23 +1,34 @@
 services:
   server:
     image: nisanth074/blog:latest
+    working_dir: /workspace
     env_file:
       - .env
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - NODE_PATH=/workspace/server/node_modules
     volumes:
-      - cache:/app/tmp/cache
+      - cache:/workspace/tmp/cache
     ports:
       - "80:3000"
+    command: sh -c "/workspace/server/node_modules/.bin/tsx /workspace/server/index.ts"
     restart: unless-stopped
     depends_on:
       - sync
 
   sync:
     image: nisanth074/blog:latest
+    working_dir: /workspace
     env_file:
       - .env
+    environment:
+      - NODE_ENV=production
+      - SYNC_INTERVAL=300
+      - NODE_PATH=/workspace/server/node_modules
     volumes:
-      - cache:/app/tmp/cache
-    command: npm run sync
+      - cache:/workspace/tmp/cache
+    command: sh -c "/workspace/server/node_modules/.bin/tsx /workspace/backend/daemons/sync.ts"
     restart: unless-stopped
 
 volumes:

@@ -1,37 +1,59 @@
-version: '3.8'
-
 services:
-  server:
+  client:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.client
     volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/.next
-      - cache:/app/tmp/cache
+      - .:/workspace
+      - /workspace/node_modules
+      - /workspace/client/node_modules
+      - /workspace/server/node_modules
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=development
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+      - /workspace/node_modules
+      - /workspace/server/node_modules
+      - /workspace/client/node_modules
+      - cache:/workspace/tmp/cache
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - NODE_PATH=/workspace/server/node_modules
     env_file:
       - .env
+    command: sh -c "/workspace/server/node_modules/.bin/tsx /workspace/server/index.ts"
     depends_on:
       - sync
 
   sync:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.server
+    working_dir: /workspace
     volumes:
-      - /app/node_modules
-      - cache:/app/tmp/cache
+      - .:/workspace
+      - /workspace/node_modules
+      - /workspace/server/node_modules
+      - /workspace/client/node_modules
+      - cache:/workspace/tmp/cache
     environment:
       - NODE_ENV=development
       - SYNC_INTERVAL=10
+      - NODE_PATH=/workspace/server/node_modules
     env_file:
       - .env
-    command: npm run sync
+    command: sh -c "/workspace/server/node_modules/.bin/tsx /workspace/backend/daemons/sync.ts"
     restart: unless-stopped
     healthcheck:
       disable: true

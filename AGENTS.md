@@ -36,11 +36,13 @@ Don't add comments except in rare scenarios where meaningful names cannot suffic
 
 Don't create unnecessary interfaces unless they're necessary for re-use. Don't especially create unnecessary interface for function arguments unless multiple functions accept an argument having the same interface.
 
-Aggressively avoid duplication and re-use (introducing appropriate abstractions as necessary)
+Aggressively avoid duplication and re-use (introducing appropriate abstractions as necessary).
 
-Avoid solving a problem yourself and add NPM packages (lodash etc.) or other third party libraries/utilities/tools if they effectively serve the purpose
+Avoid solving a problem yourself and add NPM packages (lodash etc.) or other third party libraries/utilities/tools if they effectively serve the purpose.
 
-Don't add unnecessary blank lines
+Don't add unnecessary blank lines.
+
+Prefer async/await to callbacks (as the former enhances readability).
 
 ## Technology Stack
 

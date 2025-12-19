@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind typography;
+
+* {
+  box-sizing: border-box;
+}
+html {
+  margin: 0 auto;
+  max-width: 768px;
+}
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: subpixel-antialiased;
+  font-family: "Amazon Ember", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: white;
+  padding-top: 110px;
+}
+@media (min-width: 768px) {
+  body {
+    padding-top: 118px;
+  }
+}
+.dark body {
+  background-color: #111827;
+}
+pre {
+  background-color: #FCFCFC !important;
+  color: rgb(55, 65, 81) !important;
+}
+.dark pre {
+  background-color: #1f2937 !important;
+  color: #e5e7eb !important;
+}
+code span {
+  font-weight: normal !important;
+}
+hr {
+  margin-top: 48px;
+  margin-bottom: 48px;
+  border-top: 1px solid #eee;
+}
+.dark hr {
+  border-top: 1px solid #374151;
+}
+a {
+  color: rgb(124, 58, 237) !important;
+}
+.dark a {
+  color: rgb(196, 181, 253) !important;
+}
+.text-authy-red {
+  color: rgba(177, 15, 35, 1) !important;
+}
+img.w-32 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.prose p {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+#back-button {
+  display: none;
+}
+#back-button.back-button-visible {
+  display: inline-flex;
+}

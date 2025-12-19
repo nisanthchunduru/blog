@@ -1,3 +1,5 @@
+set -e
+
 npm run docker:push:x86
 scp .env root@150.136.2.200:/opt/blog/.env
 ssh root@150.136.2.200 "cd /opt/blog && docker compose down"
