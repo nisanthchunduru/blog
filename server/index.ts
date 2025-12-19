@@ -31,6 +31,26 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
+app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error('Unhandled error:', err.message)
+  console.error('Stack:', err.stack)
+  console.error('Request URL:', req.url)
+  
+  if (!res.headersSent) {
+    res.status(500).json({ error: 'Internal server error' })
+  }
+})
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught exception:', err.message)
+  console.error('Stack:', err.stack)
+})
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled rejection at:', promise)
+  console.error('Reason:', reason)
+})
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
