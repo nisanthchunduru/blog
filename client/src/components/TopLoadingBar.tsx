@@ -5,7 +5,7 @@ export default function TopLoadingBar() {
   const location = useLocation()
   const [isLoading, setIsLoading] = useState(false)
   const [progress, setProgress] = useState(0)
-  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null)
+  const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const currentPathnameRef = useRef(location.pathname)
   useEffect(() => {
     const handleLinkClick = (event: MouseEvent) => {
