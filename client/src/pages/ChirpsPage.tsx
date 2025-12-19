@@ -27,7 +27,7 @@ export default function ChirpsPage() {
             <div className="flex flex-col">
               <time className="text-gray-500 dark:text-gray-400 text-sm mb-2">{formatTime(chirp.publishedDate)}</time>
               <div
-                className="text-gray-900 dark:text-gray-100 leading-relaxed prose dark:prose-invert"
+                className="text-gray-900 dark:text-gray-100 leading-relaxed"
                 style={{ wordWrap: 'break-word', lineHeight: 1.6 }}
               >
                 <div dangerouslySetInnerHTML={{ __html: chirp.html }} />
