@@ -13,10 +13,10 @@ export default function ChirpPage() {
       .then(setChirp)
       .finally(() => setLoading(false))
   }, [slug])
-  if (loading) return <div className="container mx-auto mt-8 px-4 max-w-none" style={{ flex: 1 }}>Loading...</div>
-  if (!chirp) return <div className="container mx-auto mt-8 px-4 max-w-none" style={{ flex: 1 }}>Chirp not found</div>
+  if (loading) return <div className="container mx-auto mt-8 px-4 max-w-none pb-24 md:pb-0" style={{ flex: 1 }}>Loading...</div>
+  if (!chirp) return <div className="container mx-auto mt-8 px-4 max-w-none pb-24 md:pb-0" style={{ flex: 1 }}>Chirp not found</div>
   return (
-    <div className="container mx-auto mt-8 px-4 max-w-none" style={{ flex: 1 }}>
+    <div className="container mx-auto mt-8 px-4 max-w-none pb-24 md:pb-0" style={{ flex: 1 }}>
       <div className="article mt-6">
         <h1 className="text-center text-4xl font-bold mb-3 text-gray-900 dark:text-gray-100">{chirp.title}</h1>
         <div className="flex flex-wrap items-center justify-center gap-2 mb-12">

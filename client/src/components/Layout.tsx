@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import Header from './Header'
 import Footer from './Footer'
+import MobileNav from './MobileNav'
 import TopLoadingBar from './TopLoadingBar'
 
 export default function Layout() {
@@ -51,6 +52,7 @@ export default function Layout() {
         <Header />
         <Outlet />
         <Footer />
+        <MobileNav />
       </div>
     </>
   )

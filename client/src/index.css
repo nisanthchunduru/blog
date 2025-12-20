@@ -15,7 +15,7 @@ body {
   -webkit-font-smoothing: subpixel-antialiased;
   font-family: "Amazon Ember", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background-color: white;
-  padding-top: 110px;
+  /* padding-top: 110px; */
 }
 @media (min-width: 768px) {
   body {

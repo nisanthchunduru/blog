@@ -17,7 +17,7 @@ export default function Header() {
             </svg>
           </Link>
         )}
-        <nav className="flex sm:inline-flex sm:w-auto justify-center items-center gap-1 sm:gap-0 bg-violet-100/30 dark:bg-violet-900/20 backdrop-blur-md rounded-3xl sm:rounded-full px-4 py-2 ">
+        <nav className="hidden md:flex md:inline-flex md:w-auto justify-center items-center gap-1 sm:gap-0 bg-violet-100/30 dark:bg-violet-900/20 backdrop-blur-md rounded-3xl sm:rounded-full px-4 py-2 ">
           <div className="sm:flex">
             <ul className="flex items-center flex-wrap sm:flex-nowrap justify-center">
               <li className="mr-1 md:mr-4">
@@ -29,9 +29,9 @@ export default function Header() {
               <li className="mr-1 md:mr-4">
                 <Link className="inline-block text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900 rounded-l-full rounded-r-full px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-lg transition-colors" to="/chirps">Chirps</Link>
               </li>
-              <li className="mr-1 md:mr-4">
+              {/* <li className="mr-1 md:mr-4">
                 <Link className="inline-block text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900 rounded-l-full rounded-r-full px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-lg transition-colors" to="/library">Library</Link>
-              </li>
+              </li> */}
             </ul>
           </div>
           <button

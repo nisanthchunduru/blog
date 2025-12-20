@@ -10,9 +10,9 @@ export default function HomePage() {
       .then(page => setPageHtml(page.html))
       .finally(() => setLoading(false))
   }, [])
-  if (loading) return <div className="container mx-auto px-4 max-w-none" style={{ flex: 1 }}>Loading...</div>
+  if (loading) return <div className="container mx-auto px-4 max-w-none pb-24 md:pb-0" style={{ flex: 1 }}>Loading...</div>
   return (
-    <div className="container mx-auto px-4 max-w-none prose-h1:text-center sm:mt-12" style={{ flex: 1 }}>
+    <div className="container mx-auto px-4 max-w-none prose-h1:text-center mt-4 md:mt-12 pb-24 md:pb-0" style={{ flex: 1 }}>
       <div className="[&_h1:first-child]:mb-16 prose sm:prose-lg dark:prose-invert relative" style={{ textAlign: 'left', overflowWrap: 'break-word' }}>
         <Link to="/" className="block sm:hidden mb-8">
           <img
