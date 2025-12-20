@@ -9,7 +9,7 @@ export default function Header() {
         {showBackButton && (
           <Link
             to="/"
-            className="hidden md:flex absolute left-0 items-center justify-center w-10 h-10 bg-violet-100/30 dark:bg-violet-900/20 backdrop-blur-md rounded-full border border-violet-200/50 dark:border-violet-800/30 text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900 transition-colors"
+            className="hidden md:flex absolute left-0 items-center justify-center w-10 h-10 bg-violet-100/30 dark:bg-violet-900/20 backdrop-blur-md rounded-full text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900 transition-colors"
             aria-label="Go back"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -17,7 +17,7 @@ export default function Header() {
             </svg>
           </Link>
         )}
-        <nav className="flex w-full sm:inline-flex sm:w-auto justify-center items-center gap-1 sm:gap-0 bg-violet-100/30 dark:bg-violet-900/20 backdrop-blur-md rounded-3xl sm:rounded-full px-4 py-2 border border-violet-200/50 dark:border-violet-800/30">
+        <nav className="flex sm:inline-flex sm:w-auto justify-center items-center gap-1 sm:gap-0 bg-violet-100/30 dark:bg-violet-900/20 backdrop-blur-md rounded-3xl sm:rounded-full px-4 py-2 ">
           <div className="sm:flex">
             <ul className="flex items-center flex-wrap sm:flex-nowrap justify-center">
               <li className="mr-1 md:mr-4">
