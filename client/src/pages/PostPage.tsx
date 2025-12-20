@@ -13,7 +13,7 @@ export default function PostPage() {
       .then(setPost)
       .finally(() => setLoading(false))
   }, [slug])
-  if (loading) return <div className="container mx-auto mt-8 px-4 max-w-none pb-24 md:pb-0" style={{ flex: 1 }}>Loading...</div>
+  if (loading) return null
   if (!post) return <div className="container mx-auto mt-8 px-4 max-w-none pb-24 md:pb-0" style={{ flex: 1 }}>Post not found</div>
   return (
     <div className="container mx-auto mt-8 px-4 max-w-none pb-24 md:pb-0" style={{ flex: 1 }}>

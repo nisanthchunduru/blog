@@ -14,7 +14,7 @@ export default function ChirpsPage() {
       })
       .finally(() => setLoading(false))
   }, [])
-  if (loading) return <div className="container mx-auto px-4 pb-24 md:pb-0" style={{ flex: 1, maxWidth: '600px' }}>Loading...</div>
+  if (loading) return null
   return (
     <div className="container mx-auto px-4 pb-24 md:pb-0" style={{ flex: 1, maxWidth: '600px' }}>
       <h1 className="text-center text-5xl font-bold mt-8 md:mt-16 mb-16 text-gray-900 dark:text-gray-100">Chirps</h1>
