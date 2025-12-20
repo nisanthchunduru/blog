@@ -37,7 +37,7 @@ export default function PostPage() {
             </>
           )}
         </div>
-        <div className="prose prose-lg dark:prose-invert" style={{ textAlign: 'justify', overflowWrap: 'break-word' }}>
+        <div className="prose sm:prose-lg dark:prose-invert" style={{ textAlign: 'justify', overflowWrap: 'break-word' }}>
           <div dangerouslySetInnerHTML={{ __html: post.html }} />
         </div>
       </div>
