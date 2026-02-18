@@ -1,59 +1,59 @@
 services:
-  client:
+  frontend:
     build:
       context: .
-      dockerfile: Dockerfile.client
+      dockerfile: Dockerfile-frontend.development
     volumes:
       - .:/workspace
       - /workspace/node_modules
-      - /workspace/client/node_modules
-      - /workspace/server/node_modules
+      - /workspace/frontend/node_modules
+      - /workspace/backend/node_modules
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=development
 
-  server:
+  backend:
     build:
       context: .
-      dockerfile: Dockerfile.server
+      dockerfile: Dockerfile-backend.development
     working_dir: /workspace
     volumes:
       - .:/workspace
       - /workspace/node_modules
-      - /workspace/server/node_modules
-      - /workspace/client/node_modules
+      - /workspace/backend/node_modules
+      - /workspace/frontend/node_modules
       - cache:/workspace/tmp/cache
     ports:
       - "3001:3001"
     environment:
       - NODE_ENV=development
       - PORT=3001
-      - NODE_PATH=/workspace/server/node_modules
+      - NODE_PATH=/workspace/backend/node_modules
     env_file:
       - .env
-    command: sh -c "/workspace/server/node_modules/.bin/tsx /workspace/server/index.ts"
+    command: sh -c "/workspace/backend/node_modules/.bin/tsx /workspace/backend/index.ts"
     depends_on:
       - sync
 
   sync:
     build:
       context: .
-      dockerfile: Dockerfile.server
+      dockerfile: Dockerfile-backend.development
     working_dir: /workspace
     volumes:
       - .:/workspace
       - /workspace/node_modules
-      - /workspace/server/node_modules
-      - /workspace/client/node_modules
+      - /workspace/backend/node_modules
+      - /workspace/frontend/node_modules
       - cache:/workspace/tmp/cache
     environment:
       - NODE_ENV=development
       - SYNC_INTERVAL=10
-      - NODE_PATH=/workspace/server/node_modules
+      - NODE_PATH=/workspace/backend/node_modules
     env_file:
       - .env
-    command: sh -c "/workspace/server/node_modules/.bin/tsx /workspace/backend/daemons/sync.ts"
+    command: sh -c "/workspace/backend/node_modules/.bin/tsx /workspace/backend/daemons/sync.ts"
     restart: unless-stopped
     healthcheck:
       disable: true

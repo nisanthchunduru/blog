@@ -15,7 +15,7 @@ for arg in "$@"; do
 done
 
 echo "Building image..."
-docker buildx build --platform linux/amd64 -t nisanth074/blog:latest .
+docker buildx build --platform linux/amd64 -f Dockerfile.production -t nisanth074/blog:latest .
 echo "Built image."
 
 if [ "$DIRECT" = true ]; then

@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { FilesystemCache } from '../../backend/filesystem_cache'
+import { FilesystemCache } from '../filesystem_cache'
 
 const router = Router()
 const cache = new FilesystemCache()

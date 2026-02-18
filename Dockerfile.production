@@ -1,0 +1,16 @@
+FROM node:20-alpine AS builder
+WORKDIR /workspace
+COPY package*.json ./
+COPY backend/package*.json ./backend/
+COPY frontend/package*.json ./frontend/
+RUN npm install
+RUN cd backend && npm install
+RUN cd frontend && npm install
+COPY . .
+RUN cd frontend && npm run build
+
+FROM node:20-alpine
+WORKDIR /workspace
+COPY --from=builder /workspace ./
+EXPOSE 3000
+CMD ["sh", "-c", "/workspace/backend/node_modules/.bin/tsx /workspace/backend/index.ts"]

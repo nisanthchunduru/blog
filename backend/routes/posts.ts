@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import { fetchCachedEntities, fetchCachedEntityBySlug } from '../../backend/cached-entity-utils'
-import { Post } from '../../backend/entity'
-import { FilesystemCache } from '../../backend/filesystem_cache'
+import { fetchCachedEntities, fetchCachedEntityBySlug } from '../cached-entity-utils'
+import { Post } from '../entity'
+import { FilesystemCache } from '../filesystem_cache'
 
 const router = Router()
 const cache = new FilesystemCache()
