@@ -1,0 +1,87 @@
+version: '3'
+
+vars:
+  SERVER_USER: root
+  SERVER_IP: 150.136.2.200
+  DESTINATION_DIR: /opt/blog
+  IMAGE_NAME: nisanth074/blog:latest
+
+tasks:
+  build-image:
+    desc: Build prod Docker image
+    cmds:
+      - docker buildx build --platform linux/amd64 -f Dockerfile.production -t {{.IMAGE_NAME}} .
+
+  push-image-to-dockerhub:
+    desc: Push prod Docker image to Docker Hub
+    cmds:
+      - docker push {{.IMAGE_NAME}}
+
+  export-image-layers:
+    desc: Export Docker image to directory format
+    cmds:
+      - rm -rf /tmp/blog-image-layers
+      - skopeo copy docker-daemon:{{.IMAGE_NAME}} dir:/tmp/blog-image-layers
+
+  rsync-image-layers:
+    desc: Rsync image layers to server (only changed layers)
+    cmds:
+      - rsync -avz --progress /tmp/blog-image-layers/ {{.SERVER_USER}}@{{.SERVER_IP}}:{{.DESTINATION_DIR}}/image-layers/
+
+  import-image-on-server:
+    desc: Import image from layers on server
+    cmds:
+      - ssh {{.SERVER_USER}}@{{.SERVER_IP}} "skopeo copy dir:{{.DESTINATION_DIR}}/image-layers docker-archive:{{.DESTINATION_DIR}}/image.tar:{{.IMAGE_NAME}} && docker load < {{.DESTINATION_DIR}}/image.tar && rm {{.DESTINATION_DIR}}/image.tar"
+
+  copy-env:
+    desc: Copy .env to server
+    cmds:
+      - scp .env {{.SERVER_USER}}@{{.SERVER_IP}}:{{.DESTINATION_DIR}}/.env
+
+  copy-compose:
+    desc: Copy docker-compose.production.yml to server
+    cmds:
+      - scp docker-compose.production.yml {{.SERVER_USER}}@{{.SERVER_IP}}:{{.DESTINATION_DIR}}/docker-compose.yml
+
+  stop:
+    desc: Stop Docker containers on server
+    cmds:
+      - ssh {{.SERVER_USER}}@{{.SERVER_IP}} "cd {{.DESTINATION_DIR}} && docker compose down --remove-orphans"
+
+  start:
+    desc: Start Docker containers on server
+    cmds:
+      - ssh {{.SERVER_USER}}@{{.SERVER_IP}} "cd {{.DESTINATION_DIR}} && docker compose up -d"
+
+  restart:
+    desc: Restart Docker containers on server
+    cmds:
+      - task: stop
+      - task: start
+
+  server-containers-logs:
+    desc: Print server Docker containers logs
+    cmds:
+      - ssh {{.SERVER_USER}}@{{.SERVER_IP}} "cd {{.DESTINATION_DIR}} && docker compose logs -f"
+
+  deploy:
+    desc: Deploy via Docker Hub
+    cmds:
+      - task: build-image
+      - task: push-image-to-dockerhub
+      - task: copy-env
+      - task: copy-compose
+      - task: stop
+      - ssh {{.SERVER_USER}}@{{.SERVER_IP}} "cd {{.DESTINATION_DIR}} && docker compose up -d --pull always"
+
+  deploy-direct:
+    desc: Deploy directly via rsync (requires skopeo on both machines)
+    cmds:
+      - task: build-image
+      - task: export-image-layers
+      - task: rsync-image-layers
+      - task: import-image-on-server
+      - rm -rf /tmp/blog-image-layers
+      - task: copy-env
+      - task: copy-compose
+      - task: restart
