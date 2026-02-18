@@ -1,19 +1,9 @@
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useLoaderData } from 'react-router-dom'
 import { Chirp } from '../types'
 import { formatTime } from '../utils'
 
 export default function ChirpPage() {
-  const { slug } = useParams()
-  const [chirp, setChirp] = useState<Chirp | null>(null)
-  const [loading, setLoading] = useState(true)
-  useEffect(() => {
-    fetch(`/api/chirps/${slug}`)
-      .then(res => res.json())
-      .then(setChirp)
-      .finally(() => setLoading(false))
-  }, [slug])
-  if (loading) return null
+  const chirp = useLoaderData() as Chirp | null
   if (!chirp) return <div className="container mx-auto mt-8 px-4 max-w-none pb-24 md:pb-0" style={{ flex: 1 }}>Chirp not found</div>
   return (
     <div className="container mx-auto mt-8 px-4 max-w-none pb-24 md:pb-0" style={{ flex: 1 }}>

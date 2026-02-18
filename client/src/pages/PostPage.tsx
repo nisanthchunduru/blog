@@ -1,19 +1,9 @@
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useLoaderData } from 'react-router-dom'
 import { Post } from '../types'
 import { formatTime } from '../utils'
 
 export default function PostPage() {
-  const { slug } = useParams()
-  const [post, setPost] = useState<Post | null>(null)
-  const [loading, setLoading] = useState(true)
-  useEffect(() => {
-    fetch(`/api/posts/${slug}`)
-      .then(res => res.json())
-      .then(setPost)
-      .finally(() => setLoading(false))
-  }, [slug])
-  if (loading) return null
+  const post = useLoaderData() as Post | null
   if (!post) return <div className="container mx-auto mt-8 px-4 max-w-none pb-24 md:pb-0" style={{ flex: 1 }}>Post not found</div>
   return (
     <div className="container mx-auto mt-8 px-4 max-w-none pb-24 md:pb-0" style={{ flex: 1 }}>

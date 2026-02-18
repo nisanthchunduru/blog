@@ -1,21 +1,10 @@
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLoaderData } from 'react-router-dom'
 import { Post } from '../types'
 import { sortBy, formatTime, contentPath } from '../utils'
 
 export default function PostsPage() {
-  const [posts, setPosts] = useState<Post[]>([])
-  const [loading, setLoading] = useState(true)
-  useEffect(() => {
-    fetch('/api/posts')
-      .then(res => res.json())
-      .then((data: Post[]) => {
-        const sortedPosts = sortBy(data.filter(post => !post.draft), 'publishedDate', 'desc')
-        setPosts(sortedPosts)
-      })
-      .finally(() => setLoading(false))
-  }, [])
-  if (loading) return null
+  const data = useLoaderData() as Post[]
+  const posts = sortBy(data.filter(post => !post.draft), 'publishedDate', 'desc')
   return (
     <div className="container mx-auto px-4 max-w-none pb-24 md:pb-0" style={{ flex: 1 }}>
       <h1 className="text-center text-5xl font-bold mt-8 md:mt-16 mb-16 text-gray-900 dark:text-gray-100">Posts</h1>

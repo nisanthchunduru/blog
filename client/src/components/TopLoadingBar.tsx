@@ -1,27 +1,16 @@
 import { useEffect, useState, useRef } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useNavigation } from 'react-router-dom'
 
 export default function TopLoadingBar() {
-  const location = useLocation()
-  const [isLoading, setIsLoading] = useState(false)
+  const navigation = useNavigation()
+  const isLoading = navigation.state === 'loading'
   const [progress, setProgress] = useState(0)
+  const [visible, setVisible] = useState(false)
   const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
-  const currentPathnameRef = useRef(location.pathname)
+
   useEffect(() => {
-    const handleLinkClick = (event: MouseEvent) => {
-      const target = event.target as HTMLElement
-      const link = target.closest('a')
-      if (!link) return
-      const href = link.getAttribute('href')
-      if (!href) return
-      const isExternal = href.startsWith('http') || href.startsWith('//')
-      const isAnchor = href.startsWith('#')
-      const isInternal = href.startsWith('/')
-      if (isExternal || isAnchor || !isInternal) return
-      if (link.getAttribute('target') === '_blank') return
-      const nextPathname = href.split('?')[0]
-      if (nextPathname === currentPathnameRef.current) return
-      setIsLoading(true)
+    if (isLoading) {
+      setVisible(true)
       setProgress(0)
       if (progressIntervalRef.current) {
         clearInterval(progressIntervalRef.current)
@@ -37,32 +26,30 @@ export default function TopLoadingBar() {
           return prev + Math.random() * 15
         })
       }, 100)
-    }
-    document.addEventListener('click', handleLinkClick)
-    return () => {
-      document.removeEventListener('click', handleLinkClick)
-      if (progressIntervalRef.current) {
-        clearInterval(progressIntervalRef.current)
-      }
-    }
-  }, [])
-  useEffect(() => {
-    if (currentPathnameRef.current !== location.pathname) {
-      currentPathnameRef.current = location.pathname
+    } else {
       if (progressIntervalRef.current) {
         clearInterval(progressIntervalRef.current)
         progressIntervalRef.current = null
       }
-      setProgress(100)
-      setTimeout(() => {
-        setIsLoading(false)
-        setProgress(0)
-      }, 200)
+      if (visible) {
+        setProgress(100)
+        setTimeout(() => {
+          setVisible(false)
+          setProgress(0)
+        }, 200)
+      }
     }
-  }, [location.pathname])
-  if (!isLoading && progress === 0) {
+    return () => {
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current)
+      }
+    }
+  }, [isLoading, visible])
+
+  if (!visible && progress === 0) {
     return null
   }
+
   return (
     <div className="fixed top-0 left-0 right-0 h-[1px] z-[100]">
       <div

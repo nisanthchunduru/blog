@@ -1,17 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useLoaderData } from 'react-router-dom'
 import { Book } from '../types'
 import '../library.css'
 
 export default function LibraryPage() {
-  const [books, setBooks] = useState<Book[]>([])
-  const [loading, setLoading] = useState(true)
-  useEffect(() => {
-    fetch('/api/library')
-      .then(res => res.json())
-      .then(setBooks)
-      .finally(() => setLoading(false))
-  }, [])
-  if (loading) return null
+  const books = useLoaderData() as Book[]
   return (
     <>
       <h1 className="text-center text-5xl font-bold mt-8 md:mt-16 mb-16 text-gray-900 dark:text-gray-100">Library</h1>
