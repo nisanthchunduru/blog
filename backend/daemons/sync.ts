@@ -52,7 +52,7 @@ export function startSync(cache: Cache, intervalSeconds: number = 30): void {
   }, intervalSeconds * 1000);
 }
 
-if (require.main === module || process.argv[1]?.includes('sync.ts')) {
+if (process.argv[1]?.includes('sync.ts')) {
   const cache = new FilesystemCache();
   const syncInterval = parseInt(process.env.SYNC_INTERVAL || '30', 10);
   startSync(cache, syncInterval);
