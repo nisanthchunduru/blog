@@ -15,7 +15,7 @@ export default function ChirpsPage() {
             className="border-b border-gray-200 dark:border-gray-700 last:border-b-0 py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
           >
             <div className="flex flex-col">
-              <time className="text-gray-500 dark:text-gray-400 text-sm mb-2">{formatTime(chirp.publishedDate)}</time>
+              <time className="text-brand text-sm mb-2">{formatTime(chirp.publishedDate)}</time>
               <div
                 className="text-gray-900 dark:text-gray-100 leading-relaxed"
                 style={{ wordWrap: 'break-word', lineHeight: 1.6 }}
@@ -27,7 +27,7 @@ export default function ChirpsPage() {
                   {chirp.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-violet-100 dark:bg-violet-900 text-violet-800 dark:text-violet-200"
+                      className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-brand/10 text-brand"
                     >
                       {tag}
                     </span>

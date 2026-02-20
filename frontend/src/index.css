@@ -13,17 +13,14 @@ html {
 body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: subpixel-antialiased;
-  font-family: "Amazon Ember", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: white;
-  /* padding-top: 110px; */
+  font-family: "Manrope", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #F5F0E8;
 }
-@media (min-width: 768px) {
-  body {
-    padding-top: 118px;
-  }
+h1, h2, h3, h4, h5, h6 {
+  font-family: "DM Serif Display", serif;
 }
 .dark body {
-  background-color: #111827;
+  background-color: #1C1610;
 }
 pre {
   background-color: #FCFCFC !important;
@@ -44,11 +41,8 @@ hr {
 .dark hr {
   border-top: 1px solid #374151;
 }
-a {
-  color: rgb(124, 58, 237) !important;
-}
-.dark a {
-  color: rgb(196, 181, 253) !important;
+.prose a {
+  color: #E8470C;
 }
 .text-authy-red {
   color: rgba(177, 15, 35, 1) !important;

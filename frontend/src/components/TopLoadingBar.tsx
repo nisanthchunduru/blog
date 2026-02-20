@@ -53,7 +53,7 @@ export default function TopLoadingBar() {
   return (
     <div className="fixed top-0 left-0 right-0 h-[4px] z-[100]">
       <div
-        className="h-full bg-violet-600 dark:bg-violet-400 transition-all duration-200 ease-out"
+        className="h-full bg-brand dark:bg-brand-light transition-all duration-200 ease-out"
         style={{
           width: `${Math.min(progress, 100)}%`,
         }}

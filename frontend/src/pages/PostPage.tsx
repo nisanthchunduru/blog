@@ -18,7 +18,7 @@ export default function PostPage() {
                 {post.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-violet-100 dark:bg-violet-900 text-violet-800 dark:text-violet-200"
+                    className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-brand/10 text-brand"
                   >
                     {tag}
                   </span>

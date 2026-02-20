@@ -1,63 +1,83 @@
+import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
+const navLinks = [
+  { label: 'Posts', to: '/posts' },
+  { label: 'Chirps', to: '/chirps' },
+]
+
 export default function Header() {
-  const location = useLocation()
-  const showBackButton = location.pathname !== '/' && location.pathname !== '/about'
+  const { pathname } = useLocation()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const activeLinkClass = 'text-brand'
+  const inactiveLinkClass = 'text-gray-800 hover:text-brand'
+
+  const isActive = (to: string) => pathname === to || (to !== '/' && pathname.startsWith(to))
+
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 pt-6 md:pt-8 pb-4">
-      <div className="container mx-auto px-2 sm:px-4 max-w-[768px] relative flex justify-center items-center">
-        {showBackButton && (
-          <Link
-            to="/"
-            className="hidden md:flex absolute left-0 items-center justify-center w-10 h-10 bg-violet-100/30 dark:bg-violet-900/20 backdrop-blur-md rounded-full text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900 transition-colors"
-            aria-label="Go back"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
-            </svg>
-          </Link>
-        )}
-        <nav className="hidden md:flex md:inline-flex md:w-auto justify-center items-center gap-1 sm:gap-0 bg-violet-100/30 dark:bg-violet-900/20 backdrop-blur-md rounded-3xl sm:rounded-full px-4 py-2 ">
-          <div className="sm:flex">
-            <ul className="flex items-center flex-wrap sm:flex-nowrap justify-center">
-              <li className="mr-1 md:mr-4">
-                <Link className="inline-block text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900 rounded-l-full rounded-r-full px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-lg transition-colors" to="/">Home</Link>
+    <div className="pt-4 sm:pt-6 md:pt-8 pb-3 sm:pb-4 relative border-b border-brand/20">
+      <div className="container mx-auto px-4 max-w-[768px] flex justify-between items-center">
+        <Link
+          to="/"
+          className="flex items-center gap-2.5 font-heading text-2xl sm:text-3xl text-gray-900 hover:text-brand transition-colors"
+        >
+          <svg className="w-7 h-7 sm:w-8 sm:h-8 flex-shrink-0" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 3L37 12.5L20 22L3 12.5Z" fill="#E8470C"/>
+            <path d="M3 19.5L20 29L37 19.5" stroke="#E8470C" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/>
+            <path d="M3 27L20 36.5L37 27" stroke="#E8470C" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.4"/>
+          </svg>
+          Nisanth Chunduru
+        </Link>
+        <nav className="hidden md:flex items-center gap-1">
+          <ul className="flex items-center">
+            {navLinks.map(({ label, to }) => (
+              <li key={to} className="mr-4">
+                <Link
+                  className={`inline-block px-4 py-3 text-lg transition-colors ${isActive(to) ? activeLinkClass : inactiveLinkClass}`}
+                  to={to}
+                >
+                  {label}
+                </Link>
               </li>
-              <li className="mr-1 md:mr-4">
-                <Link className="inline-block text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900 rounded-l-full rounded-r-full px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-lg transition-colors" to="/posts">Posts</Link>
-              </li>
-              <li className="mr-1 md:mr-4">
-                <Link className="inline-block text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900 rounded-l-full rounded-r-full px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-lg transition-colors" to="/chirps">Chirps</Link>
-              </li>
-              {/* <li className="mr-1 md:mr-4">
-                <Link className="inline-block text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900 rounded-l-full rounded-r-full px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-lg transition-colors" to="/library">Library</Link>
-              </li> */}
+            ))}
+          </ul>
+        </nav>
+        <button
+          className="md:hidden p-2 text-gray-700 hover:text-brand transition-colors"
+          aria-label="Toggle menu"
+          onClick={() => setMenuOpen(open => !open)}
+        >
+          <div className="w-5 h-4 flex flex-col justify-between">
+            <span className={`block h-0.5 bg-current rounded-full transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-[7px]' : ''}`} />
+            <span className={`block h-0.5 bg-current rounded-full transition-all duration-300 ${menuOpen ? 'opacity-0' : ''}`} />
+            <span className={`block h-0.5 bg-current rounded-full transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-[7px]' : ''}`} />
+          </div>
+        </button>
+      </div>
+      {menuOpen && (
+        <>
+          <div
+            className="md:hidden fixed inset-0 z-40"
+            onClick={() => setMenuOpen(false)}
+          />
+          <div className="md:hidden absolute left-4 right-4 z-50 mt-2 rounded-2xl bg-white shadow-xl ring-1 ring-black/5 overflow-hidden">
+            <ul>
+              {navLinks.map(({ label, to }, index) => (
+                <li key={to}>
+                  {index > 0 && <div className="mx-4 border-t border-gray-100" />}
+                  <Link
+                    className={`flex items-center justify-center px-5 py-4 text-base font-medium transition-colors ${isActive(to) ? activeLinkClass : inactiveLinkClass}`}
+                    to={to}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
-          <button
-            id="dark-mode-toggle"
-            onClick={() => {
-              if (typeof window !== 'undefined' && (window as any).toggleDarkMode) {
-                (window as any).toggleDarkMode()
-              }
-            }}
-            type="button"
-            role="switch"
-            aria-checked="false"
-            aria-label="Toggle dark mode"
-            className="ml-2 sm:ml-4 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 dark:bg-gray-700 transition-colors duration-200 ease-in-out focus:outline-none"
-          >
-            <span className="sr-only">Toggle dark mode</span>
-            <span className="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out translate-x-0 dark:translate-x-5"></span>
-            <svg className="sun-icon absolute left-0.5 top-0.5 h-4 w-4 text-yellow-500 opacity-0 dark:opacity-100 transition-opacity duration-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd"></path>
-            </svg>
-            <svg className="moon-icon absolute right-0.5 top-0.5 h-4 w-4 text-gray-400 opacity-100 dark:opacity-0 transition-opacity duration-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-            </svg>
-          </button>
-        </nav>
-      </div>
+        </>
+      )}
     </div>
   )
 }
