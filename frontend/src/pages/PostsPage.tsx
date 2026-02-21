@@ -20,7 +20,7 @@ export default function PostsPage() {
     <div className="container mx-auto px-4 max-w-none pb-24 md:pb-0" style={{ flex: 1 }}>
       <h1 className="text-center text-5xl font-bold mt-8 md:mt-16 mb-16 text-gray-900 dark:text-gray-100">Posts</h1>
       <div className="mt-12">
-        <div className="text-center">
+        <div>
           {yearGroups.map(([year, yearPosts]) => (
             <div key={year} className="mb-16">
               <h2 className="text-4xl font-bold mb-8 text-gray-400 dark:text-gray-600">{year}</h2>
@@ -34,7 +34,7 @@ export default function PostsPage() {
                       {post.title}
                     </Link>
                   </h3>
-                  <div className="flex flex-wrap items-center justify-center gap-2 mb-2">
+                  <div className="flex flex-wrap items-center gap-2 mb-2">
                     <p className="text-brand">{formatTime(post.publishedDate)}</p>
                     {post.tags && post.tags.length > 0 && (
                       <>
