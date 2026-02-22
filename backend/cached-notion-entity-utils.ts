@@ -1,5 +1,5 @@
-import { Cache } from './cache';
-import { Content } from './entity';
+import { Cache } from './cache.js';
+import { Content } from './entity.js';
 
 export async function fetchCachedPageByName(cache: Cache, pageName: string): Promise<Content> {
   const cacheKey = `page_${pageName}`;

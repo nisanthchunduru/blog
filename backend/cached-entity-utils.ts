@@ -1,5 +1,5 @@
 import pluralize from 'pluralize';
-import { Cache } from './cache';
+import { Cache } from './cache.js';
 
 export async function fetchCachedEntities<T>(cache: Cache, entityName: string): Promise<T[]> {
   const pluralizedEntityName = pluralize(entityName);

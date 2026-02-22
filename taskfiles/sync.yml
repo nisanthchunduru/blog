@@ -1,0 +1,20 @@
+version: "3"
+
+vars:
+  AWS_REGION: us-east-1
+  SYNC_LAMBDA_NAME: blog-sync
+
+tasks:
+  invoke:
+    desc: "Trigger the sync Lambda to refresh the S3 cache from Notion"
+    cmds:
+      - aws lambda invoke
+        --function-name {{.SYNC_LAMBDA_NAME}}
+        --invocation-type RequestResponse
+        --log-type Tail
+        --region {{.AWS_REGION}}
+        /tmp/sync-response.json
+        --query 'LogResult'
+        --output text | base64 -d
+      - echo "---"
+      - cat /tmp/sync-response.json

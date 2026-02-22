@@ -1,8 +1,8 @@
 import { Router } from 'express'
-import { FilesystemCache } from '../filesystem_cache'
+import { createCache } from '../cache_factory.js'
 
 const router = Router()
-const cache = new FilesystemCache()
+const cache = createCache()
 
 router.get('/', async (req, res) => {
   try {

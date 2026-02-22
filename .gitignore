@@ -26,3 +26,6 @@ out/
 # Vercel
 .vercel
 
+# Terraform
+infra/terraform.tfstate
+infra/terraform.tfstate.backup

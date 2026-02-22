@@ -1,0 +1,48 @@
+version: "3"
+
+tasks:
+  build-backend:
+    desc: "Compile backend TypeScript and package into Lambda zip"
+    dir: backend
+    cmds:
+      - npm run build
+      - rm -f dist/lambda.zip
+      - zip -r dist/lambda.zip dist/ node_modules/ package.json -x "node_modules/.cache/*"
+      - cd .. && zip -r backend/dist/lambda.zip config/
+
+  build-frontend:
+    desc: "Build frontend Vite app into static assets"
+    dir: frontend
+    cmds:
+      - npm run build
+
+  terraform-apply:
+    desc: "Apply Terraform to provision/update AWS infrastructure"
+    dir: infra
+    dotenv: ['../.env']
+    cmds:
+      - terraform init
+      - terraform apply -auto-approve
+        -var="notion_token=${NOTION_TOKEN}"
+        -var="content_notion_url=${CONTENT_NOTION_URL}"
+        -var="terraform_state_bucket=${TERRAFORM_STATE_BUCKET}"
+
+  sync-frontend-to-s3:
+    desc: "Sync built frontend assets to S3 bucket"
+    cmds:
+      - aws s3 sync frontend/dist/ s3://blog-frontend-bucket-607420117092 --delete
+
+  invalidate-frontend-cloudfront-distribution:
+    desc: "Invalidate CloudFront cache after frontend upload"
+    dir: infra
+    cmds:
+      - bash -c 'DISTRIBUTION_ID=$(terraform output -raw cloudfront_distribution_id) && aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths "/*"'
+
+  run:
+    desc: "Deploy to AWS"
+    cmds:
+      - task: build-backend
+      - task: build-frontend
+      - task: terraform-apply
+      - task: sync-frontend-to-s3
+      - task: invalidate-frontend-cloudfront-distribution

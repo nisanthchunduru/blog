@@ -1,10 +1,10 @@
 import dotenv from 'dotenv';
 import pluralize from 'pluralize';
-import { Cache } from '../cache';
-import { Entity } from '../entity';
-import { fetchEntities } from '../entity-utils';
-import { FilesystemCache } from '../filesystem_cache';
-import { fetchNotionPageByName } from '../notion_utils';
+import { Cache } from '../cache.js';
+import { Entity } from '../entity.js';
+import { fetchEntities } from '../entity-utils.js';
+import { FilesystemCache } from '../filesystem_cache.js';
+import { fetchNotionPageByName } from '../notion_utils.js';
 
 dotenv.config();
 
@@ -33,7 +33,7 @@ async function cachePageByName(cache: Cache, pageName: string): Promise<void> {
   }
 }
 
-async function syncCache(cache: Cache): Promise<void> {
+export async function syncCache(cache: Cache): Promise<void> {
   console.log('Starting cache sync...');
   await Promise.all([
     cacheEntities(cache, 'post'),

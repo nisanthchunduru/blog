@@ -1,4 +1,4 @@
-import { Entity } from './entity'
+import { Entity, Slugable } from './entity.js'
 
 export function sortBy<T extends Record<string, any>>(
   items: T[],
@@ -25,6 +25,6 @@ export function formatTime(dateString: string): string {
   })
 }
 
-export function contentPath(entity: Entity): string {
+export function contentPath(entity: Entity & Slugable): string {
   return `/${entity.name}s/${entity.slug}`
 }

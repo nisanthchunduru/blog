@@ -1,5 +1,5 @@
 import { Client } from '@notionhq/client';
-import { fetchAllBlocks } from './notion_utils';
+import { fetchAllBlocks } from './notion_utils.js';
 
 interface RichText {
   plain_text?: string;

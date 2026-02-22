@@ -1,9 +1,9 @@
 import pluralize from 'pluralize';
 import slugify from 'slugify';
-import { Cache, NullCache } from './cache';
-import { Book, Chirp, Entity, Post } from './entity';
-import { formatNotionBlocks } from './notion_page_html_utils';
-import { EntitySchema, NotionPage, fetchCachedPageBlocks, fetchEntityProps, fetchNotionDatabasePages, getNotionClient, loadEntityNotionDatabaseSchema } from './notion_utils';
+import { Cache, NullCache } from './cache.js';
+import { Book, Chirp, Entity, Post } from './entity.js';
+import { formatNotionBlocks } from './notion_page_html_utils.js';
+import { EntitySchema, NotionPage, fetchCachedPageBlocks, fetchEntityProps, fetchNotionDatabasePages, getNotionClient, loadEntityNotionDatabaseSchema } from './notion_utils.js';
 
 export async function transformNotionPageToEntity<T extends Entity>(
   page: NotionPage,

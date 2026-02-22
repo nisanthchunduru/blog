@@ -1,10 +1,10 @@
 import { Router } from 'express'
-import { fetchCachedEntities, fetchCachedEntityBySlug } from '../cached-entity-utils'
-import { Chirp } from '../entity'
-import { FilesystemCache } from '../filesystem_cache'
+import { createCache } from '../cache_factory.js'
+import { fetchCachedEntities, fetchCachedEntityBySlug } from '../cached-entity-utils.js'
+import { Chirp } from '../entity.js'
 
 const router = Router()
-const cache = new FilesystemCache()
+const cache = createCache()
 
 router.get('/', async (req, res) => {
   try {

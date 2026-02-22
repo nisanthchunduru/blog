@@ -6,6 +6,14 @@ vars:
   DESTINATION_DIR: /opt/blog
   IMAGE_NAME: nisanth074/blog:latest
 
+includes:
+  deploy2aws:
+    taskfile: ./taskfiles/aws-deployment.yml
+    dir: .
+  sync:
+    taskfile: ./taskfiles/sync.yml
+    dir: .
+
 tasks:
   build-image:
     desc: Build prod Docker image
@@ -65,17 +73,7 @@ tasks:
       - ssh {{.SERVER_USER}}@{{.SERVER_IP}} "cd {{.DESTINATION_DIR}} && docker compose logs -f"
 
   deploy:
-    desc: Deploy via Docker Hub
-    cmds:
-      - task: build-image
-      - task: push-image-to-dockerhub
-      - task: copy-env
-      - task: copy-compose
-      - task: stop
-      - ssh {{.SERVER_USER}}@{{.SERVER_IP}} "cd {{.DESTINATION_DIR}} && docker compose up -d --pull always"
-
-  deploy-direct:
-    desc: Deploy directly via rsync (requires skopeo on both machines)
+    desc: Deploy
     cmds:
       - task: build-image
       - task: export-image-layers
@@ -85,3 +83,18 @@ tasks:
       - task: copy-env
       - task: copy-compose
       - task: restart
+
+  deploy-via-dockerhub:
+    desc: Deploy via Docker Hub
+    cmds:
+      - task: build-image
+      - task: push-image-to-dockerhub
+      - task: copy-env
+      - task: copy-compose
+      - task: stop
+      - ssh {{.SERVER_USER}}@{{.SERVER_IP}} "cd {{.DESTINATION_DIR}} && docker compose up -d --pull always"
+
+  deploy2aws:
+    desc: "Deploy to AWS"
+    cmds:
+      - task: deploy2aws:run

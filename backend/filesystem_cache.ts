@@ -2,7 +2,7 @@ import CacheModule from 'file-system-cache';
 const Cache = (CacheModule as any).default || CacheModule;
 import * as fs from 'fs';
 import * as path from 'path';
-import { Cache as CacheInterface } from './cache';
+import { Cache as CacheInterface } from './cache.js';
 
 const DEFAULT_CACHE_DURATION = 30 * 24 * 60 * 60;
 

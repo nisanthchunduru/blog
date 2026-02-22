@@ -2,9 +2,9 @@ import { Client } from '@notionhq/client';
 import * as fs from 'fs';
 import * as yaml from 'js-yaml';
 import * as path from 'path';
-import { Cache, NullCache } from './cache';
-import { Content } from './entity';
-import { fetchNotionPageBlocks, formatNotionBlocks } from './notion_page_html_utils';
+import { Cache, NullCache } from './cache.js';
+import { Content } from './entity.js';
+import { fetchNotionPageBlocks, formatNotionBlocks } from './notion_page_html_utils.js';
 
 export interface EntitySchema {
   name: string;
@@ -311,5 +311,5 @@ export async function fetchAllDatabasePages(client: Client, databaseId: string, 
   return pages;
 }
 
-export { fetchBooks, fetchChirps, fetchEntities, fetchPosts, transformNotionPageToBook, transformNotionPageToChirp, transformNotionPageToEntity, transformNotionPageToPost } from './entity-utils';
+export { fetchBooks, fetchChirps, fetchEntities, fetchPosts, transformNotionPageToBook, transformNotionPageToChirp, transformNotionPageToEntity, transformNotionPageToPost } from './entity-utils.js';
 
