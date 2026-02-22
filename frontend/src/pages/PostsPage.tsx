@@ -1,6 +1,7 @@
 import { Link, useLoaderData } from 'react-router-dom'
 import { Post } from '../types'
 import { sortBy, formatTime, contentPath } from '../utils'
+import Tags from '../components/Tags'
 
 function postsByYear(posts: Post[]): [number, Post[]][] {
   const grouped = new Map<number, Post[]>()
@@ -35,20 +36,11 @@ export default function PostsPage() {
                     </Link>
                   </h3>
                   <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <p className="text-brand">{formatTime(post.publishedDate)}</p>
+                    <p className="text-gray-500 dark:text-gray-400">{formatTime(post.publishedDate)}</p>
                     {post.tags && post.tags.length > 0 && (
                       <>
                         <span className="text-gray-400 dark:text-gray-500">•</span>
-                        <div className="flex flex-wrap gap-2">
-                          {post.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-brand/10 text-brand"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
+                        <Tags tags={post.tags} />
                       </>
                     )}
                   </div>

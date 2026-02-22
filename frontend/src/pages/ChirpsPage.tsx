@@ -1,6 +1,7 @@
 import { useLoaderData } from 'react-router-dom'
 import { Chirp } from '../types'
 import { sortBy, formatTime } from '../utils'
+import Tags from '../components/Tags'
 
 export default function ChirpsPage() {
   const data = useLoaderData() as Chirp[]
@@ -23,15 +24,8 @@ export default function ChirpsPage() {
                 <div dangerouslySetInnerHTML={{ __html: chirp.html }} />
               </div>
               {chirp.tags && chirp.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-3">
-                  {chirp.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-brand/10 text-brand"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                <div className="mt-3">
+                  <Tags tags={chirp.tags} />
                 </div>
               )}
             </div>

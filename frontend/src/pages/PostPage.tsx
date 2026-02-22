@@ -1,6 +1,7 @@
 import { useLoaderData } from 'react-router-dom'
 import { Post } from '../types'
 import { formatTime } from '../utils'
+import Tags from '../components/Tags'
 
 export default function PostPage() {
   const post = useLoaderData() as Post | null
@@ -14,16 +15,7 @@ export default function PostPage() {
           {post.tags && post.tags.length > 0 && (
             <>
               <span className="text-gray-400 dark:text-gray-500">•</span>
-              <div className="flex flex-wrap gap-2">
-                {post.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-brand/10 text-brand"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+              <Tags tags={post.tags} />
             </>
           )}
         </div>
