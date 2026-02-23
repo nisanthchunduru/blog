@@ -29,4 +29,7 @@ out/
 # Terraform
 infra/.terraform/
 infra/terraform.tfstate
-infra/terraform.tfstate.backup
+infra/terraform.tfstate.backupG
+
+.kiro/specs/
+
