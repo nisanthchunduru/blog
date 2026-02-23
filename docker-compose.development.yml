@@ -5,9 +5,9 @@ services:
       dockerfile: Dockerfile-frontend.development
     volumes:
       - .:/workspace
-      - /workspace/node_modules
-      - /workspace/frontend/node_modules
-      - /workspace/backend/node_modules
+      - node_modules:/workspace/node_modules
+      - frontend_node_modules:/workspace/frontend/node_modules
+      - backend_node_modules:/workspace/backend/node_modules
     ports:
       - "3000:3000"
     environment:
@@ -20,9 +20,9 @@ services:
     working_dir: /workspace
     volumes:
       - .:/workspace
-      - /workspace/node_modules
-      - /workspace/backend/node_modules
-      - /workspace/frontend/node_modules
+      - node_modules:/workspace/node_modules
+      - frontend_node_modules:/workspace/frontend/node_modules
+      - backend_node_modules:/workspace/backend/node_modules
       - cache:/workspace/tmp/cache
     ports:
       - "3001:3001"
@@ -43,9 +43,9 @@ services:
     working_dir: /workspace
     volumes:
       - .:/workspace
-      - /workspace/node_modules
-      - /workspace/backend/node_modules
-      - /workspace/frontend/node_modules
+      - node_modules:/workspace/node_modules
+      - frontend_node_modules:/workspace/frontend/node_modules
+      - backend_node_modules:/workspace/backend/node_modules
       - cache:/workspace/tmp/cache
     environment:
       - NODE_ENV=development
@@ -60,3 +60,6 @@ services:
 
 volumes:
   cache:
+  node_modules:
+  frontend_node_modules:
+  backend_node_modules:
