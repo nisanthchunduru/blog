@@ -10,6 +10,9 @@ export default function PostPage() {
     <div className="container mx-auto mt-8 px-4 max-w-none pb-24 md:pb-0" style={{ flex: 1 }}>
       <div className="article mt-6">
         <h1 className="text-center text-4xl font-bold mb-3 text-gray-900 dark:text-gray-100">{post.title}</h1>
+        {post.subheading && (
+          <p className="text-center text-xl text-gray-600 dark:text-gray-400 mb-3">{post.subheading}</p>
+        )}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
           <p className="text-gray-500 dark:text-gray-400">{formatTime(post.publishedDate)}</p>
           {post.tags && post.tags.length > 0 && (

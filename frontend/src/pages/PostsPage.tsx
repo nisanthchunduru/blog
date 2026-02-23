@@ -35,6 +35,11 @@ export default function PostsPage() {
                       {post.title}
                     </Link>
                   </h3>
+                  {post.subheading && (
+                    <p className="mt-1 text-base leading-relaxed text-gray-600 dark:text-gray-400 mb-3 max-w-2xl">
+                      {post.subheading}
+                    </p>
+                  )}
                   <div className="flex flex-wrap items-center gap-2 mb-2">
                     <p className="text-gray-500 dark:text-gray-400">{formatTime(post.publishedDate)}</p>
                     {post.tags && post.tags.length > 0 && (

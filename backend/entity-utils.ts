@@ -70,7 +70,8 @@ export async function transformNotionPageToEntity<T extends Entity>(
       html: entityProperties.content as string,
       slug: slug,
       draft: entityProperties.draft as boolean | undefined,
-      tags: entityProperties.tags as string[] | undefined
+      tags: entityProperties.tags as string[] | undefined,
+      subheading: entityProperties.subheading as string | undefined
     } as unknown as T;
   });
 }

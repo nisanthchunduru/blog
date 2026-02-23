@@ -22,3 +22,9 @@ itemProperties:
     type: multi_select
     extract: names_sorted
     default: []
+  subheading:
+    names:
+      - subheading
+      - Subheading
+    type: rich_text
+    extract: plain_text

@@ -30,7 +30,11 @@ export interface Taggable {
 export interface Content extends Entity, Titleable, Contentable, Publishable, Slugable, Draftable, Taggable {
 }
 
-export interface Post extends Entity, Titleable, Contentable, Publishable, Slugable, Draftable, Taggable {
+export interface Subheadingable {
+  subheading?: string;
+}
+
+export interface Post extends Entity, Titleable, Contentable, Publishable, Slugable, Draftable, Taggable, Subheadingable {
   name: 'post';
 }
 

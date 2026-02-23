@@ -9,6 +9,7 @@ export interface Post extends Entity {
   publishedDate: string
   draft?: boolean
   tags?: string[]
+  subheading?: string
 }
 export interface Chirp extends Entity {
   title: string
