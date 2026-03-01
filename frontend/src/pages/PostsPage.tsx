@@ -19,7 +19,7 @@ export default function PostsPage() {
   const yearGroups = postsByYear(posts)
   return (
     <div className="container mx-auto px-4 max-w-none pb-24 md:pb-0" style={{ flex: 1 }}>
-      <h1 className="text-center text-5xl font-light mt-8 md:mt-16 mb-16 text-gray-900 dark:text-gray-100">Posts</h1>
+      <h1 className="text-center text-5xl font-light mt-8 mb-8 md:mt-16 md:mb-16 text-gray-900 dark:text-gray-100">Posts</h1>
       <div className="mt-12">
         <div>
           {yearGroups.map(([year, yearPosts]) => (

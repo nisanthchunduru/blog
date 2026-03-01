@@ -24,3 +24,25 @@ export function formatTime(dateString: string): string {
 export function contentPath(entity: Entity): string {
   return `/${entity.name}s/${entity.slug}`
 }
+
+function truncateTextWithEllipsis(content: string, maximumLength: number): string {
+  if (content.length <= maximumLength) return content
+  return `${content.slice(0, maximumLength - 3).trimEnd()}...`
+}
+
+export function formatChirpHtml(chirpHtml: string, maximumLinkTextLength = 80): string {
+  if (typeof DOMParser === 'undefined') return chirpHtml
+  const htmlParser = new DOMParser()
+  const chirpDocument = htmlParser.parseFromString(chirpHtml, 'text/html')
+  const linkElements = chirpDocument.querySelectorAll('a')
+  linkElements.forEach((linkElement) => {
+    const fullLinkText = linkElement.textContent?.trim() ?? ''
+    if (!fullLinkText) return
+    const truncatedLinkText = truncateTextWithEllipsis(fullLinkText, maximumLinkTextLength)
+    if (truncatedLinkText !== fullLinkText) {
+      linkElement.textContent = truncatedLinkText
+      linkElement.title = fullLinkText
+    }
+  })
+  return chirpDocument.body.innerHTML
+}

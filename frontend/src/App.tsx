@@ -16,7 +16,14 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
-        loader: () => fetch('/api/about').then(res => res.json()),
+        loader: async () => {
+          const [page, chirps, posts] = await Promise.all([
+            fetch('/api/about').then(res => res.json()),
+            fetch('/api/chirps').then(res => res.json()),
+            fetch('/api/posts').then(res => res.json()),
+          ])
+          return { page, chirps, posts }
+        },
       },
       {
         path: 'about',
