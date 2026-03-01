@@ -19,15 +19,15 @@ export default function PostsPage() {
   const yearGroups = postsByYear(posts)
   return (
     <div className="container mx-auto px-4 max-w-none pb-24 md:pb-0" style={{ flex: 1 }}>
-      <h1 className="text-center text-5xl font-bold mt-8 md:mt-16 mb-16 text-gray-900 dark:text-gray-100">Posts</h1>
+      <h1 className="text-center text-5xl font-light mt-8 md:mt-16 mb-16 text-gray-900 dark:text-gray-100">Posts</h1>
       <div className="mt-12">
         <div>
           {yearGroups.map(([year, yearPosts]) => (
             <div key={year} className="mb-16">
-              <h2 className="text-4xl font-bold mb-8 text-gray-400 dark:text-gray-600">{year}</h2>
+              <h2 className="text-4xl font-light mb-8 text-gray-400 dark:text-gray-600">{year}</h2>
               {yearPosts.map((post) => (
                 <div key={post.id} className="mt-10">
-                  <h3 className="text-2xl sm:text-3xl font-bold mb-3">
+                  <h3 className="text-2xl sm:text-3xl font-light mb-3">
                     <Link
                       className="text-gray-900 dark:text-gray-100 hover:text-brand dark:hover:text-brand-light transition-colors"
                       to={contentPath(post)}

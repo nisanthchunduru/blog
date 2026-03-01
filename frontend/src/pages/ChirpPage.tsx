@@ -8,7 +8,7 @@ export default function ChirpPage() {
   return (
     <div className="container mx-auto mt-8 px-4 max-w-none pb-24 md:pb-0" style={{ flex: 1 }}>
       <div className="article mt-6">
-        <h1 className="text-center text-4xl font-bold mb-3 text-gray-900 dark:text-gray-100">{chirp.title}</h1>
+        <h1 className="text-center text-4xl font-heading font-normal mb-3 text-gray-900 dark:text-gray-100">{chirp.title}</h1>
         <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
           <p className="text-gray-500 dark:text-gray-400">{formatTime(chirp.publishedDate)}</p>
           {chirp.tags && chirp.tags.length > 0 && (

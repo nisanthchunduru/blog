@@ -1,3 +1,5 @@
+@import url("https://api.fontshare.com/v2/css?f[]=clash-display@400&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,11 +15,15 @@ html {
 body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: subpixel-antialiased;
-  font-family: "Manrope", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: #F5F0E8;
+  font-family: "Libre Franklin", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #fff;
 }
 h1, h2, h3, h4, h5, h6 {
-  font-family: "DM Serif Display", serif;
+  font-family: "Clash Display", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0;
 }
 .dark body {
   background-color: #1C1610;

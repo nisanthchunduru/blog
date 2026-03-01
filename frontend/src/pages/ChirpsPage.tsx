@@ -8,7 +8,7 @@ export default function ChirpsPage() {
   const chirps = sortBy(data.filter(chirp => !chirp.draft), 'publishedDate', 'desc')
   return (
     <div className="container mx-auto px-4 pb-24 md:pb-0" style={{ flex: 1, maxWidth: '600px' }}>
-      <h1 className="text-center text-5xl font-bold mt-8 md:mt-16 mb-16 text-gray-900 dark:text-gray-100">Chirps</h1>
+      <h1 className="text-center text-5xl font-light mt-8 md:mt-16 mb-16 text-gray-900 dark:text-gray-100">Chirps</h1>
       <div>
         {chirps.map((chirp) => (
           <article

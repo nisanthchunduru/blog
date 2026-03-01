@@ -34,11 +34,11 @@ export default function Layout() {
         <link rel="icon" href="/images/square-profile-photo.jpg" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300..700&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,300..700;1,300..700&display=swap" />
         <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
         <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" media="none" />
       </Helmet>
-      <div className="flex flex-col bg-brand-muted dark:bg-brand-dark" style={{ minHeight: '100vh' }}>
+      <div className="flex flex-col dark:bg-brand-dark" style={{ minHeight: '100vh' }}>
         <TopLoadingBar />
         <Header />
         <Outlet />

@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        heading: ['"DM Serif Display"', 'serif'],
+        heading: ['"Clash Display"', 'sans-serif'],
+        sans: ['"Libre Franklin"', 'system-ui', 'sans-serif'],
       },
       colors: {
         brand: {

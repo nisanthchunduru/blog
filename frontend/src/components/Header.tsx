@@ -19,7 +19,7 @@ export default function Header() {
       <div className="container mx-auto px-4 max-w-[768px] flex justify-between items-center">
         <Link
           to="/"
-          className="flex items-center gap-2.5 font-heading text-2xl sm:text-3xl text-gray-900 hover:text-brand transition-colors"
+          className="flex items-center gap-2.5 font-heading font-normal text-2xl sm:text-3xl text-gray-900 hover:text-brand transition-colors"
         >
           <svg className="w-7 h-7 sm:w-8 sm:h-8 flex-shrink-0" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M20 3L37 12.5L20 22L3 12.5Z" fill="#E8470C"/>
