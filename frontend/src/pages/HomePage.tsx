@@ -15,7 +15,7 @@ export default function HomePage() {
         </div>
       </div>
       <section className="mx-auto max-w-[720px] mt-14 md:mt-16">
-        <h2 className="text-3xl font-light mt-0 mb-6 md:mb-8 text-gray-900 dark:text-gray-100">Latest Posts</h2>
+        <h2 className="text-3xl font-light mt-0 mb-6 md:mb-8 text-violet-950 dark:text-violet-300">Latest Posts</h2>
         {recentPosts.map(post => (
           <article key={post.id} className="py-5 border-b border-gray-200 dark:border-gray-700">
             <h3 className="text-2xl font-light mb-2">
@@ -52,7 +52,7 @@ export default function HomePage() {
             chirps={chirps}
             title="Latest Chirps"
             limit={3}
-            titleClassName="text-3xl font-light mt-0 mb-6 md:mb-8 text-gray-900 dark:text-gray-100"
+            titleClassName="text-3xl font-light mt-0 mb-6 md:mb-8 text-violet-950 dark:text-violet-300"
           />
         </div>
         <div className="mt-5">

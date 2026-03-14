@@ -6,7 +6,7 @@ export default function ChirpsFeed({
   chirps,
   title = 'Chirps',
   limit,
-  titleClassName = 'text-center text-5xl font-light mt-8 mb-8 md:mt-16 md:mb-16 text-gray-900 dark:text-gray-100'
+  titleClassName = 'text-center text-5xl font-light mt-8 mb-8 md:mt-16 md:mb-16 text-violet-950 dark:text-violet-300'
 }: {
   chirps: Chirp[]
   title?: string
@@ -34,7 +34,7 @@ export default function ChirpsFeed({
       <div>
         {chirpsByMonthAndYear.map(({ monthAndYear, chirps: monthlyChirps }) => (
           <section key={monthAndYear} className="mb-8 last:mb-0">
-            <h2 className="text-lg font-medium text-gray-700 dark:text-gray-300 px-1 mb-4">{monthAndYear}</h2>
+            <h2 className="text-lg font-medium text-violet-800 dark:text-violet-400 px-1 mb-4">{monthAndYear}</h2>
             <div className="relative">
               <div className="absolute left-6 top-0 bottom-0 w-px bg-gray-200 dark:bg-gray-700" aria-hidden="true" />
               {monthlyChirps.map(chirp => (
@@ -44,7 +44,7 @@ export default function ChirpsFeed({
                   </span>
                   <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3">
                     <div
-                      className="text-gray-900 dark:text-gray-100 leading-relaxed"
+                      className="chirp-content text-gray-900 dark:text-gray-100 leading-relaxed"
                       style={{ wordWrap: 'break-word', lineHeight: 1.6 }}
                     >
                       <div dangerouslySetInnerHTML={{ __html: chirp.html }} />
