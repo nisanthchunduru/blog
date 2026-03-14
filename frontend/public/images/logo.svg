@@ -25,8 +25,8 @@
   <polygon class="st3" points="110 20 180 60 110 100 40 60"/>
   <polygon class="st1" points="180 60 110 100 110 180 180 140"/>
   <polygon class="st0" points="40 60 110 100 110 180 40 140"/>
-  <polygon class="st4" points="40 60 66 75 66 155 40 140"/>
-  <polygon class="st4" points="84 85 110 100 110 180 84 165"/>
-  <polygon class="st4" points="66 75 84 85 84 105 66 95"/>
-  <polygon class="st2" points="66 155 84 141.22 84 165"/>
+  <polygon class="st4" points="40 60 66 74.86 66 154.86 40 140"/>
+  <polygon class="st4" points="84 85.14 110 100 110 180 84 165.14"/>
+  <polygon class="st4" points="66 74.86 84 85.14 84 105.14 66 94.86"/>
+  <polygon class="st2" points="66 154.86 84 141.22 84 165.14"/>
 </svg>
