@@ -3,23 +3,23 @@
   <defs>
     <style>
       .st0 {
-        fill: #bdbdbd;
+        fill: #C4B5FD;
       }
 
       .st1 {
-        fill: #9a9a9a;
+        fill: #A78BFA;
       }
 
       .st2 {
-        fill: #fff;
+        fill: #EDE9FE;
       }
 
       .st3 {
-        fill: #dcdcdc;
+        fill: #DDD6FE;
       }
 
       .st4 {
-        fill: #222;
+        fill: #7C3AED;
       }
     </style>
   </defs>
