@@ -15,18 +15,13 @@ export default function Header() {
   const isActive = (to: string) => pathname === to || (to !== '/' && pathname.startsWith(to))
 
   return (
-    <div className="pt-4 sm:pt-6 md:pt-8 pb-3 sm:pb-4 relative border-b border-brand/20">
+    <div className="pt-4 sm:pt-6 md:pt-8 pb-3 sm:pb-4 relative">
       <div className="container mx-auto px-4 max-w-[768px] flex justify-between items-center">
         <Link
           to="/"
           className="flex items-center gap-2.5 font-heading font-normal text-2xl sm:text-3xl text-gray-900 hover:text-brand transition-colors"
         >
-          <svg className="w-7 h-7 sm:w-8 sm:h-8 flex-shrink-0" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 3L37 12.5L20 22L3 12.5Z" fill="#7C3AED"/>
-            <path d="M3 19.5L20 29L37 19.5" stroke="#7C3AED" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/>
-            <path d="M3 27L20 36.5L37 27" stroke="#7C3AED" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.4"/>
-          </svg>
-          Nisanth Chunduru
+          <img src="/images/logo.svg" alt="Logo" className="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0" />
         </Link>
         <nav className="hidden md:flex items-center bg-violet-100 dark:bg-violet-900/30 px-4 py-1.5 rounded-lg">
           <ul className="flex items-center gap-2">
