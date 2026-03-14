@@ -26,7 +26,7 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0;
 }
 .dark body {
-  background-color: #1C1610;
+  background-color: #1a1a2e;
 }
 pre {
   background-color: #FCFCFC !important;
@@ -48,7 +48,15 @@ hr {
   border-top: 1px solid #374151;
 }
 .prose a {
-  color: #E8470C;
+  color: #7C3AED;
+}
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  font-family: "Clash Display", sans-serif;
+  font-weight: 400;
+  color: #2e1065;
+}
+.dark .prose h1, .dark .prose h2, .dark .prose h3, .dark .prose h4, .dark .prose h5, .dark .prose h6 {
+  color: #A78BFA;
 }
 .text-authy-red {
   color: rgba(177, 15, 35, 1) !important;

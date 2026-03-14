@@ -12,10 +12,10 @@ export default {
       },
       colors: {
         brand: {
-          DEFAULT: '#E8470C',
-          light: '#F4895F',
-          muted: '#F5F0E8',
-          dark: '#1C1610',
+          DEFAULT: '#7C3AED',
+          light: '#A78BFA',
+          muted: '#EDE9FE',
+          dark: '#1a1a2e',
         },
       },
     },

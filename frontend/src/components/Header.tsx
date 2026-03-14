@@ -22,9 +22,9 @@ export default function Header() {
           className="flex items-center gap-2.5 font-heading font-normal text-2xl sm:text-3xl text-gray-900 hover:text-brand transition-colors"
         >
           <svg className="w-7 h-7 sm:w-8 sm:h-8 flex-shrink-0" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 3L37 12.5L20 22L3 12.5Z" fill="#E8470C"/>
-            <path d="M3 19.5L20 29L37 19.5" stroke="#E8470C" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/>
-            <path d="M3 27L20 36.5L37 27" stroke="#E8470C" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.4"/>
+            <path d="M20 3L37 12.5L20 22L3 12.5Z" fill="#7C3AED"/>
+            <path d="M3 19.5L20 29L37 19.5" stroke="#7C3AED" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/>
+            <path d="M3 27L20 36.5L37 27" stroke="#7C3AED" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.4"/>
           </svg>
           Nisanth Chunduru
         </Link>
