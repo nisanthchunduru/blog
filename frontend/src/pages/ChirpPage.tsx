@@ -4,9 +4,9 @@ import { formatTime } from '../utils'
 
 export default function ChirpPage() {
   const chirp = useLoaderData() as Chirp | null
-  if (!chirp) return <div className="container mx-auto mt-8 px-4 max-w-none pb-24 md:pb-0" style={{ flex: 1 }}>Chirp not found</div>
+  if (!chirp) return <div className="container mx-auto mt-8 px-4 max-w-none pb-24 md:pb-16" style={{ flex: 1 }}>Chirp not found</div>
   return (
-    <div className="container mx-auto mt-8 px-4 max-w-none pb-24 md:pb-0" style={{ flex: 1 }}>
+    <div className="container mx-auto mt-8 px-4 max-w-none pb-24 md:pb-16" style={{ flex: 1 }}>
       <div className="article mt-6">
         <h1 className="text-center text-4xl font-heading font-normal mb-3 text-violet-950 dark:text-brand-light">{chirp.title}</h1>
         <div className="flex flex-wrap items-center justify-center gap-2 mb-12">

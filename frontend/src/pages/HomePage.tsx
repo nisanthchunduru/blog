@@ -8,7 +8,7 @@ export default function HomePage() {
   const { page, chirps, posts } = useLoaderData() as { page: { html: string }; chirps: Chirp[]; posts: Post[] }
   const recentPosts = sortBy(posts.filter(post => !post.draft), 'publishedDate', 'desc').slice(0, 3)
   return (
-    <div className="container mx-auto px-4 mt-4 md:mt-12 pb-24 md:pb-0" style={{ flex: 1 }}>
+    <div className="container mx-auto px-4 mt-4 md:mt-12 pb-24 md:pb-16" style={{ flex: 1 }}>
       <div className="mx-auto max-w-none prose-h1:text-center">
         <div className="prose sm:prose-lg dark:prose-invert relative" style={{ textAlign: 'left', overflowWrap: 'break-word' }}>
           <div dangerouslySetInnerHTML={{ __html: page.html }} />

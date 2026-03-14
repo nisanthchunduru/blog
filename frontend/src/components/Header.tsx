@@ -28,18 +28,38 @@ export default function Header() {
           </svg>
           Nisanth Chunduru
         </Link>
-        <nav className="hidden md:flex items-center gap-1">
-          <ul className="flex items-center">
+        <nav className="hidden md:flex items-center bg-violet-100 dark:bg-violet-900/30 px-4 py-1.5 rounded-lg">
+          <ul className="flex items-center gap-2">
             {navLinks.map(({ label, to }) => (
-              <li key={to} className="mr-4">
+              <li key={to}>
                 <Link
-                  className={`inline-block px-4 py-3 text-lg transition-colors ${isActive(to) ? activeLinkClass : inactiveLinkClass}`}
+                  className={`inline-block px-3 py-1 text-sm font-medium transition-colors ${isActive(to) ? activeLinkClass : inactiveLinkClass}`}
                   to={to}
                 >
                   {label}
                 </Link>
               </li>
             ))}
+            <li>
+              <a
+                className="inline-flex items-center px-3 py-1 text-sm font-medium text-gray-800 hover:text-brand transition-colors"
+                href="https://www.linkedin.com/in/nisanthchunduru"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LinkedIn
+              </a>
+            </li>
+            <li>
+              <a
+                className="inline-flex items-center px-3 py-1 text-sm font-medium text-gray-800 hover:text-brand transition-colors"
+                href="https://github.com/nisanthchunduru"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub
+              </a>
+            </li>
           </ul>
         </nav>
         <button

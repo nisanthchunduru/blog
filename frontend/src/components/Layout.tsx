@@ -42,7 +42,7 @@ export default function Layout() {
         <TopLoadingBar />
         <Header />
         <Outlet />
-        <Footer />
+        <Footer className="md:hidden" />
       </div>
     </>
   )

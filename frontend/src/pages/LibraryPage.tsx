@@ -7,7 +7,7 @@ export default function LibraryPage() {
   return (
     <>
       <h1 className="text-center text-5xl font-light mt-8 mb-8 md:mt-16 md:mb-16 text-gray-900 dark:text-gray-100">Library</h1>
-      <div className="container mx-auto px-4 max-w-7xl pb-24 md:pb-0" style={{ flex: 1 }}>
+      <div className="container mx-auto px-4 max-w-7xl pb-24 md:pb-16" style={{ flex: 1 }}>
         <div className="books-grid mb-16 pt-8">
           {books.map((book, index) => (
             <div key={index} className="book-container">
