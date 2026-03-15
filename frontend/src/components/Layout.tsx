@@ -13,7 +13,6 @@ export default function Layout() {
   }, [location.pathname])
 
   useEffect(() => {
-    document.documentElement.classList.remove('dark')
     const script = document.createElement('script')
     script.src = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js'
     script.onload = () => {

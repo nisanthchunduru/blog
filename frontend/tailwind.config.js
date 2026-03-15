@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        heading: ['"Nohemi"', 'system-ui', 'sans-serif'],
+        heading: ['"Quicksand"', 'system-ui', 'sans-serif'],
         sans: ['"Libre Franklin"', 'system-ui', 'sans-serif'],
       },
       colors: {
