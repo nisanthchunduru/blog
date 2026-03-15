@@ -1,5 +1,32 @@
-<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M20 3L37 12.5L20 22L3 12.5Z" fill="#E8470C"/>
-  <path d="M3 19.5L20 29L37 19.5" stroke="#E8470C" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
-  <path d="M3 27L20 36.5L37 27" stroke="#E8470C" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="40 20 140 160">
+  <defs>
+    <style>
+      .st0 {
+        fill: #C4B5FD;
+      }
+
+      .st1 {
+        fill: #A78BFA;
+      }
+
+      .st2 {
+        fill: #EDE9FE;
+      }
+
+      .st3 {
+        fill: #DDD6FE;
+      }
+
+      .st4 {
+        fill: #7C3AED;
+      }
+    </style>
+  </defs>
+  <polygon class="st3" points="110 20 180 60 110 100 40 60"/>
+  <polygon class="st1" points="180 60 110 100 110 180 180 140"/>
+  <polygon class="st0" points="40 60 110 100 110 180 40 140"/>
+  <polygon class="st4" points="40 60 66 74.86 66 154.86 40 140"/>
+  <polygon class="st4" points="84 85.14 110 100 110 180 84 165.14"/>
+  <polygon class="st4" points="66 74.86 84 85.14 84 105.14 66 94.86"/>
+  <polygon class="st2" points="66 154.86 84 141.22 84 165.14"/>
 </svg>
