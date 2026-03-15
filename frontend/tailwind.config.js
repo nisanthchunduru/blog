@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        heading: ['"Clash Display"', 'sans-serif'],
+        heading: ['"Nohemi"', 'system-ui', 'sans-serif'],
         sans: ['"Libre Franklin"', 'system-ui', 'sans-serif'],
       },
       colors: {
