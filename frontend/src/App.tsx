@@ -1,12 +1,18 @@
+import { lazy, Suspense } from 'react'
 import { createBrowserRouter, RouterProvider, redirect } from 'react-router-dom'
 import Layout from './components/Layout'
 import HomePage from './pages/HomePage'
-import PostsPage from './pages/PostsPage'
-import PostPage from './pages/PostPage'
-import ChirpsPage from './pages/ChirpsPage'
-import ChirpPage from './pages/ChirpPage'
-import LibraryPage from './pages/LibraryPage'
-import NotFoundPage from './pages/NotFoundPage'
+
+const PostsPage = lazy(() => import('./pages/PostsPage'))
+const PostPage = lazy(() => import('./pages/PostPage'))
+const ChirpsPage = lazy(() => import('./pages/ChirpsPage'))
+const ChirpPage = lazy(() => import('./pages/ChirpPage'))
+const LibraryPage = lazy(() => import('./pages/LibraryPage'))
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
+
+function LazyRoute({ children }: { children: React.ReactNode }) {
+  return <Suspense fallback={<div className="flex-1" />}>{children}</Suspense>
+}
 
 const router = createBrowserRouter([
   {
@@ -31,32 +37,32 @@ const router = createBrowserRouter([
       },
       {
         path: 'posts',
-        element: <PostsPage />,
+        element: <LazyRoute><PostsPage /></LazyRoute>,
         loader: () => fetch('/api/posts').then(res => res.json()),
       },
       {
         path: 'posts/:slug',
-        element: <PostPage />,
+        element: <LazyRoute><PostPage /></LazyRoute>,
         loader: ({ params }) => fetch(`/api/posts/${params.slug}`).then(res => res.json()),
       },
       {
         path: 'chirps',
-        element: <ChirpsPage />,
+        element: <LazyRoute><ChirpsPage /></LazyRoute>,
         loader: () => fetch('/api/chirps').then(res => res.json()),
       },
       {
         path: 'chirps/:slug',
-        element: <ChirpPage />,
+        element: <LazyRoute><ChirpPage /></LazyRoute>,
         loader: ({ params }) => fetch(`/api/chirps/${params.slug}`).then(res => res.json()),
       },
       {
         path: 'library',
-        element: <LibraryPage />,
+        element: <LazyRoute><LibraryPage /></LazyRoute>,
         loader: () => fetch('/api/library').then(res => res.json()),
       },
       {
         path: '*',
-        element: <NotFoundPage />,
+        element: <LazyRoute><NotFoundPage /></LazyRoute>,
       },
     ],
   },
