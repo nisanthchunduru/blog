@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Nohemi";
-  src: url("https://cdn.jsdelivr.net/npm/@tamagui/font-nohemi@latest/fonts/Nohemi-Light.ttf") format("truetype");
+  src: url("https://cdn.jsdelivr.net/gh/nisanthchunduru/fonts@master/Nohemi/Web-TT/Nohemi-Light.woff2") format("woff2");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
