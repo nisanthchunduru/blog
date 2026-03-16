@@ -3,18 +3,16 @@ version: "3"
 tasks:
   build-backend:
     desc: "Compile backend TypeScript and package into Lambda zip"
-    dir: backend
     cmds:
-      - npm run build
-      - rm -f dist/lambda.zip
-      - zip -r dist/lambda.zip dist/ node_modules/ package.json -x "node_modules/.cache/*"
-      - cd .. && zip -r backend/dist/lambda.zip config/
+      - rm -rf backend/dist
+      - docker build -f Dockerfile.backend-builder --output backend/dist .
+      - zip -r backend/dist/lambda.zip config/
 
   build-frontend:
     desc: "Build frontend Vite app into static assets"
-    dir: frontend
     cmds:
-      - npm run build
+      - rm -rf frontend/dist
+      - docker build -f Dockerfile.frontend-builder --output frontend/dist .
 
   terraform-apply:
     desc: "Apply Terraform to provision/update AWS infrastructure"

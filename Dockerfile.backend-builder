@@ -1,0 +1,12 @@
+FROM node:20-alpine AS builder
+RUN apk add --no-cache zip
+WORKDIR /app
+COPY backend/package*.json ./
+RUN npm ci
+COPY backend/ ./
+RUN npm run build
+RUN rm -f dist/lambda.zip && \
+    zip -r dist/lambda.zip dist/ node_modules/ package.json -x "node_modules/.cache/*"
+
+FROM scratch
+COPY --from=builder /app/dist /
