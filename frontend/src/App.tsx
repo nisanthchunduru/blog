@@ -2,6 +2,14 @@ import { lazy, Suspense } from 'react'
 import { createBrowserRouter, RouterProvider, redirect } from 'react-router-dom'
 import Layout from './components/Layout'
 import HomePage from './pages/HomePage'
+import {
+  loadChirpPageData,
+  loadChirpsPageData,
+  loadHomePageData,
+  loadLibraryPageData,
+  loadPostPageData,
+  loadPostsPageData,
+} from './routing/pageDataLoaders'
 
 const PostsPage = lazy(() => import('./pages/PostsPage'))
 const PostPage = lazy(() => import('./pages/PostPage'))
@@ -22,14 +30,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
-        loader: async () => {
-          const [page, chirps, posts] = await Promise.all([
-            fetch('/api/about').then(res => res.json()),
-            fetch('/api/chirps').then(res => res.json()),
-            fetch('/api/posts').then(res => res.json()),
-          ])
-          return { page, chirps, posts }
-        },
+        loader: loadHomePageData,
       },
       {
         path: 'about',
@@ -38,27 +39,27 @@ const router = createBrowserRouter([
       {
         path: 'posts',
         element: <LazyRoute><PostsPage /></LazyRoute>,
-        loader: () => fetch('/api/posts').then(res => res.json()),
+        loader: loadPostsPageData,
       },
       {
         path: 'posts/:slug',
         element: <LazyRoute><PostPage /></LazyRoute>,
-        loader: ({ params }) => fetch(`/api/posts/${params.slug}`).then(res => res.json()),
+        loader: loadPostPageData,
       },
       {
         path: 'chirps',
         element: <LazyRoute><ChirpsPage /></LazyRoute>,
-        loader: () => fetch('/api/chirps').then(res => res.json()),
+        loader: loadChirpsPageData,
       },
       {
         path: 'chirps/:slug',
         element: <LazyRoute><ChirpPage /></LazyRoute>,
-        loader: ({ params }) => fetch(`/api/chirps/${params.slug}`).then(res => res.json()),
+        loader: loadChirpPageData,
       },
       {
         path: 'library',
         element: <LazyRoute><LibraryPage /></LazyRoute>,
-        loader: () => fetch('/api/library').then(res => res.json()),
+        loader: loadLibraryPageData,
       },
       {
         path: '*',

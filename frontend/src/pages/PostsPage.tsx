@@ -1,4 +1,5 @@
-import { Link, useLoaderData } from 'react-router-dom'
+import { useLoaderData } from 'react-router-dom'
+import PrefetchedLink from '../components/PrefetchedLink'
 import { Post } from '../types'
 import { sortBy, formatTime, contentPath } from '../utils'
 import Tags from '../components/Tags'
@@ -28,12 +29,12 @@ export default function PostsPage() {
               {yearPosts.map((post) => (
                 <div key={post.id} className="mt-10">
                   <h3 className="text-2xl sm:text-3xl font-light mb-3">
-                    <Link
+                    <PrefetchedLink
                       className="text-gray-900 dark:text-gray-100 hover:text-brand dark:hover:text-brand-light transition-colors"
                       to={contentPath(post)}
                     >
                       {post.title}
-                    </Link>
+                    </PrefetchedLink>
                   </h3>
                   {post.subheading && (
                     <p className="mt-1 text-base leading-relaxed text-gray-600 dark:text-gray-400 mb-3 max-w-2xl">

@@ -1,4 +1,5 @@
-import { Link, useLoaderData } from 'react-router-dom'
+import { useLoaderData } from 'react-router-dom'
+import PrefetchedLink from '../components/PrefetchedLink'
 import ChirpsFeed from '../components/ChirpsFeed'
 import Tags from '../components/Tags'
 import { Chirp, Post } from '../types'
@@ -19,12 +20,12 @@ export default function HomePage() {
         {recentPosts.map(post => (
           <article key={post.id} className="py-5 border-b border-gray-200 dark:border-gray-700">
             <h3 className="text-2xl font-light mb-2">
-              <Link
+              <PrefetchedLink
                 className="text-gray-900 dark:text-gray-100 hover:text-brand dark:hover:text-brand-light transition-colors"
                 to={contentPath(post)}
               >
                 {post.title}
-              </Link>
+              </PrefetchedLink>
             </h3>
             {post.subheading && (
               <p className="text-base leading-relaxed text-gray-600 dark:text-gray-400 mb-2">
@@ -43,7 +44,7 @@ export default function HomePage() {
           </article>
         ))}
         <div className="mt-5">
-          <Link className="text-brand hover:underline" to="/posts">View all posts</Link>
+          <PrefetchedLink className="text-brand hover:underline" to="/posts">View all posts</PrefetchedLink>
         </div>
       </section>
       <div className="mx-auto max-w-[720px] mt-14 md:mt-16">
@@ -56,7 +57,7 @@ export default function HomePage() {
           />
         </div>
         <div className="mt-5">
-          <Link className="text-brand hover:underline" to="/chirps">View all chirps</Link>
+          <PrefetchedLink className="text-brand hover:underline" to="/chirps">View all chirps</PrefetchedLink>
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
+import PrefetchedLink from './PrefetchedLink'
 import { useTheme } from '../contexts/ThemeContext'
 
 const navLinks = [
@@ -19,22 +20,22 @@ export default function Header() {
   return (
     <div className="pt-4 sm:pt-6 md:pt-8 pb-3 sm:pb-4 relative">
       <div className="container mx-auto px-4 max-w-[768px] flex justify-between items-center">
-        <Link
+        <PrefetchedLink
           to="/"
           className="flex items-center gap-2.5 font-heading font-normal text-2xl sm:text-3xl text-gray-900 dark:text-gray-100 hover:text-brand dark:hover:text-brand-light transition-colors"
         >
           <img src="/images/logo.svg" alt="Logo" className="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0" />
-        </Link>
+        </PrefetchedLink>
         <nav className="hidden md:flex items-center bg-violet-100 dark:bg-violet-900/30 px-4 py-1.5 rounded-lg">
           <ul className="flex items-center gap-2">
             {navLinks.map(({ label, to }) => (
               <li key={to}>
-                <Link
+                <PrefetchedLink
                   className={`inline-block px-3 py-1 text-sm font-medium transition-colors ${isActive(to) ? activeLinkClass : inactiveLinkClass}`}
                   to={to}
                 >
                   {label}
-                </Link>
+                </PrefetchedLink>
               </li>
             ))}
             <li>
@@ -99,13 +100,13 @@ export default function Header() {
               {navLinks.map(({ label, to }, index) => (
                 <li key={to}>
                   {index > 0 && <div className="mx-4 border-t border-gray-100 dark:border-gray-700" />}
-                  <Link
+                  <PrefetchedLink
                     className={`flex items-center justify-center px-5 py-4 text-base font-medium transition-colors ${isActive(to) ? activeLinkClass : inactiveLinkClass}`}
                     to={to}
                     onClick={() => setMenuOpen(false)}
                   >
                     {label}
-                  </Link>
+                  </PrefetchedLink>
                 </li>
               ))}
             </ul>
