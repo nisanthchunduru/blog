@@ -10,6 +10,7 @@ dotenv.config()
 
 export const app = express()
 
+app.set('etag', true)
 app.use(cors())
 app.use(express.json())
 
