@@ -12,17 +12,6 @@ export default function Layout() {
     window.scrollTo(0, 0)
   }, [location.pathname])
 
-  useEffect(() => {
-    const script = document.createElement('script')
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js'
-    script.onload = () => {
-      (window as any).hljs?.highlightAll()
-    }
-    document.body.appendChild(script)
-    return () => {
-      document.body.removeChild(script)
-    }
-  }, [])
   return (
     <>
       <Helmet>
@@ -34,8 +23,6 @@ export default function Layout() {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,300..700;1,300..700&display=swap" />
-        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
-        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" media="none" />
       </Helmet>
       <div className="flex flex-col dark:bg-brand-dark" style={{ minHeight: '100vh' }}>
         <TopLoadingBar />
