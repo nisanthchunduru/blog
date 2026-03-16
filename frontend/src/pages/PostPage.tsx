@@ -7,9 +7,10 @@ import Highlight from '../components/Highlight'
 export default function PostPage() {
   const post = useLoaderData() as Post | null
   if (!post) return <div className="container mx-auto mt-8 px-4 max-w-none pb-24 md:pb-16" style={{ flex: 1 }}>Post not found</div>
+  const containsCodeBlocks = /<(pre|code)\b/i.test(post.html)
   return (
     <>
-      <Highlight />
+      {containsCodeBlocks && <Highlight articleHtml={post.html} />}
       <div className="container mx-auto mt-8 px-4 max-w-none pb-24 md:pb-16" style={{ flex: 1 }}>
       <div className="article mt-6">
         <h1 className="text-center text-4xl font-heading font-normal mb-3 text-violet-950 dark:text-brand-light">{post.title}</h1>
