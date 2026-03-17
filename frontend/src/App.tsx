@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { createBrowserRouter, RouterProvider, redirect } from 'react-router-dom'
 import Layout from './components/Layout'
+import RoutePlaceholder from './components/RoutePlaceholder'
 import HomePage from './pages/HomePage'
 import {
   loadChirpPageData,
@@ -19,7 +20,8 @@ const LibraryPage = lazy(() => import('./pages/LibraryPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 function LazyRoute({ children }: { children: React.ReactNode }) {
-  return <Suspense fallback={<div className="flex-1" />}>{children}</Suspense>
+  const currentPathname = typeof window === 'undefined' ? '/' : window.location.pathname
+  return <Suspense fallback={<RoutePlaceholder pathname={currentPathname} />}>{children}</Suspense>
 }
 
 const router = createBrowserRouter([
@@ -70,5 +72,6 @@ const router = createBrowserRouter([
 ])
 
 export default function App() {
-  return <RouterProvider router={router} />
+  const currentPathname = typeof window === 'undefined' ? '/' : window.location.pathname
+  return <RouterProvider router={router} fallbackElement={<RoutePlaceholder pathname={currentPathname} />} />
 }

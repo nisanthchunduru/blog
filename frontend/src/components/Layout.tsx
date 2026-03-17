@@ -1,13 +1,17 @@
-import { Outlet, useLocation } from 'react-router-dom'
+import { Outlet, useLocation, useNavigation } from 'react-router-dom'
 import { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import GoogleFonts from './GoogleFonts'
 import Header from './Header'
 import Footer from './Footer'
+import RoutePlaceholder from './RoutePlaceholder'
 import TopLoadingBar from './TopLoadingBar'
 
 export default function Layout() {
   const location = useLocation()
+  const navigation = useNavigation()
+  const pendingPathname = navigation.location?.pathname ?? location.pathname
+  const isRouteLoading = navigation.state === 'loading'
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -26,7 +30,7 @@ export default function Layout() {
       <div className="flex flex-col dark:bg-brand-dark" style={{ minHeight: '100vh' }}>
         <TopLoadingBar />
         <Header />
-        <Outlet />
+        {isRouteLoading ? <RoutePlaceholder pathname={pendingPathname} /> : <Outlet />}
         <Footer className="md:hidden" />
       </div>
     </>
