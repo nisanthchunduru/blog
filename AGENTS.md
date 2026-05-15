@@ -43,12 +43,3 @@ Avoid solving a problem yourself and add NPM packages (lodash etc.) or other thi
 Don't add unnecessary blank lines.
 
 Prefer async/await to callbacks (as the former enhances readability).
-
-## Technology Stack
-
-- JavaScript/TypeScript
-- Next JS
-
-### Styling
-
-- Tailwind
