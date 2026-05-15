@@ -31,3 +31,9 @@ variable "domain_name" {
   type        = string
   default     = "nisanthchunduru.com"
 }
+
+variable "cache_provider" {
+  description = "Cache backend: dynamodb (default) or s3. Set to s3 to revert from DynamoDB."
+  type        = string
+  default     = "dynamodb"
+}

@@ -3,6 +3,7 @@ export interface Entity {
   name: string
   slug: string
 }
+export type PostListItem = Pick<Post, 'id' | 'name' | 'title' | 'slug' | 'publishedDate' | 'subheading' | 'tags' | 'draft'>
 export interface Post extends Entity {
   title: string
   html: string
@@ -18,6 +19,7 @@ export interface Chirp extends Entity {
   draft?: boolean
   tags?: string[]
 }
+export type BookListItem = Pick<Book, 'id' | 'title' | 'authors'>
 export interface Book extends Entity {
   title: string
   authors?: string

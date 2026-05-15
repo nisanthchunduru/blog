@@ -1,6 +1,7 @@
 import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
+import { jsonApiError } from './jsonapi.js'
 import aboutRouter from './routes/about.js'
 import chirpsRouter from './routes/chirps.js'
 import libraryRouter from './routes/library.js'
@@ -24,6 +25,6 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
   console.error('Stack:', err.stack)
   console.error('Request URL:', req.url)
   if (!res.headersSent) {
-    res.status(500).json({ error: 'Internal server error' })
+    jsonApiError(res, 500, 'Internal server error')
   }
 })

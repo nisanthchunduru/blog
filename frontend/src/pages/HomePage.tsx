@@ -2,11 +2,11 @@ import { useLoaderData } from 'react-router-dom'
 import PrefetchedLink from '../components/PrefetchedLink'
 import ChirpsFeed from '../components/ChirpsFeed'
 import Tags from '../components/Tags'
-import { Chirp, Post } from '../types'
+import type { Chirp, PostListItem } from '../types'
 import { contentPath, formatTime, sortBy } from '../utils'
 
 export default function HomePage() {
-  const { page, chirps, posts } = useLoaderData() as { page: { html: string }; chirps: Chirp[]; posts: Post[] }
+  const { page, chirps, posts } = useLoaderData() as { page: { html: string }; chirps: Chirp[]; posts: PostListItem[] }
   const recentPosts = sortBy(posts.filter(post => !post.draft), 'publishedDate', 'desc').slice(0, 3)
   return (
     <div className="container mx-auto px-4 mt-4 md:mt-12 pb-24 md:pb-16" style={{ flex: 1 }}>

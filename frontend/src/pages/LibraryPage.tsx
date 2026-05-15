@@ -1,16 +1,16 @@
 import { useLoaderData } from 'react-router-dom'
-import { Book } from '../types'
+import type { BookListItem } from '../types'
 import '../library.css'
 
 export default function LibraryPage() {
-  const books = useLoaderData() as Book[]
+  const books = useLoaderData() as BookListItem[]
   return (
     <>
       <h1 className="text-center text-5xl font-light mt-8 mb-8 md:mt-16 md:mb-16 text-violet-950 dark:text-violet-300">Library</h1>
       <div className="container mx-auto px-4 max-w-7xl pb-24 md:pb-16" style={{ flex: 1 }}>
         <div className="books-grid mb-16 pt-8">
-          {books.map((book, index) => (
-            <div key={index} className="book-container">
+          {books.map((book) => (
+            <div key={book.id} className="book-container">
               <div className="book">
                 <div className="book-cover" data-title={book.title} data-authors={book.authors || ''}>
                   {book.authors ? (

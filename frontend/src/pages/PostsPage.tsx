@@ -1,11 +1,11 @@
 import { useLoaderData } from 'react-router-dom'
 import PrefetchedLink from '../components/PrefetchedLink'
-import { Post } from '../types'
+import type { PostListItem } from '../types'
 import { sortBy, formatTime, contentPath } from '../utils'
 import Tags from '../components/Tags'
 
-function postsByYear(posts: Post[]): [number, Post[]][] {
-  const grouped = new Map<number, Post[]>()
+function postsByYear(posts: PostListItem[]): [number, PostListItem[]][] {
+  const grouped = new Map<number, PostListItem[]>()
   for (const post of posts) {
     const year = new Date(post.publishedDate).getFullYear()
     const existing = grouped.get(year) ?? []
@@ -15,7 +15,7 @@ function postsByYear(posts: Post[]): [number, Post[]][] {
 }
 
 export default function PostsPage() {
-  const data = useLoaderData() as Post[]
+  const data = useLoaderData() as PostListItem[]
   const posts = sortBy(data.filter(post => !post.draft), 'publishedDate', 'desc')
   const yearGroups = postsByYear(posts)
   return (

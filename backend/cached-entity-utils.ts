@@ -6,7 +6,7 @@ export async function fetchCachedEntities<T>(cache: Cache, entityName: string): 
   const cacheKey = pluralizedEntityName;
   const result = await cache.read(cacheKey);
   if (!result || !Array.isArray(result)) {
-    throw new Error(`"${entityName}" entities not found in cache`);
+    return [];
   }
   return result as T[];
 }

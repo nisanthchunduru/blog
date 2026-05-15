@@ -3,6 +3,11 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [react()],
+  optimizeDeps: {
+    esbuildOptions: {
+      conditions: ['import', 'module', 'browser', 'default'],
+    },
+  },
   build: {
     rollupOptions: {
       output: {

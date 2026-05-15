@@ -18,6 +18,34 @@ resource "aws_iam_role_policy_attachment" "blog_lambda_basic_execution" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
+resource "aws_iam_role_policy" "blog_lambda_dynamodb_cache" {
+  name = "blog-lambda-dynamodb-cache"
+  role = aws_iam_role.blog_lambda_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "dynamodb:GetItem",
+          "dynamodb:PutItem",
+          "dynamodb:DeleteItem",
+          "dynamodb:UpdateItem",
+          "dynamodb:BatchGetItem",
+          "dynamodb:BatchWriteItem",
+          "dynamodb:Query",
+          "dynamodb:Scan"
+        ]
+        Resource = [
+          aws_dynamodb_table.blog_cache.arn,
+          "${aws_dynamodb_table.blog_cache.arn}/*"
+        ]
+      }
+    ]
+  })
+}
+
 resource "aws_iam_role_policy" "blog_lambda_s3_cache" {
   name = "blog-lambda-s3-cache"
   role = aws_iam_role.blog_lambda_role.id
