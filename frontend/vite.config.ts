@@ -9,8 +9,16 @@ export default defineConfig({
     },
   },
   build: {
+    outDir: 'dist/client',
+    manifest: true,
     rollupOptions: {
+      input: {
+        main: 'index.html',
+      },
       output: {
+        entryFileNames: 'assets/[name].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash][extname]',
         manualChunks: {
           vendor: ['react', 'react-dom', 'react-router-dom', 'react-helmet-async'],
         },

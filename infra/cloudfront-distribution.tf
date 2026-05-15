@@ -65,6 +65,7 @@ resource "aws_cloudfront_distribution" "blog_frontend" {
     }
   }
 
+  # API requests - no caching, pass through to API Gateway
   ordered_cache_behavior {
     path_pattern           = "/api/*"
     target_origin_id       = "blog-api-gateway"
@@ -84,41 +85,9 @@ resource "aws_cloudfront_distribution" "blog_frontend" {
     }
   }
 
-  default_cache_behavior {
-    target_origin_id       = "blog-frontend-s3"
-    viewer_protocol_policy = "redirect-to-https"
-    compress               = true
-    allowed_methods        = ["GET", "HEAD"]
-    cached_methods         = ["GET", "HEAD"]
-
-    forwarded_values {
-      query_string = false
-      cookies {
-        forward = "none"
-      }
-    }
-  }
-
+  # Static assets - long cache, no SSR
   ordered_cache_behavior {
-    path_pattern           = "index.html"
-    target_origin_id       = "blog-frontend-s3"
-    viewer_protocol_policy = "redirect-to-https"
-    compress               = true
-    allowed_methods        = ["GET", "HEAD"]
-    cached_methods         = ["GET", "HEAD"]
-    default_ttl            = 60
-    max_ttl                = 60
-
-    forwarded_values {
-      query_string = false
-      cookies {
-        forward = "none"
-      }
-    }
-  }
-
-  ordered_cache_behavior {
-    path_pattern           = "*"
+    path_pattern           = "/assets/*"
     target_origin_id       = "blog-frontend-s3"
     viewer_protocol_policy = "redirect-to-https"
     compress               = true
@@ -135,16 +104,66 @@ resource "aws_cloudfront_distribution" "blog_frontend" {
     }
   }
 
-  custom_error_response {
-    error_code         = 403
-    response_code      = 200
-    response_page_path = "/index.html"
+  # Favicon and other root static files
+  ordered_cache_behavior {
+    path_pattern           = "*.svg"
+    target_origin_id       = "blog-frontend-s3"
+    viewer_protocol_policy = "redirect-to-https"
+    compress               = true
+    allowed_methods        = ["GET", "HEAD"]
+    cached_methods         = ["GET", "HEAD"]
+    default_ttl            = 86400
+    max_ttl                = 31536000
+
+    forwarded_values {
+      query_string = false
+      cookies {
+        forward = "none"
+      }
+    }
   }
 
-  custom_error_response {
-    error_code         = 404
-    response_code      = 200
-    response_page_path = "/index.html"
+  ordered_cache_behavior {
+    path_pattern           = "*.ico"
+    target_origin_id       = "blog-frontend-s3"
+    viewer_protocol_policy = "redirect-to-https"
+    compress               = true
+    allowed_methods        = ["GET", "HEAD"]
+    cached_methods         = ["GET", "HEAD"]
+    default_ttl            = 86400
+    max_ttl                = 31536000
+
+    forwarded_values {
+      query_string = false
+      cookies {
+        forward = "none"
+      }
+    }
+  }
+
+  # Default behavior - SSR via Lambda@Edge
+  default_cache_behavior {
+    target_origin_id       = "blog-frontend-s3"
+    viewer_protocol_policy = "redirect-to-https"
+    compress               = true
+    allowed_methods        = ["GET", "HEAD"]
+    cached_methods         = ["GET", "HEAD"]
+    default_ttl            = 60
+    max_ttl                = 60
+    min_ttl                = 0
+
+    forwarded_values {
+      query_string = false
+      cookies {
+        forward = "none"
+      }
+    }
+
+    lambda_function_association {
+      event_type   = "origin-request"
+      lambda_arn   = aws_lambda_function.blog_ssr.qualified_arn
+      include_body = false
+    }
   }
 
   restrictions {

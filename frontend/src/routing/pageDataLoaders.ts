@@ -26,20 +26,29 @@ function buildFieldsUrl(path: string, resourceType: string, fields: string[]): s
 const postListFields = ['id', 'name', 'title', 'slug', 'publishedDate', 'subheading', 'tags', 'draft'] as const
 const bookListFields = ['id', 'title', 'authors'] as const
 
+function getApiBaseUrl(): string {
+  if (typeof window === 'undefined') {
+    return globalThis.__API_BASE_URL__ || ''
+  }
+  return ''
+}
+
 async function fetchJsonApi<ResponseBody>(requestPath: string): Promise<ResponseBody> {
-  const cachedResponse = cachedApiResponses.get(requestPath) as { expiresAt: number; responsePromise: Promise<ResponseBody> } | undefined
+  const baseUrl = getApiBaseUrl()
+  const fullPath = baseUrl + requestPath
+  const cachedResponse = cachedApiResponses.get(fullPath) as { expiresAt: number; responsePromise: Promise<ResponseBody> } | undefined
   if (cachedResponse && cachedResponse.expiresAt > Date.now()) return cachedResponse.responsePromise
-  const responsePromise = fetch(requestPath, { headers: jsonApiHeaders })
+  const responsePromise = fetch(fullPath, { headers: jsonApiHeaders })
     .then(async (response) => {
-      if (!response.ok) throw new Error(`Unable to fetch ${requestPath}`)
+      if (!response.ok) throw new Error(`Unable to fetch ${fullPath}`)
       const document = await response.json()
       return parseJsonApiDocument(document) as ResponseBody
     })
     .catch((error) => {
-      cachedApiResponses.delete(requestPath)
+      cachedApiResponses.delete(fullPath)
       throw error
     })
-  cachedApiResponses.set(requestPath, {
+  cachedApiResponses.set(fullPath, {
     expiresAt: Date.now() + apiCacheDurationInMilliseconds,
     responsePromise,
   })
@@ -82,4 +91,12 @@ export function loadChirpPageData({ params }: LoaderFunctionArgs): Promise<Chirp
 
 export function loadLibraryPageData(): Promise<BookListItem[]> {
   return fetchJsonApi<BookListItem[]>(buildFieldsUrl('/api/library', 'library', [...bookListFields]))
+}
+
+export function setApiBaseUrl(url: string): void {
+  globalThis.__API_BASE_URL__ = url
+}
+
+declare global {
+  var __API_BASE_URL__: string | undefined
 }
