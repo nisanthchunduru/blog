@@ -1,0 +1,57 @@
+<div class="pt-4 sm:pt-6 md:pt-8 pb-3 sm:pb-4 relative" data-controller="menu">
+  <div class="container mx-auto px-4 max-w-[768px] flex justify-between items-center">
+    <a href="/" class="flex items-center gap-2.5 font-heading font-normal text-2xl sm:text-3xl text-gray-900 dark:text-gray-100 hover:text-brand dark:hover:text-brand-light transition-colors" data-turbo-prefetch="true">
+      <img src="/images/logo.svg" alt="Logo" class="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0" />
+    </a>
+    <nav class="hidden md:flex items-center bg-violet-100 dark:bg-violet-900/30 px-4 py-1.5 rounded-lg">
+      <ul class="flex items-center gap-2">
+        <li>
+          <a class="inline-block px-3 py-1 text-sm font-medium transition-colors <%= currentPath?.startsWith('/posts') ? 'text-brand dark:text-brand-light' : 'text-gray-800 dark:text-gray-200 hover:text-brand dark:hover:text-brand-light' %>" href="/posts">Posts</a>
+        </li>
+        <li>
+          <a class="inline-block px-3 py-1 text-sm font-medium transition-colors <%= currentPath?.startsWith('/chirps') ? 'text-brand dark:text-brand-light' : 'text-gray-800 dark:text-gray-200 hover:text-brand dark:hover:text-brand-light' %>" href="/chirps">Chirps</a>
+        </li>
+        <li>
+          <a class="inline-flex items-center px-3 py-1 text-sm font-medium text-gray-800 dark:text-gray-200 hover:text-brand dark:hover:text-brand-light transition-colors" href="https://www.linkedin.com/in/nisanthchunduru" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </li>
+        <li>
+          <a class="inline-flex items-center px-3 py-1 text-sm font-medium text-gray-800 dark:text-gray-200 hover:text-brand dark:hover:text-brand-light transition-colors" href="https://github.com/nisanthchunduru" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="flex items-center gap-1">
+      <button
+        class="p-2 text-gray-700 dark:text-gray-300 hover:text-brand dark:hover:text-brand-light transition-colors rounded-full bg-gray-100 dark:bg-gray-800"
+        aria-label="Switch to dark mode"
+        data-action="theme#toggle"
+      >
+        <span data-theme-target="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" clip-rule="evenodd" /></svg>
+        </span>
+      </button>
+      <button
+        class="md:hidden p-2 text-gray-700 dark:text-gray-300 hover:text-brand dark:hover:text-brand-light transition-colors"
+        aria-label="Toggle menu"
+        data-action="menu#toggle"
+      >
+        <div class="w-5 h-4 flex flex-col justify-between">
+          <span data-menu-bar class="block h-0.5 bg-current rounded-full transition-all duration-300"></span>
+          <span data-menu-bar class="block h-0.5 bg-current rounded-full transition-all duration-300"></span>
+          <span data-menu-bar class="block h-0.5 bg-current rounded-full transition-all duration-300"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+  <div data-menu-target="backdrop" class="md:hidden fixed inset-0 z-40 hidden" data-action="click->menu#close"></div>
+  <div data-menu-target="dropdown" class="md:hidden absolute left-4 right-4 z-50 mt-2 rounded-2xl bg-white dark:bg-gray-900 shadow-xl ring-1 ring-black/5 dark:ring-white/10 overflow-hidden hidden">
+    <ul>
+      <li>
+        <a class="flex items-center justify-center px-5 py-4 text-base font-medium transition-colors <%= currentPath?.startsWith('/posts') ? 'text-brand dark:text-brand-light' : 'text-gray-800 dark:text-gray-200 hover:text-brand dark:hover:text-brand-light' %>" href="/posts" data-action="menu#close">Posts</a>
+      </li>
+      <li>
+        <div class="mx-4 border-t border-gray-100 dark:border-gray-700"></div>
+        <a class="flex items-center justify-center px-5 py-4 text-base font-medium transition-colors <%= currentPath?.startsWith('/chirps') ? 'text-brand dark:text-brand-light' : 'text-gray-800 dark:text-gray-200 hover:text-brand dark:hover:text-brand-light' %>" href="/chirps" data-action="menu#close">Chirps</a>
+      </li>
+    </ul>
+  </div>
+</div>

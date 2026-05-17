@@ -2,17 +2,11 @@ version: "3"
 
 tasks:
   build-backend:
-    desc: "Compile backend TypeScript and package into Lambda zip"
+    desc: "Compile backend TypeScript, build assets, and package into Lambda zip"
     cmds:
       - rm -rf backend/dist
       - docker build -f Dockerfile.backend-builder --output backend/dist .
       - zip -r backend/dist/lambda.zip config/
-
-  build-frontend:
-    desc: "Build frontend Vite app into static assets"
-    cmds:
-      - rm -rf frontend/dist
-      - docker build -f Dockerfile.frontend-builder --output frontend/dist .
 
   terraform-apply:
     desc: "Apply Terraform to provision/update AWS infrastructure"
@@ -26,12 +20,12 @@ tasks:
         -var="terraform_state_bucket=${TERRAFORM_STATE_BUCKET}"
 
   sync-frontend-to-s3:
-    desc: "Sync built frontend assets to S3 bucket"
+    desc: "Sync built static assets to S3 bucket"
     cmds:
-      - aws s3 sync frontend/dist/ s3://blog-frontend-bucket-607420117092 --delete
+      - aws s3 sync backend/dist/public/ s3://blog-frontend-bucket-607420117092 --delete
 
   invalidate-frontend-cloudfront-distribution:
-    desc: "Invalidate CloudFront cache after frontend upload"
+    desc: "Invalidate CloudFront cache after upload"
     dir: infra
     cmds:
       - bash -c 'DISTRIBUTION_ID=$(terraform output -raw cloudfront_distribution_id) && aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths "/*"'
@@ -40,7 +34,6 @@ tasks:
     desc: "Deploy to AWS"
     cmds:
       - task: build-backend
-      - task: build-frontend
       - task: terraform-apply
       - task: sync-frontend-to-s3
       - task: invalidate-frontend-cloudfront-distribution

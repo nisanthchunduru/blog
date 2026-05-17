@@ -1,13 +1,24 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./backend/views/**/*.ejs",
+    "./views/**/*.ejs",
   ],
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        heading: ['"Nohemi"', 'system-ui', 'sans-serif'],
+        sans: ['"Libre Franklin"', 'system-ui', 'sans-serif'],
+      },
+      colors: {
+        brand: {
+          DEFAULT: '#7C3AED',
+          light: '#A78BFA',
+          muted: '#EDE9FE',
+          dark: '#1a1a2e',
+        },
+      },
       typography: {
         DEFAULT: {
           css: {
@@ -26,33 +37,7 @@ module.exports = {
       },
     },
   },
-  // corePlugins: {
-  //   container: false
-  // },
-  // plugins: [],
   plugins: [
     require('@tailwindcss/typography'),
-    // function ({ addComponents }) {
-    //   addComponents({
-    //     '.container': {
-    //       width: '100%',
-    //       '@screen sm': {
-    //         maxWidth: '640px',
-    //       },
-    //       '@screen md': {
-    //         maxWidth: '768px',
-    //       },
-    //       '@screen lg': {
-    //         maxWidth: '1024px',
-    //       },
-    //       '@screen xl': {
-    //         maxWidth: '1024px',
-    //       },
-    //       '@screen 2xl': {
-    //         maxWidth: '1024px',
-    //       },
-    //     }
-    //   })
-    // }
   ]
 }

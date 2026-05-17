@@ -2,11 +2,15 @@ FROM node:20-alpine AS builder
 RUN apk add --no-cache zip
 WORKDIR /app
 COPY backend/package*.json ./
+COPY tailwind.config.js postcss.config.js ./
 RUN npm ci
 COPY backend/ ./
 RUN npm run build
+RUN npx esbuild assets/js/application.ts --bundle --minify --outfile=public/assets/application.js
+RUN npx tailwindcss -i assets/css/application.css -o public/assets/application.css --minify
 RUN rm -f dist/lambda.zip && \
-    zip -r dist/lambda.zip dist/ node_modules/ package.json -x "node_modules/.cache/*"
+    zip -r dist/lambda.zip dist/ views/ public/ node_modules/ package.json -x "node_modules/.cache/*" -x "node_modules/.package-lock.json"
 
 FROM scratch
 COPY --from=builder /app/dist /
+COPY --from=builder /app/public /public

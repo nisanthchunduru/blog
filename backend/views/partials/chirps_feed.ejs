@@ -1,0 +1,30 @@
+<div>
+  <h1 class="<%= typeof titleClassName !== 'undefined' ? titleClassName : 'text-center text-5xl font-light mt-8 mb-8 md:mt-16 md:mb-16 text-violet-950 dark:text-violet-300' %>"><%= typeof feedTitle !== 'undefined' ? feedTitle : 'Chirps' %></h1>
+  <div>
+    <% chirpGroups.forEach(group => { %>
+      <section class="mb-8 last:mb-0">
+        <h2 class="text-lg font-medium text-violet-800 dark:text-violet-400 px-1 mb-4"><%= group.monthAndYear %></h2>
+        <div class="relative">
+          <div class="absolute left-6 top-0 bottom-0 w-px bg-gray-200 dark:bg-gray-700" aria-hidden="true"></div>
+          <% group.chirps.forEach(chirp => { %>
+            <article class="relative grid grid-cols-[48px_1fr] gap-4 pb-5 last:pb-0">
+              <span class="justify-self-center mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 bg-white text-xs font-medium text-brand dark:border-gray-700 dark:bg-gray-900">
+                <%= new Date(chirp.publishedDate).toLocaleDateString('en-US', { day: '2-digit' }) %>
+              </span>
+              <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3">
+                <div class="chirp-content text-gray-900 dark:text-gray-100 leading-relaxed" style="word-wrap: break-word; line-height: 1.6">
+                  <%- chirp.html %>
+                </div>
+                <% if (chirp.tags && chirp.tags.length > 0) { %>
+                  <div class="mt-2">
+                    <%- include('tags', { tags: chirp.tags }) %>
+                  </div>
+                <% } %>
+              </div>
+            </article>
+          <% }) %>
+        </div>
+      </section>
+    <% }) %>
+  </div>
+</div>

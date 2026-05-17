@@ -42,10 +42,9 @@ resource "aws_s3_bucket_policy" "blog_frontend_bucket" {
 }
 
 resource "aws_cloudfront_distribution" "blog_frontend" {
-  enabled             = true
-  default_root_object = "index.html"
-  price_class         = "PriceClass_100"
-  aliases             = [var.domain_name, "www.${var.domain_name}"]
+  enabled         = true
+  price_class     = "PriceClass_100"
+  aliases         = [var.domain_name, "www.${var.domain_name}"]
 
   origin {
     domain_name              = aws_s3_bucket.blog_frontend_bucket.bucket_regional_domain_name
@@ -65,29 +64,28 @@ resource "aws_cloudfront_distribution" "blog_frontend" {
     }
   }
 
-  # API requests - no caching, pass through to API Gateway
+  # Static assets served from S3 - long cache
   ordered_cache_behavior {
-    path_pattern           = "/api/*"
-    target_origin_id       = "blog-api-gateway"
-    viewer_protocol_policy = "https-only"
+    path_pattern           = "/assets/*"
+    target_origin_id       = "blog-frontend-s3"
+    viewer_protocol_policy = "redirect-to-https"
     compress               = true
-    allowed_methods        = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    allowed_methods        = ["GET", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
-    default_ttl            = 0
-    max_ttl                = 0
-    min_ttl                = 0
+    default_ttl            = 86400
+    max_ttl                = 31536000
 
     forwarded_values {
-      query_string = true
+      query_string = false
       cookies {
         forward = "none"
       }
     }
   }
 
-  # Static assets - long cache, no SSR
+  # Images served from S3
   ordered_cache_behavior {
-    path_pattern           = "/assets/*"
+    path_pattern           = "/images/*"
     target_origin_id       = "blog-frontend-s3"
     viewer_protocol_policy = "redirect-to-https"
     compress               = true
@@ -141,28 +139,22 @@ resource "aws_cloudfront_distribution" "blog_frontend" {
     }
   }
 
-  # Default behavior - SSR via Lambda@Edge
+  # Default behavior - all page requests go to Express backend via API Gateway
   default_cache_behavior {
-    target_origin_id       = "blog-frontend-s3"
+    target_origin_id       = "blog-api-gateway"
     viewer_protocol_policy = "redirect-to-https"
     compress               = true
-    allowed_methods        = ["GET", "HEAD"]
+    allowed_methods        = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods         = ["GET", "HEAD"]
     default_ttl            = 60
     max_ttl                = 60
     min_ttl                = 0
 
     forwarded_values {
-      query_string = false
+      query_string = true
       cookies {
         forward = "none"
       }
-    }
-
-    lambda_function_association {
-      event_type   = "origin-request"
-      lambda_arn   = aws_lambda_function.blog_ssr.qualified_arn
-      include_body = false
     }
   }
 

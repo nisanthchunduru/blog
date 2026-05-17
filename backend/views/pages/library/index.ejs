@@ -1,0 +1,26 @@
+<h1 class="text-center text-5xl font-light mt-8 mb-8 md:mt-16 md:mb-16 text-violet-950 dark:text-violet-300">Library</h1>
+<div class="container mx-auto px-4 max-w-7xl pb-24 md:pb-16" style="flex: 1">
+  <div class="books-grid mb-16 pt-8">
+    <% books.forEach(book => { %>
+      <div class="book-container">
+        <div class="book">
+          <div class="book-cover" data-title="<%= book.title %>" data-authors="<%= book.authors || '' %>">
+            <a
+              href="https://www.google.com/search?q=<%= encodeURIComponent(book.authors ? `${book.title} by ${book.authors}` : book.title) %>"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="book-cover-link"
+            ></a>
+            <div class="book-spine"></div>
+          </div>
+        </div>
+        <div class="book-info">
+          <h3 class="book-title"><%= book.title %></h3>
+          <% if (book.authors) { %>
+            <p class="book-author"><%= book.authors %></p>
+          <% } %>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
