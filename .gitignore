@@ -11,9 +11,6 @@ tailwind.compiled.css
 
 tmp/
 
-# Sublime text
-blog.sublime-workspace
-
 # TypeScript
 dist/
 *.tsbuildinfo
@@ -31,5 +28,11 @@ infra/.terraform/
 infra/terraform.tfstate
 infra/terraform.tfstate.backup
 
+# Kiro
 .kiro/specs/
 
+# Claude
+.claude
+
+# Sublime text
+blog.sublime-workspace
