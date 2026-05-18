@@ -6,6 +6,12 @@ import type { Post, Chirp, Book } from '../entity.js'
 
 const router = Router()
 const cache = createCache()
+const CACHE_CONTROL = 'public, max-age=60, stale-while-revalidate=31536000'
+
+router.use((_req, res, next) => {
+  res.set('Cache-Control', CACHE_CONTROL)
+  next()
+})
 
 function groupChirpsByMonth(chirps: Chirp[]): { monthAndYear: string; chirps: Chirp[] }[] {
   return chirps.reduce<{ monthAndYear: string; chirps: Chirp[] }[]>((groups, chirp) => {

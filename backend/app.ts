@@ -13,6 +13,7 @@ const projectRoot = process.env.LAMBDA_TASK_ROOT || __dirname
 
 export const app = express()
 
+app.set('etag', true)
 app.set('view engine', 'ejs')
 app.set('views', path.join(projectRoot, 'views'))
 app.use(expressEjsLayouts)
