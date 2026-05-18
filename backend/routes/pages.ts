@@ -40,8 +40,8 @@ router.get('/', async (req, res) => {
       fetchCachedEntities<Post>(cache, 'post'),
     ])
     const publishedPosts = sortBy(posts.filter(p => !p.draft), 'publishedDate', 'desc')
-    const recentPosts = publishedPosts.slice(0, 3)
-    const publishedChirps = sortBy(chirps.filter(c => !c.draft), 'publishedDate', 'desc').slice(0, 3)
+    const recentPosts = publishedPosts.slice(0, 5)
+    const publishedChirps = sortBy(chirps.filter(c => !c.draft), 'publishedDate', 'desc').slice(0, 5)
     const chirpGroups = groupChirpsByMonth(publishedChirps)
     res.render('pages/home', {
       aboutHtml: aboutPage?.html ?? '',
