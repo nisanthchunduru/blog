@@ -1804,6 +1804,7 @@ img.w-32 {
 .prose p {
   margin-top: 24px;
   margin-bottom: 24px;
+  text-align: justify;
 }
 
 /* Library page styles */
