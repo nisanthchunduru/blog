@@ -103,6 +103,20 @@ img.w-32 {
   text-align: justify;
 }
 
+.wave-emoji {
+  display: inline-block;
+  animation: wave 1s ease-in-out;
+  transform-origin: 70% 70%;
+}
+
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(14deg); }
+  40% { transform: rotate(-8deg); }
+  60% { transform: rotate(14deg); }
+  80% { transform: rotate(-4deg); }
+}
+
 /* Library page styles */
 .books-grid {
   display: grid;
