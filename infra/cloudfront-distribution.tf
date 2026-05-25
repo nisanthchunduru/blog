@@ -76,7 +76,6 @@ resource "aws_cloudfront_distribution" "blog_frontend" {
     }
   }
 
-  # Static assets from S3
   ordered_cache_behavior {
     path_pattern               = "/assets/*"
     target_origin_id           = "blog-frontend-s3"
@@ -97,63 +96,6 @@ resource "aws_cloudfront_distribution" "blog_frontend" {
     }
   }
 
-  # Images served from S3
-  ordered_cache_behavior {
-    path_pattern           = "/images/*"
-    target_origin_id       = "blog-frontend-s3"
-    viewer_protocol_policy = "redirect-to-https"
-    compress               = true
-    allowed_methods        = ["GET", "HEAD"]
-    cached_methods         = ["GET", "HEAD"]
-    default_ttl            = 86400
-    max_ttl                = 31536000
-
-    forwarded_values {
-      query_string = false
-      cookies {
-        forward = "none"
-      }
-    }
-  }
-
-  # Favicon and other root static files
-  ordered_cache_behavior {
-    path_pattern           = "*.svg"
-    target_origin_id       = "blog-frontend-s3"
-    viewer_protocol_policy = "redirect-to-https"
-    compress               = true
-    allowed_methods        = ["GET", "HEAD"]
-    cached_methods         = ["GET", "HEAD"]
-    default_ttl            = 86400
-    max_ttl                = 31536000
-
-    forwarded_values {
-      query_string = false
-      cookies {
-        forward = "none"
-      }
-    }
-  }
-
-  ordered_cache_behavior {
-    path_pattern           = "*.ico"
-    target_origin_id       = "blog-frontend-s3"
-    viewer_protocol_policy = "redirect-to-https"
-    compress               = true
-    allowed_methods        = ["GET", "HEAD"]
-    cached_methods         = ["GET", "HEAD"]
-    default_ttl            = 86400
-    max_ttl                = 31536000
-
-    forwarded_values {
-      query_string = false
-      cookies {
-        forward = "none"
-      }
-    }
-  }
-
-  # Default behavior - all page requests go to Express backend via API Gateway
   default_cache_behavior {
     target_origin_id       = "blog-api-gateway"
     viewer_protocol_policy = "redirect-to-https"
