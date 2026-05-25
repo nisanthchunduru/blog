@@ -15,6 +15,11 @@ tmp/
 dist/
 *.tsbuildinfo
 
+# Fingerprinted assets
+backend/public/assets/application-*.css
+backend/public/assets/application-*.js
+backend/public/assets/fingerprints.json
+
 # Next.js
 .next/
 out/

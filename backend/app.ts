@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 import express from 'express'
+import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import expressEjsLayouts from 'express-ejs-layouts'
@@ -11,8 +12,20 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const projectRoot = process.env.LAMBDA_TASK_ROOT || __dirname
 
+function loadAssetsFingerprints(): Record<string, string> {
+  const fingerprintsPath = path.join(projectRoot, 'public/assets/fingerprints.json')
+  return fs.existsSync(fingerprintsPath)
+    ? JSON.parse(fs.readFileSync(fingerprintsPath, 'utf8'))
+    : {}
+}
+
+const assetsFingerprints = loadAssetsFingerprints()
+
+export const getAssetPath = (assetName: string): string => `/assets/${assetsFingerprints[assetName] || assetName}`
+
 export const app = express()
 
+app.locals.assetPath = getAssetPath
 app.set('etag', true)
 app.set('view engine', 'ejs')
 app.set('views', path.join(projectRoot, 'views'))

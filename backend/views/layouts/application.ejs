@@ -22,8 +22,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/assets/application.css" data-turbo-track="reload" />
-  <script src="/assets/application.js" defer data-turbo-track="reload"></script>
+  <link rel="stylesheet" href="<%= assetPath('application.css') %>" />
+  <script src="<%= assetPath('application.js') %>" defer></script>
 </head>
 <body>
   <div class="flex flex-col dark:bg-brand-dark" style="min-height: 100vh" data-controller="theme">

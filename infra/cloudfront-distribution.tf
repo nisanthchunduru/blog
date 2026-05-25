@@ -41,6 +41,18 @@ resource "aws_s3_bucket_policy" "blog_frontend_bucket" {
   })
 }
 
+resource "aws_cloudfront_response_headers_policy" "immutable_assets" {
+  name = "immutable-assets-policy"
+
+  custom_headers_config {
+    items {
+      header   = "Cache-Control"
+      value    = "public, max-age=31536000, immutable"
+      override = true
+    }
+  }
+}
+
 resource "aws_cloudfront_distribution" "blog_frontend" {
   enabled         = true
   price_class     = "PriceClass_100"
@@ -64,16 +76,18 @@ resource "aws_cloudfront_distribution" "blog_frontend" {
     }
   }
 
-  # Static assets served from S3 - long cache
+  # Static assets from S3
   ordered_cache_behavior {
-    path_pattern           = "/assets/*"
-    target_origin_id       = "blog-frontend-s3"
-    viewer_protocol_policy = "redirect-to-https"
-    compress               = true
-    allowed_methods        = ["GET", "HEAD"]
-    cached_methods         = ["GET", "HEAD"]
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    path_pattern               = "/assets/*"
+    target_origin_id           = "blog-frontend-s3"
+    viewer_protocol_policy     = "redirect-to-https"
+    compress                   = true
+    allowed_methods            = ["GET", "HEAD"]
+    cached_methods             = ["GET", "HEAD"]
+    default_ttl                = 31536000
+    max_ttl                    = 31536000
+    min_ttl                    = 31536000
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.immutable_assets.id
 
     forwarded_values {
       query_string = false

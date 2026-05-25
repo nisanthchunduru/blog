@@ -2,18 +2,17 @@ version: "3"
 
 tasks:
   build-backend:
-    desc: "Compile backend TypeScript, build assets, and package into Lambda zip"
     cmds:
       - rm -rf backend/dist
       - npm ci
       - cd backend && npx tsc
       - npx esbuild backend/assets/js/application.ts --bundle --minify --outfile=backend/public/assets/application.js
       - npx tailwindcss -i backend/assets/css/application.css -o backend/public/assets/application.css --minify
+      - node scripts/fingerprint-assets.cjs
       - cd backend && zip -r dist/lambda.zip dist/ views/ public/ ../node_modules/ ../package.json -x "node_modules/.cache/*" -x "node_modules/.package-lock.json"
       - zip -ur backend/dist/lambda.zip config/
 
   terraform-apply:
-    desc: "Apply Terraform to provision/update AWS infrastructure"
     dir: infra
     dotenv: ['../.env']
     cmds:
@@ -24,18 +23,15 @@ tasks:
         -var="terraform_state_bucket=${TERRAFORM_STATE_BUCKET}"
 
   sync-frontend-to-s3:
-    desc: "Sync built static assets to S3 bucket"
     cmds:
       - aws s3 sync backend/public/ s3://blog-frontend-bucket-607420117092 --delete
 
   invalidate-frontend-cloudfront-distribution:
-    desc: "Invalidate CloudFront cache after upload"
     dir: infra
     cmds:
       - bash -c 'DISTRIBUTION_ID=$(terraform output -raw cloudfront_distribution_id) && aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths "/*"'
 
   run:
-    desc: "Deploy to AWS"
     cmds:
       - task: build-backend
       - task: terraform-apply
