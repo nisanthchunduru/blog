@@ -11,14 +11,14 @@ tailwind.compiled.css
 
 tmp/
 
+build/
+
+backend/public/assets/fingerprinted/
+backend/public/assets/fingerprints.json
+
 # TypeScript
 dist/
 *.tsbuildinfo
-
-# Fingerprinted assets
-backend/public/assets/application-*.css
-backend/public/assets/application-*.js
-backend/public/assets/fingerprints.json
 
 # Next.js
 .next/

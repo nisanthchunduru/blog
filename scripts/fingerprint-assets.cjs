@@ -3,11 +3,14 @@ const crypto = require('crypto');
 const path = require('path');
 
 const assetsDir = path.join(__dirname, '../backend/public/assets');
+const publicDir = path.join(__dirname, '../backend/public');
+const fingerprintedDir = path.join(publicDir, 'assets/fingerprinted');
 
-function removeExistingFingerprintedAssets() {
-  fs.readdirSync(assetsDir)
-    .filter(f => /^application-[a-f0-9]{8}\.(css|js)$/.test(f))
-    .forEach(f => fs.unlinkSync(path.join(assetsDir, f)));
+function cleanFingerprintedDir() {
+  if (fs.existsSync(fingerprintedDir)) {
+    fs.rmSync(fingerprintedDir, { recursive: true });
+  }
+  fs.mkdirSync(fingerprintedDir, { recursive: true });
 }
 
 function computeHash(filePath) {
@@ -20,25 +23,25 @@ function createFingerprintedCopy(file) {
   if (!fs.existsSync(filePath)) return null;
 
   const hash = computeHash(filePath);
+  const dir = path.dirname(file);
   const ext = path.extname(file);
   const name = path.basename(file, ext);
   const fingerprintedName = `${name}-${hash}${ext}`;
-
-  fs.copyFileSync(filePath, path.join(assetsDir, fingerprintedName));
-  return fingerprintedName;
+  const outputDir = path.join(fingerprintedDir, dir);
+  
+  fs.mkdirSync(outputDir, { recursive: true });
+  fs.copyFileSync(filePath, path.join(outputDir, fingerprintedName));
+  
+  return dir === '.' ? `fingerprinted/${fingerprintedName}` : `fingerprinted/${dir}/${fingerprintedName}`;
 }
 
-function fingerprintAssets(fingerprints) {
-  fs.writeFileSync(path.join(assetsDir, 'fingerprints.json'), JSON.stringify(fingerprints, null, 2));
-  console.log('Asset fingerprints:', fingerprints);
-}
-
-removeExistingFingerprintedAssets();
+cleanFingerprintedDir();
 
 const fingerprints = {};
-['application.css', 'application.js'].forEach(file => {
-  const fingerprintedName = createFingerprintedCopy(file);
-  if (fingerprintedName) fingerprints[file] = fingerprintedName;
+['application.css', 'application.js', 'images/favicon.svg', 'images/logo.svg'].forEach(file => {
+  const fingerprintedPath = createFingerprintedCopy(file);
+  if (fingerprintedPath) fingerprints[file] = fingerprintedPath;
 });
 
-fingerprintAssets(fingerprints);
+fs.writeFileSync(path.join(publicDir, 'assets/fingerprints.json'), JSON.stringify(fingerprints, null, 2));
+console.log('Asset fingerprints:', fingerprints);
