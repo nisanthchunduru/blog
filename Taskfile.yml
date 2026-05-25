@@ -13,6 +13,9 @@ includes:
   sync:
     taskfile: ./taskfiles/sync.yml
     dir: .
+  setup:
+    taskfile: ./taskfiles/setup.yml
+    dir: .
 
 tasks:
   build-image:
@@ -98,3 +101,8 @@ tasks:
     desc: "Deploy to AWS"
     cmds:
       - task: deploy2aws:run
+
+  setup:
+    desc: Setup development environment
+    cmds:
+      - task: setup:run

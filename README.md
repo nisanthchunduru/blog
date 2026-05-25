@@ -14,15 +14,22 @@ First, clone the repository
 git clone --recurse-submodules git@github.com:nisanthchunduru/blog.git
 ```
 
-Start the blog
+Install dependencies
+
 ```
-npm run docker:start
+./setup
 ```
 
-and visit http://localhost:4567
+Start the blog
+
+```
+mise run start
+```
+
+and visit http://localhost:3001
 
 ## Deployment
 
 ```
-npm run deploy
+task deploy2aws
 ```

@@ -1,16 +1,48 @@
-FROM node:20-alpine AS builder
+# syntax=docker/dockerfile:1.6
+
+FROM node:20-alpine AS build-deps
 WORKDIR /workspace
 COPY package*.json ./
-COPY backend/package*.json ./backend/
-COPY frontend/package*.json ./frontend/
-RUN npm install
-RUN cd backend && npm install
-RUN cd frontend && npm install
+RUN npm ci
+
+FROM node:20-alpine AS prod-deps
+WORKDIR /workspace
+COPY package*.json ./
+RUN npm ci --omit=dev
+
+FROM node:20-alpine AS frontend-js
+WORKDIR /workspace
+COPY --from=build-deps /workspace/node_modules ./node_modules
 COPY . .
-RUN cd frontend && npm run build
+RUN npx esbuild backend/assets/js/application.ts \
+      --bundle --minify \
+      --outfile=backend/public/assets/application.js
+
+FROM node:20-alpine AS css
+WORKDIR /workspace
+COPY --from=build-deps /workspace/node_modules ./node_modules
+COPY . .
+RUN npx tailwindcss \
+      -i backend/assets/css/application.css \
+      -o backend/public/assets/application.css \
+      --minify
+
+FROM node:20-alpine AS backend-js
+WORKDIR /workspace
+COPY --from=build-deps /workspace/node_modules ./node_modules
+COPY . .
+RUN cd backend && npx tsc
 
 FROM node:20-alpine
 WORKDIR /workspace
-COPY --from=builder /workspace ./
+ENV NODE_ENV=production
+
+COPY --from=prod-deps    /workspace/node_modules                          ./node_modules
+COPY --from=backend-js   /workspace/backend/dist                          ./backend/dist
+COPY --from=backend-js   /workspace/backend/views                         ./backend/views
+COPY --from=backend-js   /workspace/package.json                          ./package.json
+COPY --from=frontend-js  /workspace/backend/public/assets/application.js  ./backend/public/assets/application.js
+COPY --from=css       /workspace/backend/public/assets/application.css ./backend/public/assets/application.css
+
 EXPOSE 3000
-CMD ["sh", "-c", "/workspace/backend/node_modules/.bin/tsx /workspace/backend/index.ts"]
+CMD ["node", "backend/dist/index.js"]

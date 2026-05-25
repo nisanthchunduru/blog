@@ -1,0 +1,9 @@
+version: '3'
+
+tasks:
+  run:
+    desc: Setup development environment
+    cmds:
+      - mise trust
+      - mise install
+      - mise exec -- npm install

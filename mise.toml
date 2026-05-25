@@ -1,0 +1,35 @@
+[tasks.start]
+depends = ["backend", "frontend", "tailwind", "sync"]
+
+[tasks."backend"]
+run = "npx tsx watch backend/index.ts"
+
+[tasks."frontend"]
+dir = "backend"
+run = "npx esbuild assets/js/application.ts --bundle --outfile=public/assets/application.js --watch"
+
+[tasks."tailwind"]
+run = "npx tailwindcss -i backend/assets/css/application.css -o backend/public/assets/application.css --watch"
+
+[tasks.build]
+depends = ["build-frontend-js", "build-css", "build-backend-js"]
+
+[tasks."build-frontend-js"]
+dir = "backend"
+run = "npx esbuild assets/js/application.ts --bundle --minify --outfile=public/assets/application.js"
+
+[tasks."build-css"]
+run = "npx tailwindcss -i backend/assets/css/application.css -o backend/public/assets/application.css --minify"
+
+[tasks."build-backend-js"]
+dir = "backend"
+run = "npx tsc"
+
+[tasks.sync]
+run = "npx tsx backend/daemons/sync.ts"
+
+[tasks."docker:push"]
+run = "docker build -f Dockerfile.production -t nisanth074/blog:latest . --push"
+
+[tasks."docker:push:x86"]
+run = "docker buildx build --platform linux/amd64 -f Dockerfile.production -t nisanth074/blog:latest . --push"

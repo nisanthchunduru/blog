@@ -1,13 +1,8 @@
 #!/usr/bin/env bash
+set -ex
 
-set -e
+if ! command -v task &> /dev/null; then
+  brew install go-task
+fi
 
-asdf plugin-add nodejs
-asdf plugin-add golang
-asdf install
-
-npm install
-
-npm run tw:build
-
-brew install hugo
+task setup
