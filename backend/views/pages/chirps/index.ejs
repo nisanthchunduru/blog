@@ -1,3 +1,5 @@
-<div class="container mx-auto px-4 pb-24 md:pb-16" style="flex: 1; max-width: 600px">
-  <%- include('../../partials/chirps_feed', { chirpGroups, feedTitle: 'Chirps', titleClassName: 'text-center text-5xl font-light mt-8 mb-8 md:mt-16 md:mb-16 text-violet-950 dark:text-violet-300' }) %>
+<div class="container mx-auto px-4 pt-8 md:pt-16 pb-24 md:pb-16" style="flex: 1; max-width: 600px">
+  <div class="border-t border-gray-200 dark:border-gray-700">
+    <%- include('../../partials/chirps_feed', { chirpGroups }) %>
+  </div>
 </div>

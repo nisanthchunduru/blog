@@ -38,32 +38,22 @@ function groupPostsByYear(posts: Post[]): [number, Post[]][] {
   return [...grouped.entries()].sort(([a], [b]) => b - a)
 }
 
-router.get('/', async (req, res) => {
+router.get('/', (_req, res) => {
+  res.redirect('/posts')
+})
+
+router.get('/about', async (req, res) => {
   try {
-    const [aboutPage, chirps, posts] = await Promise.all([
-      cache.read('page_about') as Promise<{ html: string } | null>,
-      fetchCachedEntities<Chirp>(cache, 'chirp'),
-      fetchCachedEntities<Post>(cache, 'post'),
-    ])
-    const publishedPosts = sortBy(posts.filter(p => !p.draft), 'publishedDate', 'desc')
-    const recentPosts = publishedPosts.slice(0, 5)
-    const publishedChirps = sortBy(chirps.filter(c => !c.draft), 'publishedDate', 'desc').slice(0, 5)
-    const chirpGroups = groupChirpsByMonth(publishedChirps)
-    res.render('pages/home', {
+    const aboutPage = await cache.read('page_about') as { html: string } | null
+    res.render('pages/about', {
       aboutHtml: aboutPage?.html ?? '',
-      recentPosts,
-      chirpGroups,
-      formatTime,
+      title: 'About',
       currentPath: req.path,
     })
   } catch (error) {
-    console.error('Error rendering home:', error)
+    console.error('Error rendering about:', error)
     res.status(500).send('Internal server error')
   }
-})
-
-router.get('/about', (_req, res) => {
-  res.redirect('/')
 })
 
 router.get('/posts', async (req, res) => {
