@@ -1,18 +1,17 @@
 <div>
-  <% chirpGroups.forEach(group => { %>
-    <% group.chirps.forEach(chirp => { %>
-      <article class="px-4 py-4 border-b border-gray-200 dark:border-gray-700">
-        <div class="chirp-content text-gray-900 dark:text-gray-100 leading-relaxed" style="word-wrap: break-word; line-height: 1.6">
-          <%- chirp.html %>
-        </div>
-        <div class="mt-3 flex flex-wrap items-center gap-2">
-          <span class="text-sm text-gray-500 dark:text-gray-400"><%= new Date(chirp.publishedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></span>
-          <% if (chirp.tags && chirp.tags.length > 0) { %>
-            <span class="text-gray-400 dark:text-gray-500">&bull;</span>
-            <%- include('tags', { tags: chirp.tags }) %>
-          <% } %>
-        </div>
-      </article>
-    <% }) %>
+  <% const allChirps = chirpGroups.flatMap(group => group.chirps) %>
+  <% allChirps.forEach((chirp, index) => { %>
+    <article class="px-4 py-4 <%= index < allChirps.length - 1 ? 'border-b border-gray-200 dark:border-gray-700' : '' %>">
+      <div class="chirp-content text-gray-900 dark:text-gray-100 leading-relaxed" style="word-wrap: break-word; line-height: 1.6">
+        <%- chirp.html %>
+      </div>
+      <div class="mt-3 flex flex-wrap items-center gap-2">
+        <span class="text-sm text-gray-500 dark:text-gray-400"><%= new Date(chirp.publishedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></span>
+        <% if (chirp.tags && chirp.tags.length > 0) { %>
+          <span class="text-gray-400 dark:text-gray-500">&bull;</span>
+          <%- include('tags', { tags: chirp.tags }) %>
+        <% } %>
+      </div>
+    </article>
   <% }) %>
 </div>
