@@ -1,3 +1,6 @@
+[tasks.deploy]
+alias = "deploy2aws"
+
 [tasks.start]
 depends = ["backend", "frontend", "tailwind", "sync"]
 
