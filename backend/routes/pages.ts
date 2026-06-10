@@ -38,20 +38,16 @@ function groupPostsByYear(posts: Post[]): [number, Post[]][] {
   return [...grouped.entries()].sort(([a], [b]) => b - a)
 }
 
-router.get('/', (_req, res) => {
-  res.redirect('/posts')
-})
-
-router.get('/about', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const aboutPage = await cache.read('page_about') as { html: string } | null
     res.render('pages/about', {
       aboutHtml: aboutPage?.html ?? '',
-      title: 'About',
+      title: 'Home',
       currentPath: req.path,
     })
   } catch (error) {
-    console.error('Error rendering about:', error)
+    console.error('Error rendering home:', error)
     res.status(500).send('Internal server error')
   }
 })
