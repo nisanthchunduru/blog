@@ -1,3 +1,12 @@
-<div class="container mx-auto px-4 pt-4 md:pt-8 pb-24 md:pb-16" style="flex: 1; max-width: 600px">
+<div class="container mx-auto px-4 mt-6 md:mt-16 pb-24 md:pb-16 max-w-2xl" style="flex: 1">
+  <div class="flex flex-col gap-3 mb-10 md:mb-14">
+    <h1 class="text-4xl sm:text-5xl font-bold font-heading tracking-tighter text-neutral-950 dark:text-neutral-50">
+      Chirps
+    </h1>
+    <p class="text-neutral-500 dark:text-neutral-400 font-light">
+      Bite-sized notes, thoughts, and quick updates.
+    </p>
+  </div>
+  
   <%- include('../../partials/chirps_feed', { chirpGroups }) %>
 </div>

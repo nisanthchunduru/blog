@@ -1,5 +1,7 @@
-<div class="flex flex-wrap gap-2">
+<div class="flex flex-wrap gap-1.5">
   <% tags.forEach(tag => { %>
-    <span class="text-brand dark:text-brand-light">#<%= tag %></span>
+    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-violet-100/60 dark:bg-violet-950/20 text-brand dark:text-brand-light border border-violet-200/50 dark:border-violet-900/30">
+      #<%= tag %>
+    </span>
   <% }) %>
 </div>

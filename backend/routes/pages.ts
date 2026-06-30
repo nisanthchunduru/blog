@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { createCache } from '../cache_factory.js'
 import { fetchCachedEntities, fetchCachedEntityBySlug } from '../cached-entity-utils.js'
-import { sortBy, formatTime } from '../utils.js'
+import { sortBy, formatTime, getReadingTime } from '../utils.js'
 import type { Post, Chirp, Book } from '../entity.js'
 
 const router = Router()
@@ -60,6 +60,7 @@ router.get('/posts', async (req, res) => {
     res.render('pages/posts/index', {
       yearGroups,
       formatTime,
+      getReadingTime,
       title: 'Posts',
       currentPath: req.path,
     })
@@ -78,6 +79,7 @@ router.get('/posts/:slug', async (req, res) => {
     res.render('pages/posts/show', {
       post,
       formatTime,
+      getReadingTime,
       title: post.title,
       description: post.subheading,
       ogTitle: post.title,

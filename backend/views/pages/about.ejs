@@ -1,10 +1,136 @@
-<div class="container mx-auto px-4 mt-4 md:mt-8 pb-24 md:pb-16" style="flex: 1">
-  <div class="mx-auto max-w-none">
-    <div class="prose sm:prose-lg dark:prose-invert relative" style="overflow-wrap: break-word">
-      <%- aboutHtml.replace('👋', '<span class="wave-emoji">👋</span>') %>
+<div class="container mx-auto px-4 mt-6 md:mt-16 pb-24 md:pb-16 max-w-5xl" style="flex: 1">
+  
+  <!-- Hero Section -->
+  <div class="flex flex-col gap-4 mb-14 md:mb-20">
+    <h1 class="text-5xl sm:text-7xl font-bold font-heading tracking-tighter text-neutral-950 dark:text-neutral-50">
+      Nisanth Chunduru
+    </h1>
+    <p class="text-lg sm:text-xl text-neutral-600 dark:text-neutral-300 font-light max-w-3xl leading-relaxed">
+      Engineering Lead proficient in Full-stack systems, DevOps, and AI/ML. Currently building internal product launch tools at Amazon and advising AI startups on architecture and deep learning.
+    </p>
+  </div>
+
+  <!-- Grid Layout -->
+  <div class="grid grid-cols-1 gap-y-14 gap-x-12 md:grid-cols-[200px_1fr] md:gap-x-16">
+    
+    <!-- Section: Focus -->
+    <div>
+      <h2 class="md:sticky md:top-8 mb-4 text-2xl tracking-tight font-semibold font-heading text-neutral-950 dark:text-neutral-50 inline-block">
+        Focus
+      </h2>
     </div>
-    <div class="mt-10 md:mt-14 relative w-full" style="padding-bottom: 56.25%">
-      <iframe style="position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 0.5rem" src="https://www.youtube-nocookie.com/embed/UjPMEiczkkE?si=bcLqzYEaAZ0go_No&amp;start=10" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <div class="flex flex-col gap-6">
+      <!-- Card: Amazon -->
+      <div class="p-6 rounded-2xl bg-violet-50/50 dark:bg-violet-950/10 border border-violet-100/80 dark:border-violet-900/30 hover:border-brand/40 dark:hover:border-brand-light/40 transition-all hover:shadow-sm">
+        <div class="flex flex-col gap-1.5">
+          <span class="text-xs font-semibold tracking-wider uppercase text-violet-600 dark:text-violet-400">Current Work</span>
+          <h3 class="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">Amazon</h3>
+          <p class="text-sm font-medium text-neutral-500 dark:text-neutral-400">Freelance Full-stack Engineer</p>
+          <p class="mt-2 text-neutral-600 dark:text-neutral-300 leading-relaxed text-sm">
+            Developing an internal Amazon application to manage feature and product launches. Proficiently building full-stack capabilities and DevOps workflows.
+          </p>
+        </div>
+      </div>
+      <!-- Card: HealthYoda -->
+      <div class="p-6 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/10 border border-emerald-100/80 dark:border-emerald-900/30 hover:border-emerald-400/40 dark:hover:border-emerald-500/40 transition-all hover:shadow-sm">
+        <div class="flex flex-col gap-1.5">
+          <span class="text-xs font-semibold tracking-wider uppercase text-emerald-600 dark:text-emerald-400">Advisory</span>
+          <h3 class="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">HealthYoda</h3>
+          <p class="text-sm font-medium text-neutral-500 dark:text-neutral-400">Technology Advisor</p>
+          <p class="mt-2 text-neutral-600 dark:text-neutral-300 leading-relaxed text-sm">
+            Advising an early-stage healthcare startup in the AI space on system architecture, database scaling, and LLM integrations.
+          </p>
+        </div>
+      </div>
     </div>
+
+    <!-- Section: Experience -->
+    <div class="pt-8 border-t border-neutral-200/60 dark:border-neutral-800/60 md:border-0 md:pt-0">
+      <h2 class="md:sticky md:top-8 mb-4 text-2xl tracking-tight font-semibold font-heading text-neutral-950 dark:text-neutral-50 inline-block">
+        Experience
+      </h2>
+    </div>
+    <div class="flex flex-col gap-8 pt-4 md:pt-0">
+      <div class="relative pl-6 border-l border-neutral-200 dark:border-neutral-800 flex flex-col gap-1.5">
+        <span class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-violet-600 dark:bg-violet-400"></span>
+        <div class="flex justify-between items-baseline gap-2">
+          <h3 class="text-xl font-semibold text-neutral-900 dark:text-neutral-50">inFeedo AI Assist</h3>
+          <span class="text-xs font-medium text-neutral-400 dark:text-neutral-500">2023 &ndash; 2024</span>
+        </div>
+        <p class="text-sm font-medium text-neutral-500 dark:text-neutral-400">Lead Backend Engineer</p>
+        <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed text-sm">
+          Led backend engineering for a RAG-based AI chatbot answering employee queries. Implemented vector search and retrieval optimization.
+        </p>
+      </div>
+      <div class="relative pl-6 border-l border-neutral-200 dark:border-neutral-800 flex flex-col gap-1.5">
+        <span class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-neutral-300 dark:bg-neutral-700"></span>
+        <div class="flex justify-between items-baseline gap-2">
+          <h3 class="text-xl font-semibold text-neutral-900 dark:text-neutral-50">SupportBee</h3>
+          <span class="text-xs font-medium text-neutral-400 dark:text-neutral-500">2018 &ndash; 2023</span>
+        </div>
+        <p class="text-sm font-medium text-neutral-500 dark:text-neutral-400">Lead Backend Engineer & DevOps</p>
+        <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed text-sm">
+          Architected key backend features and maintained reliable infrastructure operations for supportbee.com over many years.
+        </p>
+      </div>
+    </div>
+
+    <!-- Section: Featured Video -->
+    <div class="pt-8 border-t border-neutral-200/60 dark:border-neutral-800/60 md:border-0 md:pt-0">
+      <h2 class="md:sticky md:top-8 mb-4 text-2xl tracking-tight font-semibold font-heading text-neutral-950 dark:text-neutral-50 inline-block">
+        Featured
+      </h2>
+    </div>
+    <div class="flex flex-col gap-4 pt-4 md:pt-0">
+      <div class="relative w-full overflow-hidden rounded-2xl border border-neutral-200/80 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/35 p-2 shadow-sm">
+        <div class="relative w-full" style="padding-bottom: 56.25%">
+          <iframe style="position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 0.75rem" src="https://www.youtube-nocookie.com/embed/UjPMEiczkkE?si=bcLqzYEaAZ0go_No&amp;start=10" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </div>
+      <p class="text-xs text-neutral-400 dark:text-neutral-500 italic text-center">System walkthrough and product demonstration</p>
+    </div>
+
+    <!-- Section: Connect -->
+    <div class="pt-8 border-t border-neutral-200/60 dark:border-neutral-800/60 md:border-0 md:pt-0">
+      <h2 class="md:sticky md:top-8 mb-4 text-2xl tracking-tight font-semibold font-heading text-neutral-950 dark:text-neutral-50 inline-block">
+        Connect
+      </h2>
+    </div>
+    <div class="flex flex-col gap-4 pt-4 md:pt-0">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <a href="https://www.linkedin.com/in/nisanthchunduru/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3.5 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/40 hover:border-violet-200 dark:hover:border-violet-900/60 hover:bg-violet-50/20 dark:hover:bg-violet-950/10 transition-colors group">
+          <svg class="w-5 h-5 text-neutral-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+          </svg>
+          <div class="flex flex-col leading-tight">
+            <span class="text-sm font-medium text-neutral-800 dark:text-neutral-200">LinkedIn</span>
+            <span class="text-[10px] text-neutral-400 dark:text-neutral-500">Professional profile</span>
+          </div>
+        </a>
+        <a href="https://github.com/nisanthchunduru" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3.5 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/40 hover:border-violet-200 dark:hover:border-violet-900/60 hover:bg-violet-50/20 dark:hover:bg-violet-950/10 transition-colors group">
+          <svg class="w-5 h-5 text-neutral-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+          </svg>
+          <div class="flex flex-col leading-tight">
+            <span class="text-sm font-medium text-neutral-800 dark:text-neutral-200">GitHub</span>
+            <span class="text-[10px] text-neutral-400 dark:text-neutral-500">Repositories & code</span>
+          </div>
+        </a>
+        <a href="mailto:nisanth074@gmail.com" class="flex items-center gap-3.5 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/40 hover:border-violet-200 dark:hover:border-violet-900/60 hover:bg-violet-50/20 dark:hover:bg-violet-950/10 transition-colors group">
+          <svg class="w-5 h-5 text-neutral-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          <div class="flex flex-col leading-tight">
+            <span class="text-sm font-medium text-neutral-800 dark:text-neutral-200">Email</span>
+            <span class="text-[10px] text-neutral-400 dark:text-neutral-500">Get in touch</span>
+          </div>
+        </a>
+      </div>
+      <p class="text-xs text-neutral-400 dark:text-neutral-500 mt-2">
+        Presently living and working from the beautiful coastal city of Visakhapatnam (previously Bangalore).
+      </p>
+    </div>
+
   </div>
 </div>

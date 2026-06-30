@@ -28,3 +28,11 @@ export function formatTime(dateString: string): string {
 export function contentPath(entity: Entity & Slugable): string {
   return `/${entity.name}s/${entity.slug}`
 }
+
+export function getReadingTime(html: string): string {
+  const wordsPerMinute = 200
+  const cleanText = html.replace(/<[^>]*>/g, '')
+  const wordCount = cleanText.trim().split(/\s+/).filter(Boolean).length
+  const readingTime = Math.ceil(wordCount / wordsPerMinute)
+  return `${readingTime} min read`
+}

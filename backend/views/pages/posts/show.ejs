@@ -1,18 +1,45 @@
-<div class="container mx-auto mt-8 px-4 max-w-none pb-24 md:pb-16" style="flex: 1" data-controller="highlight">
-  <div class="article mt-6">
-    <h1 class="text-center text-4xl font-heading font-normal mb-3 text-violet-950 dark:text-brand-light"><%= post.title %></h1>
-    <% if (post.subheading) { %>
-      <p class="text-center text-xl text-gray-600 dark:text-gray-400 mb-3"><%= post.subheading %></p>
-    <% } %>
-    <div class="flex flex-wrap items-center justify-center gap-2 mb-12">
-      <p class="text-gray-500 dark:text-gray-400"><%= formatTime(post.publishedDate) %></p>
-      <% if (post.tags && post.tags.length > 0) { %>
-        <span class="text-gray-400 dark:text-gray-500">&bull;</span>
-        <%- include('../../partials/tags', { tags: post.tags }) %>
+<div class="container mx-auto mt-6 px-4 max-w-3xl pb-24 md:pb-16" style="flex: 1" data-controller="highlight">
+  
+  <!-- Back Link -->
+  <div class="mb-8">
+    <a href="/posts" class="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-500 hover:text-brand dark:text-neutral-400 dark:hover:text-brand-light transition-colors group">
+      <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Back to Writing
+    </a>
+  </div>
+
+  <article class="flex flex-col gap-6">
+    <header class="flex flex-col gap-3">
+      <h1 class="text-3xl sm:text-5xl font-bold font-heading tracking-tight leading-tight text-neutral-950 dark:text-neutral-50">
+        <%= post.title %>
+      </h1>
+      
+      <% if (post.subheading) { %>
+        <p class="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 font-light leading-relaxed">
+          <%= post.subheading %>
+        </p>
       <% } %>
-    </div>
-    <div class="prose sm:prose-lg dark:prose-invert" style="text-align: justify; overflow-wrap: break-word">
+
+      <div class="flex flex-wrap items-center gap-2 mt-2 text-xs text-neutral-400 dark:text-neutral-500">
+        <time datetime="<%= post.publishedDate %>"><%= formatTime(post.publishedDate) %></time>
+        <span>&bull;</span>
+        <span><%= getReadingTime(post.html) %></span>
+        
+        <% if (post.tags && post.tags.length > 0) { %>
+          <span>&bull;</span>
+          <%- include('../../partials/tags', { tags: post.tags }) %>
+        <% } %>
+      </div>
+    </header>
+
+    <hr class="my-4 border-neutral-200 dark:border-neutral-800" />
+
+    <div class="prose sm:prose-lg dark:prose-invert max-w-none mt-4" style="overflow-wrap: break-word">
       <%- post.html %>
     </div>
-  </div>
+  </article>
+
 </div>

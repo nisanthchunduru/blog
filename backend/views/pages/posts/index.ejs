@@ -1,23 +1,56 @@
-<div class="container mx-auto px-4 max-w-none pb-24 md:pb-16 text-center" style="flex: 1">
-  <div class="mt-8 md:mt-16">
+<div class="container mx-auto px-4 mt-6 md:mt-16 pb-24 md:pb-16 max-w-3xl" style="flex: 1">
+  <div class="flex flex-col gap-3 mb-10 md:mb-14">
+    <h1 class="text-4xl sm:text-5xl font-bold font-heading tracking-tighter text-neutral-950 dark:text-neutral-50">
+      Writing
+    </h1>
+    <p class="text-neutral-500 dark:text-neutral-400 font-light">
+      Thoughts, guides, and articles on software engineering, DevOps, and machine learning.
+    </p>
+  </div>
+
+  <div class="flex flex-col gap-12 md:gap-16">
     <% yearGroups.forEach(([year, yearPosts]) => { %>
-      <% yearPosts.forEach(post => { %>
-        <div class="mt-10">
-          <h3 class="text-2xl sm:text-3xl font-light mb-3">
-            <a class="text-gray-900 dark:text-gray-100 hover:text-brand dark:hover:text-brand-light transition-colors" href="/posts/<%= post.slug %>"><%= post.title %></a>
-          </h3>
-          <% if (post.subheading) { %>
-            <p class="mt-1 text-base leading-relaxed text-gray-600 dark:text-gray-400 mb-3 mx-auto max-w-2xl"><%= post.subheading %></p>
-          <% } %>
-          <div class="flex flex-wrap items-center justify-center gap-2 mb-2">
-            <p class="text-gray-500 dark:text-gray-400"><%= formatTime(post.publishedDate) %></p>
-            <% if (post.tags && post.tags.length > 0) { %>
-              <span class="text-gray-400 dark:text-gray-500">&bull;</span>
-              <%- include('../../partials/tags', { tags: post.tags }) %>
-            <% } %>
-          </div>
+      <div class="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-4 md:gap-8 items-start">
+        
+        <!-- Year Header -->
+        <div class="text-2xl font-bold font-heading text-neutral-300 dark:text-neutral-700 md:sticky md:top-8 md:text-left">
+          <%= year %>
         </div>
-      <% }) %>
+
+        <!-- Year Posts List -->
+        <div class="flex flex-col gap-8">
+          <% yearPosts.forEach(post => { %>
+            <article class="group flex flex-col gap-2.5">
+              <h2 class="text-xl sm:text-2xl font-semibold tracking-tight leading-snug">
+                <a class="text-neutral-900 dark:text-neutral-50 hover:text-brand dark:hover:text-brand-light transition-colors" href="/posts/<%= post.slug %>">
+                  <%= post.title %>
+                </a>
+              </h2>
+              
+              <% if (post.subheading) { %>
+                <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-light">
+                  <%= post.subheading %>
+                </p>
+              <% } %>
+
+              <div class="flex flex-wrap items-center gap-2 mt-1 text-xs">
+                <time class="text-neutral-400 dark:text-neutral-500" datetime="<%= post.publishedDate %>">
+                  <%= formatTime(post.publishedDate) %>
+                </time>
+                <span class="text-neutral-300 dark:text-neutral-700">&bull;</span>
+                <span class="text-neutral-400 dark:text-neutral-500">
+                  <%= getReadingTime(post.html) %>
+                </span>
+                <% if (post.tags && post.tags.length > 0) { %>
+                  <span class="text-neutral-300 dark:text-neutral-700">&bull;</span>
+                  <%- include('../../partials/tags', { tags: post.tags }) %>
+                <% } %>
+              </div>
+            </article>
+          <% }) %>
+        </div>
+
+      </div>
     <% }) %>
   </div>
 </div>

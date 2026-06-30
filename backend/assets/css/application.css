@@ -14,14 +14,16 @@
   box-sizing: border-box;
 }
 html {
-  margin: 0 auto;
-  max-width: 768px;
+  margin: 0;
+  max-width: none;
+  width: 100%;
 }
 body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: subpixel-antialiased;
   font-family: "Libre Franklin", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background-color: #FAFAFA;
+  width: 100%;
 }
 h1, h2, h3, h4, h5, h6 {
   font-family: "Nohemi", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
