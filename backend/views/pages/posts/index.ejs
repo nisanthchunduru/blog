@@ -10,14 +10,14 @@
       <div class="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-4 md:gap-8 items-start">
 
         <!-- Year Header -->
-        <div class="text-2xl font-bold font-heading text-neutral-300 dark:text-neutral-700 md:text-left">
+        <div class="text-2xl font-bold font-heading text-neutral-300 dark:text-neutral-700 md:text-left md:pt-6">
           <%= year %>
         </div>
 
         <!-- Year Posts List -->
-        <div class="flex flex-col gap-8">
+        <div class="flex flex-col gap-6">
           <% yearPosts.forEach(post=> { %>
-            <article class="group flex flex-col gap-2.5">
+            <article class="p-5 sm:p-6 rounded-2xl bg-white dark:bg-neutral-900/15 border border-neutral-200/70 dark:border-neutral-800/80 hover:border-brand/30 dark:hover:border-brand-light/35 transition-all duration-200 shadow-sm hover:shadow">
               <h2 class="text-xl sm:text-2xl font-semibold tracking-tight leading-snug">
                 <a class="text-neutral-900 dark:text-neutral-50 hover:text-brand dark:hover:text-brand-light transition-colors"
                   href="/posts/<%= post.slug %>">
@@ -26,26 +26,26 @@
               </h2>
 
               <% if (post.subheading) { %>
-                <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-light">
+                <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-light mt-2">
                   <%= post.subheading %>
                 </p>
-                <% } %>
+              <% } %>
 
-                  <div class="flex flex-wrap items-center gap-2 mt-1 text-xs">
-                    <time class="text-neutral-400 dark:text-neutral-500" datetime="<%= post.publishedDate %>">
-                      <%= formatTime(post.publishedDate) %>
-                    </time>
-                    <span class="text-neutral-300 dark:text-neutral-700">&bull;</span>
-                    <span class="text-neutral-400 dark:text-neutral-500">
-                      <%= getReadingTime(post.html) %>
-                    </span>
-                    <% if (post.tags && post.tags.length> 0) { %>
-                      <span class="text-neutral-300 dark:text-neutral-700">&bull;</span>
-                      <%- include('../../partials/tags', { tags: post.tags }) %>
-                        <% } %>
-                  </div>
+              <div class="flex flex-wrap items-center gap-2 mt-4 pt-3 border-t border-neutral-100 dark:border-neutral-800/40 text-xs">
+                <time class="text-neutral-400 dark:text-neutral-500" datetime="<%= post.publishedDate %>">
+                  <%= formatTime(post.publishedDate) %>
+                </time>
+                <span class="text-neutral-300 dark:text-neutral-700">&bull;</span>
+                <span class="text-neutral-400 dark:text-neutral-500">
+                  <%= getReadingTime(post.html) %>
+                </span>
+                <% if (post.tags && post.tags.length > 0) { %>
+                  <span class="text-neutral-300 dark:text-neutral-700">&bull;</span>
+                  <%- include('../../partials/tags', { tags: post.tags }) %>
+                <% } %>
+              </div>
             </article>
-            <% }) %>
+          <% }) %>
         </div>
 
       </div>
