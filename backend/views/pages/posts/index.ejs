@@ -1,6 +1,6 @@
 <div class="container mx-auto px-4 mt-6 md:mt-16 pb-24 md:pb-16 max-w-3xl" style="flex: 1">
   <div class="flex flex-col gap-3 mb-10 md:mb-14">
-    <h1 class="text-4xl sm:text-5xl font-bold font-heading tracking-tighter text-neutral-950 dark:text-neutral-50">
+    <h1 class="text-4xl sm:text-5xl font-bold font-heading text-neutral-950 dark:text-neutral-50">
       Posts
     </h1>
   </div>
@@ -18,7 +18,7 @@
         <div class="flex flex-col gap-6">
           <% yearPosts.forEach(post=> { %>
             <article class="p-5 sm:p-6 rounded-2xl bg-white dark:bg-neutral-900/15 border border-neutral-200/70 dark:border-neutral-800/80 hover:border-brand/30 dark:hover:border-brand-light/35 transition-all duration-200 shadow-sm hover:shadow">
-              <h2 class="text-xl sm:text-2xl font-semibold tracking-tight leading-snug">
+              <h2 class="text-xl sm:text-2xl font-semibold leading-snug">
                 <a class="text-neutral-900 dark:text-neutral-50 hover:text-brand dark:hover:text-brand-light transition-colors"
                   href="/posts/<%= post.slug %>">
                   <%= post.title %>
