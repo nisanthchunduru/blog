@@ -6,17 +6,10 @@ vars:
   SERVER_DESTINATION_DIR: /opt/blog
   SERVER_NODE_VERSION: 24.16.0
   SERVER_CADDY_INSTALLER: scripts/server/install-caddy.sh
-  SERVER_SSH_OPTIONS: -o StrictHostKeyChecking=accept-new
   SERVER_SYSTEMD_INSTALLER: scripts/server/install-systemd-services.sh
 
 tasks:
   assert-env:
-    dotenv: [".env"]
-    cmds:
-      - test -n "${SERVER_IP_ADDRESS:-}"
-      - test -n "${SERVER_USERNAME:-}"
-
-  assert-gcloud-env:
     dotenv: [".env"]
     cmds:
       - test -n "${GOOGLE_CLOUD_SERVER_USERNAME:-}"
@@ -33,68 +26,8 @@ tasks:
       - PATH="$(mise where node)/bin:$PATH" npm run build:css
       - PATH="$(mise where node)/bin:$PATH" npm run fingerprint-assets
 
-  prepare-server:
-    deps: [assert-env]
-    dotenv: [".env"]
-    cmds:
-      - ssh {{.SERVER_SSH_OPTIONS}} "${SERVER_USERNAME}@${SERVER_IP_ADDRESS}" "sudo install -d -o ${SERVER_USERNAME} -g ${SERVER_USERNAME} {{.SERVER_DESTINATION_DIR}} {{.SERVER_DESTINATION_DIR}}/backend {{.SERVER_DESTINATION_DIR}}/backend/dist {{.SERVER_DESTINATION_DIR}}/backend/public {{.SERVER_DESTINATION_DIR}}/backend/views {{.SERVER_DESTINATION_DIR}}/config {{.SERVER_DESTINATION_DIR}}/tmp {{.SERVER_DESTINATION_DIR}}/tmp/cache"
-
-  install-node:
-    deps: [assert-env]
-    dotenv: [".env"]
-    cmds:
-      - ssh {{.SERVER_SSH_OPTIONS}} "${SERVER_USERNAME}@${SERVER_IP_ADDRESS}" "if command -v node >/dev/null 2>&1 && node --version | grep -q '^v24\.'; then echo \"Node \$(node --version) already installed\"; else cd /tmp && curl -fsSLO https://nodejs.org/dist/v{{.SERVER_NODE_VERSION}}/node-v{{.SERVER_NODE_VERSION}}-linux-x64.tar.xz && sudo mkdir -p /opt/node && sudo tar -xJf node-v{{.SERVER_NODE_VERSION}}-linux-x64.tar.xz -C /opt/node --strip-components=1 && sudo ln -sf /opt/node/bin/node /usr/local/bin/node && sudo ln -sf /opt/node/bin/npm /usr/local/bin/npm && sudo ln -sf /opt/node/bin/npx /usr/local/bin/npx && node --version && npm --version; fi"
-
-  copy-runtime-files:
-    deps: [assert-env]
-    dotenv: [".env"]
-    cmds:
-      - rsync -az --delete -e "ssh {{.SERVER_SSH_OPTIONS}}" package.json package-lock.json "${SERVER_USERNAME}@${SERVER_IP_ADDRESS}:{{.SERVER_DESTINATION_DIR}}/"
-      - rsync -az --delete -e "ssh {{.SERVER_SSH_OPTIONS}}" backend/dist/ "${SERVER_USERNAME}@${SERVER_IP_ADDRESS}:{{.SERVER_DESTINATION_DIR}}/backend/dist/"
-      - rsync -az --delete -e "ssh {{.SERVER_SSH_OPTIONS}}" backend/public/ "${SERVER_USERNAME}@${SERVER_IP_ADDRESS}:{{.SERVER_DESTINATION_DIR}}/backend/public/"
-      - rsync -az --delete -e "ssh {{.SERVER_SSH_OPTIONS}}" backend/views/ "${SERVER_USERNAME}@${SERVER_IP_ADDRESS}:{{.SERVER_DESTINATION_DIR}}/backend/views/"
-      - rsync -az --delete -e "ssh {{.SERVER_SSH_OPTIONS}}" config/ "${SERVER_USERNAME}@${SERVER_IP_ADDRESS}:{{.SERVER_DESTINATION_DIR}}/config/"
-      - scp {{.SERVER_SSH_OPTIONS}} .env "${SERVER_USERNAME}@${SERVER_IP_ADDRESS}:{{.SERVER_DESTINATION_DIR}}/.env"
-
-  install-dependencies:
-    deps: [assert-env]
-    dotenv: [".env"]
-    cmds:
-      - ssh {{.SERVER_SSH_OPTIONS}} "${SERVER_USERNAME}@${SERVER_IP_ADDRESS}" "cd {{.SERVER_DESTINATION_DIR}} && npm ci --omit=dev"
-
-  install-systemd-services:
-    deps: [assert-env]
-    dotenv: [".env"]
-    cmds:
-      - scp {{.SERVER_SSH_OPTIONS}} {{.SERVER_SYSTEMD_INSTALLER}} "${SERVER_USERNAME}@${SERVER_IP_ADDRESS}:/tmp/blog-install-systemd-services.sh"
-      - ssh {{.SERVER_SSH_OPTIONS}} "${SERVER_USERNAME}@${SERVER_IP_ADDRESS}" "chmod +x /tmp/blog-install-systemd-services.sh && /tmp/blog-install-systemd-services.sh {{.SERVER_DESTINATION_DIR}} ${SERVER_USERNAME} ${SERVER_NODE_PATH:-/usr/local/bin/node}"
-
-  restart:
-    deps: [assert-env]
-    dotenv: [".env"]
-    cmds:
-      - ssh {{.SERVER_SSH_OPTIONS}} "${SERVER_USERNAME}@${SERVER_IP_ADDRESS}" "sudo systemctl restart blog.service blog-sync.service"
-
-  status:
-    deps: [assert-env]
-    dotenv: [".env"]
-    cmds:
-      - ssh {{.SERVER_SSH_OPTIONS}} "${SERVER_USERNAME}@${SERVER_IP_ADDRESS}" "systemctl --no-pager --full status blog.service blog-sync.service"
-
-  logs:
-    deps: [assert-env]
-    dotenv: [".env"]
-    cmds:
-      - ssh {{.SERVER_SSH_OPTIONS}} "${SERVER_USERNAME}@${SERVER_IP_ADDRESS}" "journalctl -u blog.service -u blog-sync.service -f"
-
   ssh:
     deps: [assert-env]
-    dotenv: [".env"]
-    cmds:
-      - ssh -t {{.SERVER_SSH_OPTIONS}} "${SERVER_USERNAME}@${SERVER_IP_ADDRESS}"
-
-  gcloud-ssh:
-    deps: [assert-gcloud-env]
     dotenv: [".env"]
     cmds:
       - |
@@ -106,8 +39,8 @@ tasks:
         fi
         "$gcloud_bin" compute ssh "${GOOGLE_CLOUD_SERVER_USERNAME}@{{.GOOGLE_CLOUD_SERVER_NAME}}" --zone="$server_zone"
 
-  gcloud-prepare-server:
-    deps: [assert-gcloud-env]
+  prepare-server:
+    deps: [assert-env]
     dotenv: [".env"]
     cmds:
       - |
@@ -119,8 +52,8 @@ tasks:
         fi
         "$gcloud_bin" compute ssh "${GOOGLE_CLOUD_SERVER_USERNAME}@{{.GOOGLE_CLOUD_SERVER_NAME}}" --zone="$server_zone" --command="sudo install -d -o ${GOOGLE_CLOUD_SERVER_USERNAME} -g ${GOOGLE_CLOUD_SERVER_USERNAME} {{.SERVER_DESTINATION_DIR}} {{.SERVER_DESTINATION_DIR}}/backend {{.SERVER_DESTINATION_DIR}}/backend/dist {{.SERVER_DESTINATION_DIR}}/backend/public {{.SERVER_DESTINATION_DIR}}/backend/views {{.SERVER_DESTINATION_DIR}}/config {{.SERVER_DESTINATION_DIR}}/tmp {{.SERVER_DESTINATION_DIR}}/tmp/cache"
 
-  gcloud-copy-runtime-files:
-    deps: [assert-gcloud-env]
+  copy-runtime-files:
+    deps: [assert-env]
     dotenv: [".env"]
     cmds:
       - |
@@ -138,8 +71,8 @@ tasks:
         "$gcloud_bin" compute scp --recurse --zone="$server_zone" config "${GOOGLE_CLOUD_SERVER_USERNAME}@{{.GOOGLE_CLOUD_SERVER_NAME}}:{{.SERVER_DESTINATION_DIR}}/"
         "$gcloud_bin" compute scp --zone="$server_zone" .env "${GOOGLE_CLOUD_SERVER_USERNAME}@{{.GOOGLE_CLOUD_SERVER_NAME}}:{{.SERVER_DESTINATION_DIR}}/.env"
 
-  gcloud-install-dependencies:
-    deps: [assert-gcloud-env]
+  install-dependencies:
+    deps: [assert-env]
     dotenv: [".env"]
     cmds:
       - |
@@ -151,8 +84,8 @@ tasks:
         fi
         "$gcloud_bin" compute ssh "${GOOGLE_CLOUD_SERVER_USERNAME}@{{.GOOGLE_CLOUD_SERVER_NAME}}" --zone="$server_zone" --command="set -e; cd {{.SERVER_DESTINATION_DIR}}; export PATH=\"\$HOME/.local/bin:\$HOME/.local/share/mise/shims:\$PATH\"; mise install node@{{.SERVER_NODE_VERSION}}; node_bin=\"\$(mise where node@{{.SERVER_NODE_VERSION}})/bin\"; PATH=\"\$node_bin:\$PATH\" npm ci --omit=dev"
 
-  gcloud-install-systemd-services:
-    deps: [assert-gcloud-env]
+  install-systemd-services:
+    deps: [assert-env]
     dotenv: [".env"]
     cmds:
       - |
@@ -165,8 +98,8 @@ tasks:
         "$gcloud_bin" compute scp --zone="$server_zone" {{.SERVER_SYSTEMD_INSTALLER}} "${GOOGLE_CLOUD_SERVER_USERNAME}@{{.GOOGLE_CLOUD_SERVER_NAME}}:/tmp/blog-install-systemd-services.sh"
         "$gcloud_bin" compute ssh "${GOOGLE_CLOUD_SERVER_USERNAME}@{{.GOOGLE_CLOUD_SERVER_NAME}}" --zone="$server_zone" --command="set -e; export PATH=\"\$HOME/.local/bin:\$HOME/.local/share/mise/shims:\$PATH\"; mise install node@{{.SERVER_NODE_VERSION}}; node_path=\"\$(mise where node@{{.SERVER_NODE_VERSION}})/bin/node\"; chmod +x /tmp/blog-install-systemd-services.sh; /tmp/blog-install-systemd-services.sh {{.SERVER_DESTINATION_DIR}} ${GOOGLE_CLOUD_SERVER_USERNAME} \"\$node_path\""
 
-  gcloud-restart:
-    deps: [assert-gcloud-env]
+  restart:
+    deps: [assert-env]
     dotenv: [".env"]
     cmds:
       - |
@@ -178,8 +111,8 @@ tasks:
         fi
         "$gcloud_bin" compute ssh "${GOOGLE_CLOUD_SERVER_USERNAME}@{{.GOOGLE_CLOUD_SERVER_NAME}}" --zone="$server_zone" --command="sudo systemctl restart blog.service blog-sync.service"
 
-  gcloud-install-caddy:
-    deps: [assert-gcloud-env]
+  install-caddy:
+    deps: [assert-env]
     dotenv: [".env"]
     cmds:
       - |
@@ -192,7 +125,7 @@ tasks:
         "$gcloud_bin" compute scp --zone="$server_zone" {{.SERVER_CADDY_INSTALLER}} "${GOOGLE_CLOUD_SERVER_USERNAME}@{{.GOOGLE_CLOUD_SERVER_NAME}}:/tmp/blog-install-caddy.sh"
         "$gcloud_bin" compute ssh "${GOOGLE_CLOUD_SERVER_USERNAME}@{{.GOOGLE_CLOUD_SERVER_NAME}}" --zone="$server_zone" --command="chmod +x /tmp/blog-install-caddy.sh && /tmp/blog-install-caddy.sh ${SERVER_DOMAIN_NAME:-{{.SERVER_DOMAIN_NAME}}}"
 
-  gcloud-allow-https:
+  allow-https:
     cmds:
       - |
         gcloud_bin="${GCLOUD_BIN:-gcloud}"
@@ -206,20 +139,13 @@ tasks:
           "$gcloud_bin" compute firewall-rules create blog-allow-https --network=default --direction=INGRESS --priority=1000 --source-ranges=0.0.0.0/0 --target-tags=https-server --allow=tcp:443
         fi
 
-  update-gcloud-dns-record:
+  update-dns-record:
     deps: [assert-cloudflare-env]
     dotenv: [".env"]
     cmds:
-      - |
-        gcloud_bin="${GCLOUD_BIN:-gcloud}"
-        server_ip_address="$("$gcloud_bin" compute instances list --filter='name={{.GOOGLE_CLOUD_SERVER_NAME}}' --format='value(networkInterfaces[0].accessConfigs[0].natIP)' --limit=1)"
-        if [ -z "$server_ip_address" ]; then
-          echo "Could not find an external IP address for Google Cloud instance {{.GOOGLE_CLOUD_SERVER_NAME}}" >&2
-          exit 1
-        fi
-        SERVER_IP_ADDRESS="$server_ip_address" PATH="$(mise where node)/bin:$PATH" node scripts/cloudflare/update-a-record.mjs
+      - PATH="$(mise where node)/bin:$PATH" node scripts/cloudflare/update-a-record.mjs {{.GOOGLE_CLOUD_SERVER_NAME}}
 
-  generic-deploy:
+  deploy:
     cmds:
       - task: build
       - task: prepare-server
@@ -227,28 +153,3 @@ tasks:
       - task: install-dependencies
       - task: install-systemd-services
       - task: restart
-
-  gcloud-deploy:
-    cmds:
-      - task: build
-      - task: gcloud-prepare-server
-      - task: gcloud-copy-runtime-files
-      - task: gcloud-install-dependencies
-      - task: gcloud-install-systemd-services
-      - task: gcloud-restart
-
-  deploy:
-    dotenv: [".env"]
-    cmds:
-      - |
-        if [ -n "${GOOGLE_CLOUD_SERVER_USERNAME:-}" ]; then
-          task deploy2server:gcloud-deploy
-        else
-          task deploy2server:generic-deploy
-        fi
-
-  setup-server:
-    cmds:
-      - task: prepare-server
-      - task: install-node
-      - task: install-systemd-services

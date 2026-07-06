@@ -30,9 +30,3 @@ run = "npx tsc"
 
 [tasks.sync]
 run = "npx tsx backend/daemons/sync.ts"
-
-[tasks."docker:push"]
-run = "docker build -f Dockerfile.production -t nisanth074/blog:latest . --push"
-
-[tasks."docker:push:x86"]
-run = "docker buildx build --platform linux/amd64 -f Dockerfile.production -t nisanth074/blog:latest . --push"

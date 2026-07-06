@@ -65,7 +65,7 @@ vim .env
 GOOGLE_CLOUD_PROJECT_ID=actual-project-id
 ```
 
-#### GCP Cloud VM
+#### GCP Cloud Functions
 
 ```sh
 cd infra/google-cloud/
@@ -74,18 +74,9 @@ cd ../..
 task deploy2gcp
 ```
 
-#### GCP Cloud Functions
+### Google Cloud VM
 
-
-### Cloud VM
-
-Add `SERVER_IP_ADDRESS` and `SERVER_USERNAME` env vars to `.env` and run
-
-```
-task deploy2server
-```
-
-### DNS
+Set `GOOGLE_CLOUD_SERVER_USERNAME` in `.env`. The deployment tasks resolve the VM named `blog` through `gcloud`.
 
 To update the Cloudflare `A` record to the Google Cloud VM's current external IP, set `CLOUDFLARE_API_TOKEN`. Override `CLOUDFLARE_ZONE_NAME`, `CLOUDFLARE_DNS_RECORD_NAME`, and `CLOUDFLARE_DNS_RECORD_PROXIED` when needed.
 
@@ -96,18 +87,12 @@ task update-dns-record
 Install Caddy for HTTPS on the Google Cloud VM:
 
 ```sh
-task gcloud-allow-https
-task gcloud-install-caddy
-```
-
-Run the server setup once:
-
-```sh
-task setup-server
+task gcloud-server:allow-https
+task gcloud-server:install-caddy
 ```
 
 Deploy the blog:
 
 ```sh
-task deploy2server
+task deploy
 ```

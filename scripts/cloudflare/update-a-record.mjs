@@ -1,4 +1,8 @@
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
+
 const cloudflareApiBaseUrl = 'https://api.cloudflare.com/client/v4';
+const execFileAsync = promisify(execFile);
 
 function requiredEnv(name) {
   const value = process.env[name];
@@ -38,10 +42,28 @@ function firstResult(responseBody, description) {
   return result;
 }
 
+async function googleCloudServerIpAddress(serverName) {
+  const gcloudBin = process.env.GCLOUD_BIN || 'gcloud';
+  const { stdout } = await execFileAsync(gcloudBin, [
+    'compute',
+    'instances',
+    'list',
+    `--filter=name=${serverName}`,
+    '--format=value(networkInterfaces[0].accessConfigs[0].natIP)',
+    '--limit=1'
+  ]);
+  const serverIpAddress = stdout.trim();
+  if (!serverIpAddress) {
+    throw new Error(`Could not find an external IP address for Google Cloud instance ${serverName}`);
+  }
+  return serverIpAddress;
+}
+
 async function main() {
   const zoneName = process.env.CLOUDFLARE_ZONE_NAME || 'nisanthchunduru.com';
   const recordName = process.env.CLOUDFLARE_DNS_RECORD_NAME || zoneName;
-  const serverIpAddress = requiredEnv('SERVER_IP_ADDRESS');
+  const serverName = process.argv[2] || 'blog';
+  const serverIpAddress = await googleCloudServerIpAddress(serverName);
   const proxied = parseBoolean(process.env.CLOUDFLARE_DNS_RECORD_PROXIED, undefined);
 
   const zoneResponse = await cloudflareRequest(`/zones?name=${encodeURIComponent(zoneName)}`);
