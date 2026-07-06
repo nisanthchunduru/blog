@@ -39,7 +39,9 @@ cd ../..
 task deploy2aws
 ```
 
-### GCP
+### GCP Cloud VM
+
+Create a GCP project and create a Cloud VM named `blog` in that project
 
 Install `gcloud-cli`
 
@@ -60,39 +62,35 @@ Add `GOOGLE_CLOUD_PROJECT_ID` env var to `.env` and run
 ```sh
 vim .env
 ```
-
 ```sh
 GOOGLE_CLOUD_PROJECT_ID=actual-project-id
+GOOGLE_CLOUD_SERVER_USERNAME=actual-username
 ```
 
-#### GCP Cloud Functions
+Deploy
 
-```sh
-cd infra/google-cloud/
-terraform init
-cd ../..
-task deploy2gcp
+```
+task deploytogcpvm
 ```
 
-### Google Cloud VM
+#### Update DNS record
 
-Set `GOOGLE_CLOUD_SERVER_USERNAME` in `.env`. The deployment tasks resolve the VM named `blog` through `gcloud`.
-
-To update the Cloudflare `A` record to the Google Cloud VM's current external IP, set `CLOUDFLARE_API_TOKEN`. Override `CLOUDFLARE_ZONE_NAME`, `CLOUDFLARE_DNS_RECORD_NAME`, and `CLOUDFLARE_DNS_RECORD_PROXIED` when needed.
+Add `CLOUDFLARE_API_TOKEN` env var to .env
 
 ```sh
 task update-dns-record
 ```
 
-Install Caddy for HTTPS on the Google Cloud VM:
+#### Setup HTTPS
 
-```sh
+Add a GCP firewall rule to allow traffic to port 443
+
+```
 task gcloud-server:allow-https
-task gcloud-server:install-caddy
 ```
 
-Deploy the blog:
+Install Caddy
 
 ```sh
-task deploy
+task gcloud-server:install-caddy
 ```

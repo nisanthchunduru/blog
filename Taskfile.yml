@@ -4,9 +4,6 @@ includes:
   deploy2aws:
     taskfile: ./taskfiles/aws-deployment.yml
     dir: .
-  deploy2gcp:
-    taskfile: ./taskfiles/google-cloud-functions.yml
-    dir: .
   gcloud-server:
     taskfile: ./taskfiles/server-deployment.yml
     dir: .
@@ -23,7 +20,7 @@ tasks:
     cmds:
       - task: setup:run
 
-  deploy:
+  deploytogcpvm:
     desc: "Deploy to Google Cloud server"
     cmds:
       - task: gcloud-server:deploy
@@ -32,11 +29,6 @@ tasks:
     desc: "Deploy to AWS"
     cmds:
       - task: deploy2aws:run
-
-  deploy2gcp:
-    desc: "Deploy to Google Cloud Run functions"
-    cmds:
-      - task: deploy2gcp:deploy
 
   gcloud-server-ssh:
     desc: "SSH into Google Cloud server"
