@@ -11,8 +11,11 @@ dotenv.config()
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const projectRoot = process.env.LAMBDA_TASK_ROOT || __dirname
+const shouldUseFingerprintedAssets = process.env.NODE_ENV === 'production'
 
 function loadAssetsFingerprints(): Record<string, string> {
+  if (!shouldUseFingerprintedAssets) return {}
+
   const fingerprintsPath = path.join(projectRoot, 'public/assets/fingerprints.json')
   return fs.existsSync(fingerprintsPath)
     ? JSON.parse(fs.readFileSync(fingerprintsPath, 'utf8'))
