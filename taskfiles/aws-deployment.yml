@@ -36,8 +36,8 @@ tasks:
       - task: create-backend-lambda-zip
 
   terraform-apply:
-    dir: infra
-    dotenv: ['../.env']
+    dir: infra/aws
+    dotenv: ['../../.env']
     cmds:
       - terraform init
       - terraform apply -auto-approve

@@ -44,4 +44,3 @@ const fingerprints = {};
 });
 
 fs.writeFileSync(path.join(publicDir, 'assets/fingerprints.json'), JSON.stringify(fingerprints, null, 2));
-console.log('Asset fingerprints:', fingerprints);

@@ -10,7 +10,18 @@ dotenv.config()
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-const projectRoot = process.env.LAMBDA_TASK_ROOT || __dirname
+
+function resolveProjectRoot(): string {
+  const configuredProjectRoot = process.env.BLOG_PROJECT_ROOT || process.env.LAMBDA_TASK_ROOT
+  if (configuredProjectRoot) return configuredProjectRoot
+
+  const compiledBackendRoot = path.resolve(__dirname, '..')
+  if (fs.existsSync(path.join(compiledBackendRoot, 'views'))) return compiledBackendRoot
+
+  return __dirname
+}
+
+const projectRoot = resolveProjectRoot()
 const shouldUseFingerprintedAssets = process.env.NODE_ENV === 'production'
 
 function loadAssetsFingerprints(): Record<string, string> {

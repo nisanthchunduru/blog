@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 vars:
   SERVER_USER: root
@@ -9,6 +9,12 @@ vars:
 includes:
   deploy2aws:
     taskfile: ./taskfiles/aws-deployment.yml
+    dir: .
+  deploy2gcp:
+    taskfile: ./taskfiles/google-cloud-functions.yml
+    dir: .
+  deploy2server:
+    taskfile: ./taskfiles/server-deployment.yml
     dir: .
   sync:
     taskfile: ./taskfiles/sync.yml
@@ -101,6 +107,51 @@ tasks:
     desc: "Deploy to AWS"
     cmds:
       - task: deploy2aws:run
+
+  deploy2gcp:
+    desc: "Deploy to Google Cloud Run functions"
+    cmds:
+      - task: deploy2gcp:deploy
+
+  deploy2server:
+    desc: "Deploy to server"
+    cmds:
+      - task: deploy2server:deploy
+
+  setup-server:
+    desc: "Set up server runtime"
+    cmds:
+      - task: deploy2server:setup-server
+
+  server-ssh:
+    desc: "SSH into server"
+    cmds:
+      - task: deploy2server:ssh
+
+  gcloud-server-ssh:
+    desc: "SSH into Google Cloud server"
+    cmds:
+      - task: deploy2server:gcloud-ssh
+
+  update-dns-record:
+    desc: "Update Cloudflare A record to Google Cloud server IP"
+    cmds:
+      - task: deploy2server:update-gcloud-dns-record
+
+  gcloud-update-dns-record:
+    desc: "Update Cloudflare A record to Google Cloud server IP"
+    cmds:
+      - task: deploy2server:update-gcloud-dns-record
+
+  gcloud-install-caddy:
+    desc: "Install Caddy on Google Cloud server"
+    cmds:
+      - task: deploy2server:gcloud-install-caddy
+
+  gcloud-allow-https:
+    desc: "Allow HTTPS traffic to Google Cloud server"
+    cmds:
+      - task: deploy2server:gcloud-allow-https
 
   setup:
     desc: Setup development environment

@@ -1,0 +1,35 @@
+FROM node:24-bookworm-slim AS builder
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY backend ./backend
+COPY config ./config
+COPY scripts ./scripts
+COPY postcss.config.js tailwind.config.js tsconfig.json tsconfig.sync.json ./
+
+RUN npm run build:backend \
+  && npm run build:frontend \
+  && npm run build:css \
+  && npm run fingerprint-assets
+
+FROM node:24-bookworm-slim AS runtime
+
+ENV NODE_ENV=production
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
+
+COPY --from=builder /app/backend/dist ./backend/dist
+COPY --from=builder /app/backend/public ./backend/public
+COPY --from=builder /app/backend/views ./backend/views
+COPY --from=builder /app/config ./config
+
+RUN mkdir -p tmp/cache
+
+EXPOSE 3001
+
+CMD ["node", "backend/dist/index.js"]

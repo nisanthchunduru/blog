@@ -54,10 +54,10 @@ resource "aws_cloudfront_response_headers_policy" "immutable_assets" {
 }
 
 resource "aws_cloudfront_distribution" "blog_frontend" {
-  enabled         = true
-  http_version    = "http3"
-  price_class     = "PriceClass_100"
-  aliases         = [var.domain_name, "www.${var.domain_name}"]
+  enabled      = true
+  http_version = "http3"
+  price_class  = "PriceClass_100"
+  aliases      = [var.domain_name, "www.${var.domain_name}"]
 
   origin {
     domain_name              = aws_s3_bucket.blog_frontend_bucket.bucket_regional_domain_name

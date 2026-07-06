@@ -30,6 +30,84 @@ and visit http://localhost:3001
 
 ## Deployment
 
-```
+### AWS
+
+```sh
+cd infra/aws/
+terraform init
+cd ../..
 task deploy2aws
+```
+
+### GCP
+
+Install `gcloud-cli`
+
+```sh
+curl https://sdk.cloud.google.com | bash
+```
+
+Authenticate
+
+```sh
+gcloud auth application-default login
+gcloud config set project actual-project-id
+gcloud auth application-default set-quota-project actual-project-id
+```
+
+Add `GOOGLE_CLOUD_PROJECT_ID` env var to `.env` and run
+
+```sh
+vim .env
+```
+
+```sh
+GOOGLE_CLOUD_PROJECT_ID=actual-project-id
+```
+
+#### GCP Cloud VM
+
+```sh
+cd infra/google-cloud/
+terraform init
+cd ../..
+task deploy2gcp
+```
+
+#### GCP Cloud Functions
+
+
+### Cloud VM
+
+Add `SERVER_IP_ADDRESS` and `SERVER_USERNAME` env vars to `.env` and run
+
+```
+task deploy2server
+```
+
+### DNS
+
+To update the Cloudflare `A` record to the Google Cloud VM's current external IP, set `CLOUDFLARE_API_TOKEN`. Override `CLOUDFLARE_ZONE_NAME`, `CLOUDFLARE_DNS_RECORD_NAME`, and `CLOUDFLARE_DNS_RECORD_PROXIED` when needed.
+
+```sh
+task update-dns-record
+```
+
+Install Caddy for HTTPS on the Google Cloud VM:
+
+```sh
+task gcloud-allow-https
+task gcloud-install-caddy
+```
+
+Run the server setup once:
+
+```sh
+task setup-server
+```
+
+Deploy the blog:
+
+```sh
+task deploy2server
 ```

@@ -1,0 +1,28 @@
+services:
+  blog:
+    image: ${ORACLE_CLOUD_IMAGE_NAME:-blog:oracle}
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+    ports:
+      - "80:3001"
+    volumes:
+      - blog-cache:/app/tmp/cache
+
+  sync:
+    image: ${ORACLE_CLOUD_IMAGE_NAME:-blog:oracle}
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      SYNC_INTERVAL: ${SYNC_INTERVAL:-60}
+    command: ["node", "backend/dist/daemons/sync.js"]
+    volumes:
+      - blog-cache:/app/tmp/cache
+
+volumes:
+  blog-cache:

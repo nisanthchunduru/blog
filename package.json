@@ -3,7 +3,18 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Source code of my blog (https://nisanthchunduru.com)",
-  "scripts": {},
+  "main": "backend/dist/google-cloud-functions/index.js",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "build:backend": "cd backend && tsc",
+    "build:frontend": "esbuild backend/assets/js/application.ts --bundle --minify --outfile=backend/public/assets/application.js",
+    "build:css": "tailwindcss -i backend/assets/css/application.css -o backend/public/assets/application.css --minify",
+    "fingerprint-assets": "node scripts/fingerprint-assets.cjs",
+    "build:google-cloud-functions": "npm run build:backend && npm run build:frontend && npm run build:css && npm run fingerprint-assets",
+    "gcp-build": "npm run build:google-cloud-functions"
+  },
   "keywords": [],
   "author": "",
   "license": "MIT",
@@ -11,6 +22,7 @@
     "@aws-sdk/client-dynamodb": "^3.995.0",
     "@aws-sdk/client-s3": "^3.995.0",
     "@aws-sdk/util-dynamodb": "^3.995.0",
+    "@google-cloud/storage": "^7.21.0",
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo": "^8.0.23",
     "@notionhq/client": "^2.2.15",

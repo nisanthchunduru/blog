@@ -31,9 +31,9 @@ out/
 .vercel
 
 # Terraform
-infra/.terraform/
-infra/terraform.tfstate
-infra/terraform.tfstate.backup
+infra/**/.terraform/
+infra/**/terraform.tfstate
+infra/**/terraform.tfstate.backup
 
 # Kiro
 .kiro/specs/
