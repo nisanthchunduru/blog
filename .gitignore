@@ -13,6 +13,8 @@ tmp/
 
 build/
 
+backend/public/assets/application.css
+backend/public/assets/application.js
 backend/public/assets/fingerprinted/
 backend/public/assets/fingerprints.json
 
