@@ -1,3 +1,11 @@
+<%
+  const currentPagePath = typeof currentPath !== 'undefined' ? currentPath : ''
+  const navLinkClasses = 'inline-flex items-center rounded-full px-3.5 py-1.5 text-sm font-medium transition-all duration-200'
+  const activeNavLinkClasses = `${navLinkClasses} bg-brand text-white shadow-sm shadow-violet-500/20 dark:bg-brand-light dark:text-brand-dark`
+  const inactiveNavLinkClasses = `${navLinkClasses} text-neutral-700 hover:bg-violet-100/70 hover:text-brand dark:text-neutral-300 dark:hover:bg-violet-900/30 dark:hover:text-brand-light`
+  const isPostsActive = currentPagePath.startsWith('/posts')
+  const isChirpsActive = currentPagePath.startsWith('/chirps')
+%>
 <div class="pt-4 sm:pt-6 md:pt-8 pb-3 sm:pb-4 relative">
   <div class="container mx-auto px-4 max-w-5xl flex justify-between items-center">
     <a href="/" class="flex items-center gap-2.5 font-heading font-normal text-2xl sm:text-3xl text-gray-900 dark:text-gray-100 hover:text-brand dark:hover:text-brand-light transition-colors">
@@ -6,16 +14,16 @@
     <nav class="flex items-center rounded-full border border-violet-200/70 bg-white/75 px-1.5 py-1 shadow-sm shadow-violet-950/5 backdrop-blur dark:border-violet-800/50 dark:bg-neutral-950/55 dark:shadow-black/20">
       <ul class="flex items-center gap-1">
         <li>
-          <a class="inline-flex items-center rounded-full px-3.5 py-1.5 text-sm font-medium transition-all duration-200 <%= currentPath?.startsWith('/posts') ? 'bg-brand text-white shadow-sm shadow-violet-500/20 dark:bg-brand-light dark:text-brand-dark' : 'text-neutral-700 hover:bg-violet-100/70 hover:text-brand dark:text-neutral-300 dark:hover:bg-violet-900/30 dark:hover:text-brand-light' %>" href="/posts">Posts</a>
+          <a class="<%= isPostsActive ? activeNavLinkClasses : inactiveNavLinkClasses %>" href="/posts" <%- isPostsActive ? 'aria-current="page"' : '' %>>Posts</a>
         </li>
         <li>
-          <a class="inline-flex items-center rounded-full px-3.5 py-1.5 text-sm font-medium transition-all duration-200 <%= currentPath?.startsWith('/chirps') ? 'bg-brand text-white shadow-sm shadow-violet-500/20 dark:bg-brand-light dark:text-brand-dark' : 'text-neutral-700 hover:bg-violet-100/70 hover:text-brand dark:text-neutral-300 dark:hover:bg-violet-900/30 dark:hover:text-brand-light' %>" href="/chirps">Chirps</a>
+          <a class="<%= isChirpsActive ? activeNavLinkClasses : inactiveNavLinkClasses %>" href="/chirps" <%- isChirpsActive ? 'aria-current="page"' : '' %>>Chirps</a>
         </li>
         <li class="hidden md:list-item">
-          <a class="inline-flex items-center rounded-full px-3.5 py-1.5 text-sm font-medium text-neutral-700 transition-all duration-200 hover:bg-violet-100/70 hover:text-brand dark:text-neutral-300 dark:hover:bg-violet-900/30 dark:hover:text-brand-light" href="https://www.linkedin.com/in/nisanthchunduru" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a class="<%= inactiveNavLinkClasses %>" href="https://www.linkedin.com/in/nisanthchunduru" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </li>
         <li class="hidden md:list-item">
-          <a class="inline-flex items-center rounded-full px-3.5 py-1.5 text-sm font-medium text-neutral-700 transition-all duration-200 hover:bg-violet-100/70 hover:text-brand dark:text-neutral-300 dark:hover:bg-violet-900/30 dark:hover:text-brand-light" href="https://github.com/nisanthchunduru" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="<%= inactiveNavLinkClasses %>" href="https://github.com/nisanthchunduru" target="_blank" rel="noopener noreferrer">GitHub</a>
         </li>
       </ul>
     </nav>
