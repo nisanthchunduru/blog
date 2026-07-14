@@ -108,25 +108,6 @@ router.get('/chirps', async (req, res) => {
   }
 })
 
-router.get('/chirps/:slug', async (req, res) => {
-  try {
-    const chirp = await fetchCachedEntityBySlug<Chirp>(cache, 'chirp', req.params.slug)
-    if (!chirp) {
-      return res.status(404).render('pages/404', { title: 'Not Found', currentPath: req.path })
-    }
-    res.render('pages/chirps/show', {
-      chirp,
-      formatTime,
-      title: chirp.title,
-      ogTitle: chirp.title,
-      currentPath: req.path,
-    })
-  } catch (error) {
-    console.error('Error rendering chirp:', error)
-    res.status(500).send('Internal server error')
-  }
-})
-
 router.get('/library', async (req, res) => {
   try {
     const books = await fetchCachedEntities<Book>(cache, 'library')
