@@ -47,6 +47,8 @@ Install `gcloud-cli`
 
 ```sh
 curl https://sdk.cloud.google.com | bash
+# or
+brew install gcloud-cli
 ```
 
 Authenticate
