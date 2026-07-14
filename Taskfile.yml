@@ -21,6 +21,7 @@ tasks:
       - task: setup:run
 
   deploytogcpvm:
+    aliases: [deploy]
     desc: "Deploy to Google Cloud server"
     cmds:
       - task: gcloud-server:deploy
