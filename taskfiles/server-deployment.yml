@@ -6,6 +6,7 @@ vars:
   SERVER_DESTINATION_DIR: /opt/blog
   SERVER_NODE_VERSION: 24.16.0
   SERVER_CADDY_INSTALLER: scripts/server/install-caddy.sh
+  SERVER_RSYNC_SHELL: scripts/server/gcloud-rsync-shell.sh
   SERVER_SYSTEMD_INSTALLER: scripts/server/install-systemd-services.sh
 
 tasks:
@@ -52,7 +53,7 @@ tasks:
         fi
         "$gcloud_bin" compute ssh "${GOOGLE_CLOUD_SERVER_USERNAME}@{{.GOOGLE_CLOUD_SERVER_NAME}}" --zone="$server_zone" --command="sudo install -d -o ${GOOGLE_CLOUD_SERVER_USERNAME} -g ${GOOGLE_CLOUD_SERVER_USERNAME} {{.SERVER_DESTINATION_DIR}} {{.SERVER_DESTINATION_DIR}}/backend {{.SERVER_DESTINATION_DIR}}/backend/dist {{.SERVER_DESTINATION_DIR}}/backend/public {{.SERVER_DESTINATION_DIR}}/backend/views {{.SERVER_DESTINATION_DIR}}/config {{.SERVER_DESTINATION_DIR}}/tmp {{.SERVER_DESTINATION_DIR}}/tmp/cache"
 
-  copy-runtime-files:
+  install-rsync:
     deps: [assert-env]
     dotenv: [".env"]
     cmds:
@@ -63,13 +64,31 @@ tasks:
           echo "Could not find Google Cloud instance {{.GOOGLE_CLOUD_SERVER_NAME}}" >&2
           exit 1
         fi
-        "$gcloud_bin" compute ssh "${GOOGLE_CLOUD_SERVER_USERNAME}@{{.GOOGLE_CLOUD_SERVER_NAME}}" --zone="$server_zone" --command="rm -rf {{.SERVER_DESTINATION_DIR}}/backend/dist {{.SERVER_DESTINATION_DIR}}/backend/public {{.SERVER_DESTINATION_DIR}}/backend/views {{.SERVER_DESTINATION_DIR}}/config && mkdir -p {{.SERVER_DESTINATION_DIR}}/backend {{.SERVER_DESTINATION_DIR}}/config"
-        "$gcloud_bin" compute scp --zone="$server_zone" package.json package-lock.json "${GOOGLE_CLOUD_SERVER_USERNAME}@{{.GOOGLE_CLOUD_SERVER_NAME}}:{{.SERVER_DESTINATION_DIR}}/"
-        "$gcloud_bin" compute scp --recurse --zone="$server_zone" backend/dist "${GOOGLE_CLOUD_SERVER_USERNAME}@{{.GOOGLE_CLOUD_SERVER_NAME}}:{{.SERVER_DESTINATION_DIR}}/backend/"
-        "$gcloud_bin" compute scp --recurse --zone="$server_zone" backend/public "${GOOGLE_CLOUD_SERVER_USERNAME}@{{.GOOGLE_CLOUD_SERVER_NAME}}:{{.SERVER_DESTINATION_DIR}}/backend/"
-        "$gcloud_bin" compute scp --recurse --zone="$server_zone" backend/views "${GOOGLE_CLOUD_SERVER_USERNAME}@{{.GOOGLE_CLOUD_SERVER_NAME}}:{{.SERVER_DESTINATION_DIR}}/backend/"
-        "$gcloud_bin" compute scp --recurse --zone="$server_zone" config "${GOOGLE_CLOUD_SERVER_USERNAME}@{{.GOOGLE_CLOUD_SERVER_NAME}}:{{.SERVER_DESTINATION_DIR}}/"
-        "$gcloud_bin" compute scp --zone="$server_zone" .env "${GOOGLE_CLOUD_SERVER_USERNAME}@{{.GOOGLE_CLOUD_SERVER_NAME}}:{{.SERVER_DESTINATION_DIR}}/.env"
+        "$gcloud_bin" compute ssh "${GOOGLE_CLOUD_SERVER_USERNAME}@{{.GOOGLE_CLOUD_SERVER_NAME}}" --zone="$server_zone" --command="sudo apt-get update && sudo apt-get install -y rsync"
+
+  sync-runtime-files:
+    deps: [assert-env]
+    dotenv: [".env"]
+    cmds:
+      - |
+        gcloud_bin="${GCLOUD_BIN:-gcloud}"
+        server_zone="$("$gcloud_bin" compute instances list --filter='name={{.GOOGLE_CLOUD_SERVER_NAME}}' --format='value(zone)' --limit=1)"
+        if [ -z "$server_zone" ]; then
+          echo "Could not find Google Cloud instance {{.GOOGLE_CLOUD_SERVER_NAME}}" >&2
+          exit 1
+        fi
+        export GCLOUD_BIN="$gcloud_bin"
+        export GCLOUD_SERVER_USERNAME="${GOOGLE_CLOUD_SERVER_USERNAME}"
+        export GCLOUD_SERVER_ZONE="$server_zone"
+        server="{{.GOOGLE_CLOUD_SERVER_NAME}}"
+        sync_files() {
+          rsync --archive --checksum --compress --human-readable --rsh="{{.SERVER_RSYNC_SHELL}}" "$@"
+        }
+        sync_files package.json package-lock.json .env "$server:{{.SERVER_DESTINATION_DIR}}/"
+        sync_files --delete backend/dist/ "$server:{{.SERVER_DESTINATION_DIR}}/backend/dist/"
+        sync_files --delete backend/public/ "$server:{{.SERVER_DESTINATION_DIR}}/backend/public/"
+        sync_files --delete backend/views/ "$server:{{.SERVER_DESTINATION_DIR}}/backend/views/"
+        sync_files --delete config/ "$server:{{.SERVER_DESTINATION_DIR}}/config/"
 
   install-dependencies:
     deps: [assert-env]
@@ -149,7 +168,7 @@ tasks:
     cmds:
       - task: build
       - task: prepare-server
-      - task: copy-runtime-files
+      - task: sync-runtime-files
       - task: install-dependencies
       - task: install-systemd-services
       - task: restart
