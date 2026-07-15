@@ -31,7 +31,7 @@
   </section>
   <div class="mx-auto max-w-[720px] mt-14 md:mt-16">
     <div class="max-w-[600px]">
-      <%- include('../partials/chirps_feed', { chirpGroups, feedTitle: 'Latest Chirps', titleClassName: 'text-3xl font-light mt-0 mb-6 md:mb-8 text-violet-950 dark:text-violet-300' }) %>
+      <%- include('../partials/chirps_feed', { chirpGroups, displayMode: 'cards', feedTitle: 'Latest Chirps', titleClassName: 'text-3xl font-light mt-0 mb-6 md:mb-8 text-violet-950 dark:text-violet-300' }) %>
     </div>
     <div class="mt-5">
       <a class="text-brand hover:underline" href="/chirps">View all chirps</a>
