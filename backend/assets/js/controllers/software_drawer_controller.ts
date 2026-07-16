@@ -1,9 +1,8 @@
 import { Controller } from '@hotwired/stimulus'
 
 export default class SoftwareDrawerController extends Controller {
-  static targets = ['dialog', 'title', 'readme', 'status', 'statusMessage', 'repositoryLink', 'scrollContainer']
+  static targets = ['dialog', 'readme', 'status', 'statusMessage', 'repositoryLink', 'scrollContainer']
   declare readonly dialogTarget: HTMLDialogElement
-  declare readonly titleTarget: HTMLElement
   declare readonly readmeTarget: HTMLElement
   declare readonly statusTarget: HTMLElement
   declare readonly statusMessageTarget: HTMLElement
@@ -19,12 +18,10 @@ export default class SoftwareDrawerController extends Controller {
   async open(event: Event) {
     const softwareButton = event.currentTarget as HTMLButtonElement
     const repository = softwareButton.dataset.repository
-    const repositoryName = softwareButton.dataset.repositoryName
     const repositoryUrl = softwareButton.dataset.repositoryUrl
-    if (!repository || !repositoryName || !repositoryUrl) return
+    if (!repository || !repositoryUrl) return
 
     this.readmeRequest?.abort()
-    this.titleTarget.textContent = repositoryName
     this.repositoryLinkTarget.href = repositoryUrl
     this.readmeTarget.replaceChildren()
     this.scrollContainerTarget.scrollTop = 0

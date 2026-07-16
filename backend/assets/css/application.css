@@ -152,6 +152,9 @@ img.w-32 {
 .software-readme > #readme > article > :first-child > :first-child {
   margin-top: 0;
 }
+.software-readme > #readme > article > :first-child {
+  padding-right: 3rem;
+}
 .software-readme .anchor {
   display: none;
 }
