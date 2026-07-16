@@ -1,11 +1,3 @@
-@font-face {
-  font-family: "Nohemi";
-  src: url("https://cdn.jsdelivr.net/gh/nisanthchunduru/fonts@master/Nohemi/Web-TT/Nohemi-Light.woff2") format("woff2");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -21,20 +13,28 @@ html {
 body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: subpixel-antialiased;
-  font-family: "Libre Franklin", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
   background-color: #FAFAFA;
   width: 100%;
 }
-h1, h2, h3, h4, h5, h6 {
-  font-family: "Nohemi", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+h1 {
+  font-family: "Bricolage Grotesque", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-style: normal;
-  font-weight: 300 !important;
+  font-weight: 700;
+  /*font-stretch: 96.5%;*/
+  /*letter-spacing: 0;*/
+  letter-spacing: -0.05em;
   line-height: 1.2;
   color: #2e1065;
 }
-.font-heading {
-  font-family: "Nohemi", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
-  font-weight: 300 !important;
+h2, h3, h4, h5, h6 {
+  font-family: "Bricolage Grotesque", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  /*font-stretch: 97%;*/
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  color: #2e1065;
 }
 .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
   color: #A78BFA;
@@ -84,9 +84,14 @@ hr {
 .dark .chirp-content a:hover {
   color: #C4B5FD;
 }
-.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-  font-family: "Nohemi", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-weight: 300 !important;
+.prose h1 {
+  font-family: "Bricolage Grotesque", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+  color: #2e1065;
+}
+.prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  font-family: "Bricolage Grotesque", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 600;
   color: #2e1065;
 }
 .dark .prose h1, .dark .prose h2, .dark .prose h3, .dark .prose h4, .dark .prose h5, .dark .prose h6 {
@@ -173,7 +178,7 @@ img.w-32 {
   text-align: center;
 }
 .book-title {
-  font-weight: normal;
+  font-weight: 600;
   font-size: 1.125rem;
   line-height: 1.3;
   margin-bottom: 0.25rem;

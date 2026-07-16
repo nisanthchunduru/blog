@@ -8,8 +8,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        heading: ['"Nohemi"', 'system-ui', 'sans-serif'],
-        sans: ['"Libre Franklin"', 'system-ui', 'sans-serif'],
+        heading: ['"Bricolage Grotesque"', 'system-ui', 'sans-serif'],
+        sans: ['-apple-system', '"Segoe UI"', 'system-ui', 'sans-serif'],
       },
       colors: {
         brand: {
