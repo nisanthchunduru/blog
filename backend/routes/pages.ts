@@ -7,6 +7,14 @@ import type { Post, Chirp, Book } from '../entity.js'
 const router = Router()
 const cache = createCache()
 const CACHE_CONTROL = 'public, max-age=60, stale-while-revalidate=31536000'
+const GITHUB_USERNAME = 'nisanthchunduru'
+const SOFTWARE_REPOSITORIES = new Set([
+  'hoarder',
+  'vscode-copy-filepath-with-line-number',
+  'hugo-notion',
+  'openapi_request_validator',
+  'hop',
+])
 
 router.use((_req, res, next) => {
   res.set('Cache-Control', CACHE_CONTROL)
@@ -49,6 +57,36 @@ router.get('/', async (req, res) => {
   } catch (error) {
     console.error('Error rendering home:', error)
     res.status(500).send('Internal server error')
+  }
+})
+
+router.get('/software/:repository/readme', async (req, res) => {
+  const { repository } = req.params
+  if (!SOFTWARE_REPOSITORIES.has(repository)) {
+    return res.status(404).send('Software not found')
+  }
+
+  try {
+    const githubResponse = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${repository}/readme`, {
+      headers: {
+        Accept: 'application/vnd.github.html+json',
+        'User-Agent': `${GITHUB_USERNAME}-blog`,
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+    })
+    if (!githubResponse.ok) {
+      console.error(`GitHub README request failed for ${repository}: ${githubResponse.status}`)
+      return res.status(502).send('README unavailable')
+    }
+
+    res.set({
+      'Cache-Control': 'private, max-age=60',
+      'Content-Type': 'text/html; charset=utf-8',
+    })
+    res.send(await githubResponse.text())
+  } catch (error) {
+    console.error(`Error fetching GitHub README for ${repository}:`, error)
+    res.status(502).send('README unavailable')
   }
 })
 

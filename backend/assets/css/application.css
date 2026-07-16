@@ -109,6 +109,56 @@ img.w-32 {
   margin-bottom: 24px;
   text-align: justify;
 }
+.software-drawer::backdrop {
+  animation: software-drawer-backdrop-in 180ms ease-out;
+}
+.software-drawer[open] {
+  animation: software-drawer-in 180ms ease-out;
+}
+.software-readme-scroll {
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.software-readme p {
+  text-align: left;
+}
+.software-readme > #readme > article > :first-child,
+.software-readme > #readme > article > :first-child > :first-child {
+  margin-top: 0;
+}
+.software-readme .anchor {
+  display: none;
+}
+.software-readme img {
+  height: auto;
+  max-width: 100%;
+}
+.software-readme table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.software-readme input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+@keyframes software-drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+@keyframes software-drawer-backdrop-in {
+  from {
+    background-color: transparent;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .software-drawer[open],
+  .software-drawer::backdrop {
+    animation: none;
+  }
+}
 
 .wave-emoji {
   display: inline-block;
