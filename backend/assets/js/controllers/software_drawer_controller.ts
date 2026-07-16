@@ -1,11 +1,12 @@
 import { Controller } from '@hotwired/stimulus'
 
 export default class SoftwareDrawerController extends Controller {
-  static targets = ['dialog', 'title', 'readme', 'status', 'repositoryLink', 'scrollContainer']
+  static targets = ['dialog', 'title', 'readme', 'status', 'statusMessage', 'repositoryLink', 'scrollContainer']
   declare readonly dialogTarget: HTMLDialogElement
   declare readonly titleTarget: HTMLElement
   declare readonly readmeTarget: HTMLElement
   declare readonly statusTarget: HTMLElement
+  declare readonly statusMessageTarget: HTMLElement
   declare readonly repositoryLinkTarget: HTMLAnchorElement
   declare readonly scrollContainerTarget: HTMLElement
   private readmeRequest?: AbortController
@@ -27,7 +28,7 @@ export default class SoftwareDrawerController extends Controller {
     this.repositoryLinkTarget.href = repositoryUrl
     this.readmeTarget.replaceChildren()
     this.scrollContainerTarget.scrollTop = 0
-    this.showStatus('Loading README...')
+    this.showStatus('', true)
     this.dialogTarget.showModal()
     document.body.classList.add('overflow-hidden')
 
@@ -66,8 +67,15 @@ export default class SoftwareDrawerController extends Controller {
     document.body.classList.remove('overflow-hidden')
   }
 
-  private showStatus(message: string) {
-    this.statusTarget.textContent = message
+  private showStatus(message: string, isLoading = false) {
+    this.statusMessageTarget.textContent = message
+    this.statusMessageTarget.hidden = isLoading
+    this.statusTarget.classList.toggle('is-loading', isLoading)
+    if (isLoading) {
+      this.statusTarget.setAttribute('aria-label', 'Loading repository README')
+    } else {
+      this.statusTarget.removeAttribute('aria-label')
+    }
     this.statusTarget.hidden = false
   }
 

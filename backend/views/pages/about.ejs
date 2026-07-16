@@ -162,7 +162,11 @@
           </header>
           <div data-software-drawer-target="scrollContainer" class="software-readme-scroll min-h-0 flex-1 px-4 py-5 sm:px-8 sm:py-7"
             tabindex="0" role="region" aria-label="Repository README">
-            <p data-software-drawer-target="status" class="py-16 text-center text-sm text-neutral-500 dark:text-neutral-400" role="status" aria-live="polite"></p>
+            <div data-software-drawer-target="status" class="software-readme-status py-20 text-center text-sm text-neutral-500 dark:text-neutral-400"
+              role="status" aria-live="polite">
+              <span class="software-readme-loader" aria-hidden="true"></span>
+              <span data-software-drawer-target="statusMessage"></span>
+            </div>
             <div data-software-drawer-target="readme" class="software-readme prose max-w-none prose-neutral dark:prose-invert"></div>
           </div>
           <footer class="flex shrink-0 justify-center border-t border-neutral-200 bg-neutral-50 px-4 py-3 dark:border-neutral-700 dark:bg-neutral-900 sm:px-6">

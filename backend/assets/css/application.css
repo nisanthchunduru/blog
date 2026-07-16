@@ -121,6 +121,30 @@ img.w-32 {
   overscroll-behavior: contain;
   scrollbar-gutter: stable;
 }
+.software-readme-status {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+.software-readme-status[hidden] {
+  display: none;
+}
+.software-readme-status:not(.is-loading) .software-readme-loader {
+  display: none;
+}
+.software-readme-loader {
+  animation: software-readme-loader-spin 700ms linear infinite;
+  border: 3px solid #e5e5e5;
+  border-radius: 9999px;
+  border-top-color: #7c3aed;
+  height: 2.25rem;
+  width: 2.25rem;
+}
+.dark .software-readme-loader {
+  border-color: #404040;
+  border-top-color: #a78bfa;
+}
 .software-readme p {
   text-align: left;
 }
@@ -153,9 +177,17 @@ img.w-32 {
     background-color: transparent;
   }
 }
+@keyframes software-readme-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .software-drawer[open],
   .software-drawer::backdrop {
+    animation: none;
+  }
+  .software-readme-loader {
     animation: none;
   }
 }
