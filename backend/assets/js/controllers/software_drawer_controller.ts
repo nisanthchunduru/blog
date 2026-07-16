@@ -1,5 +1,7 @@
 import { Controller } from '@hotwired/stimulus'
 
+const DRAWER_ANIMATION_DURATION = 180
+
 export default class SoftwareDrawerController extends Controller {
   static targets = ['dialog', 'readme', 'status', 'statusMessage', 'repositoryLink', 'scrollContainer']
   declare readonly dialogTarget: HTMLDialogElement
@@ -9,9 +11,11 @@ export default class SoftwareDrawerController extends Controller {
   declare readonly repositoryLinkTarget: HTMLAnchorElement
   declare readonly scrollContainerTarget: HTMLElement
   private readmeRequest?: AbortController
+  private closeAnimationTimer?: number
 
   disconnect() {
     this.readmeRequest?.abort()
+    window.clearTimeout(this.closeAnimationTimer)
     document.body.classList.remove('overflow-hidden')
   }
 
@@ -26,6 +30,7 @@ export default class SoftwareDrawerController extends Controller {
     this.readmeTarget.replaceChildren()
     this.scrollContainerTarget.scrollTop = 0
     this.showStatus('', true)
+    this.dialogTarget.classList.remove('is-closing')
     this.dialogTarget.showModal()
     document.body.classList.add('overflow-hidden')
 
@@ -45,9 +50,20 @@ export default class SoftwareDrawerController extends Controller {
     }
   }
 
-  close() {
+  close(event?: Event) {
+    event?.preventDefault()
+    if (this.dialogTarget.classList.contains('is-closing')) return
+
     this.readmeRequest?.abort()
-    this.dialogTarget.close()
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      this.dialogTarget.close()
+      return
+    }
+
+    this.dialogTarget.classList.add('is-closing')
+    this.closeAnimationTimer = window.setTimeout(() => {
+      this.dialogTarget.close()
+    }, DRAWER_ANIMATION_DURATION)
   }
 
   closeFromBackdrop(event: MouseEvent) {
@@ -61,6 +77,8 @@ export default class SoftwareDrawerController extends Controller {
   }
 
   restorePageScroll() {
+    window.clearTimeout(this.closeAnimationTimer)
+    this.dialogTarget.classList.remove('is-closing')
     document.body.classList.remove('overflow-hidden')
   }
 
